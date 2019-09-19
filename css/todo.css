@@ -1,0 +1,167 @@
+@font-face {
+    font-family: sansation-font;
+    src: url("../font/Sansation-Bold.ttf");
+}
+
+.container {
+    width: 100%;
+}
+
+.container .header {
+    margin: -0.6% 0 0 -1%;
+    width: 99.6%;
+    background-color: #1579CE;
+    padding: 1%;
+    display: flex;
+    position: relative;
+}
+
+.container .search-icon {
+    left: 39.5%;
+    top: 25%;
+    position: absolute;
+    color: #1579CE;
+}
+
+.container .search-box {
+    color: #1579CE;
+    margin-left: 35%;
+    margin-top: -0.4%;
+    padding: 0.6%;
+    padding-left: 4%;
+    width: 27%;
+    border-radius: 0.1rem;
+    border: none;
+    background-color: #c7ddf5;
+}
+
+.task-title {
+    font-size: 1.8rem;
+    margin: 50% 0 0 40%;
+    color: #1579CE;
+    font-family: "Times New Roman", Times;
+}
+
+.header span {
+    margin-top: 0.3%;
+    color: #c7ddf5;
+    font-family: sansation-font;
+}
+
+.container .main-frame {
+    display: flex;
+    flex-wrap:nowrap;
+}
+
+.container .menu-bar-icon {
+    margin-left: -0.5%;
+    width: 3%;
+    background-color: #f4f4f4;
+    border-width: thin;
+    height: 38rem;
+}
+
+.container .menu-bar {
+    width: 0;
+    background-color: #f4f4f4;
+    border-width: thin;
+    height: 38rem;
+}
+
+.menu-btn {
+   margin: 0 0 0 -10%;
+   width: 100%;
+   background-color: #f4f4f4;
+   cursor: pointer;
+   border: none;
+}
+
+.container .menu-icon {
+    color: #1579CE;
+    margin: 100% 0 0 15%;
+    height: 3rem;
+    cursor: pointer;
+}
+
+.container .side-menu-icon {
+    color: #50504cfa;
+    height: 2rem;
+    margin: 30% 0 0 25%;
+}
+
+.container .my-day-desc {
+    color: #50504cfa;
+    height: 3rem;
+    margin: 39% 0 0 3%;
+}
+
+.container .important-desc {
+    color: #50504cfa;
+    height: 3rem;
+    margin: -2% 0 0 3%;
+}
+.container .planned-desc {
+    color: #50504cfa;
+    height: 3rem;
+    margin: -2.5% 0 0 3%;
+}
+
+.container .task-desc {
+    color: #50504cfa;
+    height: 3rem;
+    margin: -5% 0 0 3%;
+}
+
+.container .icon-description {
+    color: #50504cfa;
+    margin: 1% 0 0 5%;
+    display: none;
+    text-decoration: none;
+}
+
+.side-menu-icon:hover {
+    background-color: #75756ff0;
+}
+
+.container .side-menu-action {
+    color: #468be0;
+    height: 4rem;
+    margin: 15% 0 0 25%;
+    display: flex;
+}
+
+.container .action-description {
+    color: #468be0;
+    margin: 1% 0 0 5%;
+    display: none;
+    text-decoration: none;
+}
+
+.container .add-new-list {
+    color: #468be0;
+    height: 2rem;
+    margin: 10% 0 0 20%;
+}
+
+
+.container .new-list {
+    background-color: #f4f4f4;
+    font-size: 0.9rem;
+    border: none;
+    color: #468be0;
+    margin: 5.5% 0 0 -1%;
+    padding: 2%;
+    display: none;
+    padding-left: 10%;
+}
+
+.container .new-list-icon {
+    color: #468be0;
+}
+
+input:hover {
+    background-color: #f4f4f4;
+    border: none;
+}
+
+

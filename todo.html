@@ -16,7 +16,7 @@
         <div class="main-frame">
             <div class="menu-bar-icon">
                 <div class="menu-icon">
-                 <button class="menu-btn" id="icon" value="close">
+                 <button class="menu-btn" id="icon" value="open">
                      <i class="material-icons" >menu</i>
                  </button>
                 </div>
@@ -24,7 +24,8 @@
                 <i class="material-icons side-menu-icon">star_border</i>
                 <i class="material-icons side-menu-icon">today</i> 
                 <i class="material-icons side-menu-action">home</i>
-                <a href="#add-list" id="new-list"> <i class="material-icons new-list-icon add-new-list">add</i></a>
+                <a href="#add-list" id="new-list"> 
+                <i class="material-icons new-list-icon add-new-list">add</i></a>
             </div>
             <div id="side-nav-bar" class="menu-bar">
                 <div class="my-day-desc">
@@ -44,10 +45,51 @@
                 </div>
             </div>
             <div class="todo-task-list">
-                <div class="task-title"><span>Tasks</span></div>
-            </div>
-            <div class="task-list">
-            </div>                   
+                <a id="info" class="info"><div class="task-title"><span>Tasks</span></div></a>
+            </div>  
+            <div class="task-info">
+                <div class="task-header">
+                    <button class="mark-complete-btn"></button>
+                    <span>Task</span>
+                    <i class="material-icons header-imp-icon">star_border</i>
+                    <div class="add-step">
+                        <a href="#add-step">
+                            <i class="material-icons add-step-icon">add</i>
+                        </a>
+                        <input id="add-step" class="add-step-input" type="text" 
+                             placeholder="Add step"/>   
+                    </div>
+                </div>
+                <div class="add-my-day">
+                    <i class="material-icons right-bar-icon">wb_sunny</i>
+                    <span>Add to My Day</span>                        
+                </div>
+                <div>
+                <div class="right-bar-menu">
+                	<div class="right-bar">
+                    	<i class="material-icons right-bar-icon">access_alarm</i>
+                    	<span>Remind me</span>                      
+                	</div>
+                	<div class="right-bar">
+                    	<i class="material-icons right-bar-icon">today</i>
+                    	<span>Add due date</span>                      
+                	</div>
+                	<div class="right-bar">
+                    	<i class="material-icons right-bar-icon">repeat</i>
+                    	<span>Repeat</span>                      
+                	</div>
+                </div>
+               	<div class="add-my-day">
+                   	<i class="material-icons right-bar-icon">attach_file</i>
+                   	<span>Add file</span>                      
+               	</div>
+                <div class="add-note">
+                    <input type="text"  placeholder="Add note" class="add-note-input"/>
+                </div>
+                <div class="right-bar-footer">
+                   <a id="minimize" ><i class="material-icons minimize">arrow_right_alt</i></a>
+                </div>
+            </div>               
         </div>
     </div>
     <script src="js/todo.js"></script>

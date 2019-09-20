@@ -14,6 +14,12 @@ function setElementValueById(id, value) {
     document.getElementById(id).value = value;
 }
 
+var menuBtn = getElementById("icon");
+menuBtn.addEventListener("click", openMenu);
+
+var newList = getElementById("new-list");
+newList.addEventListener("click", openMenu);
+
 function openMenu() {
     var iconValue = getElementValueById("icon");
     if (iconValue == "close") {

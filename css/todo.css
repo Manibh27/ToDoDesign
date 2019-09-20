@@ -74,6 +74,7 @@
    background-color: #f4f4f4;
    cursor: pointer;
    border: none;
+   outline: none;
 }
 
 .container .menu-icon {
@@ -153,6 +154,7 @@
     padding: 2%;
     display: none;
     padding-left: 10%;
+    outline: none;
 }
 
 .container .new-list-icon {

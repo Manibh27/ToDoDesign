@@ -320,3 +320,18 @@ input:hover {
     background: transparent;
 }
 
+.tick-icon {
+    margin: 0 0 0 3%;
+    color: #1579CE;
+    display: inline;
+    cursor: pointer;
+}
+
+.task-name {
+    margin: 0.5% 0 0 2%;
+    font-size: 1rem;
+}
+
+.created-list {
+    margin: 7% 0 0 9%;
+}

@@ -3,6 +3,7 @@
 var lists = [];
 var tasks = [];
 var id = 0;
+var taskId = 0;
 
 /**
  * Return the element with the given id.
@@ -124,14 +125,31 @@ function minimizeInfo() {
 }
 
 /**
- * Open the right side bar by making style display block.
+ * Open the task information bar. Removes the previous steps.
+ * And prints the steps added for the particular task.
  */
 function getInfo() {
    var taskInfo = getElementsByClass("task-info");
    var sideBar = getElementById("side-nav-bar");
    sideBar.style.width="32.8%";
    taskInfo[0].style.display="block";
-   getElementById("task-info-name").innerHTML = this;
+   taskId = this.id;
+   console.log(taskId);
+   getElementsByClass("mark-complete-btn")[0].addEventListener("click", finishTask.bind(taskId))
+   
+   getElementById("task-info-name").innerHTML = "<p class='task-info-title'>"+this.name+"</P>";
+   if (lists[id].tasks[taskId].isComplete === false) {
+       getElementsByClass("task-info-title")[0].style.textDecoration = "line-through";
+   }
+   getElementById("steps").innerHTML = "";
+   var stepInfos = lists[id].tasks[taskId].steps;
+   for (var step = 0 ; step < stepInfos.length; step = step + 1) {
+        var newStep = getNewDiv();
+        var steps = getElementById("steps");
+        newStep.innerHTML = "<p class='step'>"+stepInfos[step]+"</p>";
+        steps.appendChild(newStep);
+   }
+   getElementById("add-step").value = "";
 }
 
 var count = 0;
@@ -149,6 +167,7 @@ function createNewTaskDiv(event) {
         var taskContainer = getElementById("task-container");
         tasks = lists[id].tasks;
         var task = {};
+        task.id = tasks.length;
         task.isComplete = true;
         task.name = event.target.value;
         task.steps = [];
@@ -168,6 +187,7 @@ function createNewTaskDiv(event) {
         var completeIcon = getElementsByClass("tick-icon");
         completeIcon[0].addEventListener("focus", showCompleteIcon);
         completeIcon[0].addEventListener("click", finishTask);
+        getElementById("add-new-task").value = "";
     }
 }
 
@@ -201,20 +221,32 @@ function showCompleteIcon() {
  */
 function finishTask() {
     var completeTask = getElementsByClass("task-name");
-    lists[id].tasks[this].isComplete = false;
-    completeTask[this].style.textDecoration = "line-through";
+    if (lists[id].tasks[this].isComplete === true) {
+        lists[id].tasks[this].isComplete = false;
+        completeTask[this].style.textDecoration = "line-through";
+        getElementsByClass("task-info-title")[0].style.textDecoration = "line-through";
+    } else {
+        lists[id].tasks[this].isComplete = true;
+        completeTask[this].style.textDecoration = "none";
+        getElementsByClass("task-info-title")[0].style.textDecoration = "none";
+    }
 }
 
 var addList = getElementsByClass("new-list");
 var listCount = 0;
+
+/**
+ * When a new list is added , a new object is created and the entered value is
+ * placed in a new div and appended with the parent div. Then a eventlistner is 
+ * added to the list to change the list in main div.
+ */
 function addNewList(event) {
     if (event.keyCode === 13 && event.target.value !== "") {   
         var listDiv = getElementById("lists");
-        var currentlist = {};
+        var currentlist = createNewList();
         currentlist.name = event.target.value; 
         currentlist.id = listCount;
-        id = listCount;
-        currentlist.tasks = [];
+        id = listCount;       
         lists.push(currentlist);
         getElementById("task-name").innerHTML =  currentlist.name;
         getElementById("task-info-name").innerHTML =  currentlist.name;
@@ -230,15 +262,34 @@ function addNewList(event) {
         var newList = getElementsByClass("new-list-input");
         var listInput = getTextInputWithClass("new-list");
         newList[0].appendChild(listInput);
-        newListDiv.addEventListener("click", changeTask.bind(currentlist));
+        newListDiv.addEventListener("click", changeList.bind(currentlist));
         listCount = listCount + 1;
         addList[0].addEventListener("keyup", addNewList);
+        getElementById("add-list").value = "";
     }
 }
 
 addList[0].addEventListener("keyup", addNewList);
 
-function changeTask() {
+/**
+ * Create a new list object with name, id and an tasks array.
+ *
+ * @return {object} - A newly created list object.
+ */
+function createNewList() {
+    var list = {};
+    list.name;
+    list.id;
+    list.tasks = [];
+    return list;
+}
+
+
+/**
+ * When the list is clicked the array of task within the list is iterated and 
+ * printed in the screen. The tasks of the previous list is removed.
+ */
+function changeList() {
     getElementById("task-name").innerHTML = this.name;
     id = this.id;
     var existingDiv = getElementsByClass('tick-icon');
@@ -263,6 +314,29 @@ function changeTask() {
         } else {
             completeIcon[task].addEventListener("click", finishTask.bind(task));
         }
+        getElementById("add-new-task").value = "";
     }
 }
+
+// Adding event listneer to add steps.
+var step = getElementById("add-step");
+step.addEventListener("keyup", addStep);
+
+/**
+ * When a any input is eneterd in add step input it checks for enter.
+ * If enter is pressed then a new div is created and the value is appended
+ * with steps div.
+ */
+function addStep(event) {
+    if (event.keyCode === 13 && event.target.value !== "") {
+        var newStep = getNewDiv();
+        var steps = getElementById("steps");
+        newStep.innerHTML = "<p class='step'>"+event.target.value+"</p>";
+        steps.appendChild(newStep);
+        lists[id].tasks[taskId].steps.push(event.target.value);
+        console.log(lists[id].tasks[taskId].steps);
+        getElementById("add-step").value = "";
+    }
+}
+
 

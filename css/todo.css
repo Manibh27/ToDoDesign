@@ -150,6 +150,14 @@
     outline: none;
 }
 
+.new-list::placeholder {
+    color: #1579CE;
+}
+
+.new-list:focus::placeholder {
+    color: #50504cfa;
+}
+
 .list-icon {
     margin: 100% 0 0 0;
 }
@@ -228,6 +236,14 @@ input:hover {
     padding-left: 5%;
 }
 
+.add-step-input::placeholder {
+    color: #1579CE;
+}
+
+.add-step-input:focus::placeholder {
+    color: #50504cfa;
+}
+
 .add-my-day {
     width: 88%;
     background-color: white;
@@ -283,7 +299,6 @@ input:hover {
 
 .right-bar-footer {
     background-color: white;
-    margin: 30% 0 0 0;
     padding: 1%;
 }
 
@@ -342,6 +357,14 @@ input:hover {
     border: none;
     outline: none;
     background: transparent;
+}
+
+.add-task-input::placeholder {
+    color: #1579CE;
+}
+
+.add-task-input:focus::placeholder {
+    color: #50504cfa;
 }
 
 .tick-icon {

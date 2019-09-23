@@ -4,6 +4,11 @@ var lists = [];
 var tasks = [];
 var id = 0;
 var taskId = 0;
+var defaultList = {};
+defaultList.name = "Tasks";
+defaultList.id = 0;
+defaultList.tasks= [];
+lists.push(defaultList);
 
 /**
  * Return the element with the given id.
@@ -151,6 +156,12 @@ function getInfo() {
         steps.appendChild(newStep);
         console.log(stepInfos[step].id);
         getElementsByClass("step-icon")[step].addEventListener("click", finishStep.bind(stepInfos[step]));
+        if (stepInfos.length > 2) {
+            steps.style.height = "50px";
+            steps.style.overflow = "auto";
+        } else {
+            steps.style.height = "";
+        }
    }
    getElementById("add-step").value = "";
 }
@@ -168,14 +179,15 @@ function createNewTaskDiv(event) {
         // Creates a new add task div with the coressponding class.
         var newTask =  createNewTask();    
         var taskContainer = getElementById("task-container");
-        tasks = lists[id].tasks;
         var task = {};
+        tasks = lists[id].tasks;
         task.id = tasks.length;
         taskId = task.id;
         task.isComplete = true;
         task.name = event.target.value;
         task.steps = [];
         tasks.push(task);
+
 
         // Append the created div with the main to-dolist div.
         //todoListDiv.appendChild(newTask);
@@ -185,7 +197,7 @@ function createNewTaskDiv(event) {
         completedDiv.innerHTML = 
             "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
              +"<p class='task-name'>"+event.target.value+"</p>";
-		taskContainer.appendChild(completedDiv);
+        taskContainer.appendChild(completedDiv);
         count = count + 1;
         var taskIcon = getElementsByClass("tick-icon");
         taskIcon[taskIcon.length - 1].addEventListener("click", finishTask.bind(task.id));
@@ -197,6 +209,12 @@ function createNewTaskDiv(event) {
         completeIcon[0].addEventListener("focus", showCompleteIcon);
         completeIcon[0].addEventListener("click", finishTask);
         getElementById("add-new-task").value = "";
+        if (tasks.length > 6) {
+            taskContainer.style.height = "400px";
+            taskContainer.style.overflow = "auto";
+        } else {
+            taskContainer.style.height = "";
+        }
     }
 
 }
@@ -245,7 +263,7 @@ function finishTask() {
 }
 
 var addList = getElementsByClass("new-list");
-var listCount = 0;
+var listCount = 1;
 
 /**
  * When a new list is added , a new object is created and the entered value is
@@ -253,7 +271,8 @@ var listCount = 0;
  * added to the list to change the list in main div.
  */
 function addNewList(event) {
-    if (event.keyCode === 13 && event.target.value !== "") {   
+    if (event.keyCode === 13 && event.target.value !== "") { 
+        defaultId = 1;  
         var listDiv = getElementById("lists");
         var currentlist = createNewList();
         currentlist.name = event.target.value; 
@@ -262,11 +281,13 @@ function addNewList(event) {
         lists.push(currentlist);
         getElementById("task-name").innerHTML =  currentlist.name;
         getElementById("task-info-name").innerHTML =  currentlist.name;
-        var listIconDiv = getElementById("list-icon-div");
-        var listIcon = getNewDiv();
-        listIcon.innerHTML = 
-            '<a href="#add-list"><img class="add-new-list" src="icon/list.png"></a>';
-        listIconDiv.appendChild(listIcon);
+        if (lists.length < 7) {
+            var listIconDiv = getElementById("list-icon-div");
+            var listIcon = getNewDiv();
+            listIcon.innerHTML = 
+                '<a href="#add-list"><img class="add-new-list" src="icon/list.png"></a>';
+            listIconDiv.appendChild(listIcon);
+        }
         var newListDiv = getDivWithClass("lists");
         newListDiv.setAttribute("id", lists.length - 1);
         newListDiv.innerHTML = '<p class="created-list">'+event.target.value+'</p>';
@@ -279,6 +300,11 @@ function addNewList(event) {
         addList[0].addEventListener("keyup", addNewList);
         getElementById("add-list").value = "";
         var existingDivIcon = getElementById('task-container').innerHTML = "";
+        getElementById("task-container").style.height = "";
+        if (lists.length > 5) {
+            getElementById("lists").style.height = "145px";
+            getElementById("lists").style.overflow = "auto";
+        }
     }
 }
 
@@ -307,7 +333,6 @@ function changeList() {
     id = this.id;
     var existingDiv = getElementsByClass('tick-icon');
     var existingDivIcon = getElementById('task-container').innerHTML = "";
-
     for(var task = 0; task < this.tasks.length; task = task + 1) {
         var taskContainer = getElementById("task-container");
        
@@ -329,6 +354,12 @@ function changeList() {
         }
         getElementById("add-new-task").value = "";
     }
+    if (this.tasks.length > 6) {
+        taskContainer.style.height = "400px";
+        taskContainer.style.overflow = "auto";
+    } else {
+        taskContainer.style.height = "";
+    }
 }
 
 // Adding event listneer to add steps.
@@ -347,6 +378,7 @@ function addStep(event) {
         newStep.innerHTML = "<a class='step-icon-link'>"
             + "<i class='material-icons step-icon'>check_circle_outline</i></a>"+
             "<p class='step'>"+event.target.value+"</p>";
+        steps.style.height = "";
         steps.appendChild(newStep);
         var step = {};
         step.name = event.target.value;
@@ -355,6 +387,12 @@ function addStep(event) {
         lists[id].tasks[taskId].steps.push(step);
         getElementsByClass("step-icon")[step.id].addEventListener("click", finishStep.bind(step));
         getElementById("add-step").value = "";
+        if (lists[id].tasks[taskId].steps.length > 2) {
+            steps.style.height = "50px";
+            steps.style.overflow = "auto";
+        } else {
+            steps.style.height = "";
+        }
     }
 }
 
@@ -373,4 +411,7 @@ function finishStep() {
         getElementsByClass("step-icon")[this.id].innerHTML = "check_circle_outline"
     }
 }
+
+var homeList = getElementsByClass("task-desc");
+homeList[0].addEventListener("click", changeList.bind(lists[0]));
 

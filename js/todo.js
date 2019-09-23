@@ -148,7 +148,11 @@ function createNewTaskDiv(event) {
         var newTask =  createNewTask();    
         var taskContainer = getElementById("task-container");
         tasks = lists[id].tasks;
-        tasks.push(event.target.value);
+        var task = {};
+        task.isComplete = true;
+        task.name = event.target.value;
+        task.steps = [];
+        tasks.push(task);
 
         // Append the created div with the main to-dolist div.
         //todoListDiv.appendChild(newTask);
@@ -197,7 +201,8 @@ function showCompleteIcon() {
  */
 function finishTask() {
     var completeTask = getElementsByClass("task-name");
-    completeTask[0].style.textDecoration = "line-through";
+    lists[id].tasks[this].isComplete = false;
+    completeTask[this].style.textDecoration = "line-through";
 }
 
 var addList = getElementsByClass("new-list");
@@ -247,13 +252,17 @@ function changeTask() {
         // After new div is created the previous div is modified. 
         newDiv.innerHTML = 
             "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
-             +"<p class='task-name'>"+this.tasks[task]+"</p>";
+             +"<p class='task-name'>"+this.tasks[task].name+"</p>";
 		taskContainer.appendChild(newDiv);
         var completeIcon = getElementsByClass("tick-icon");
         var taskDetails = getElementsByClass("task-name");
         taskDetails[task].addEventListener("click", getInfo.bind(this.tasks[task]));
-        completeIcon[0].addEventListener("focus", showCompleteIcon);
-        completeIcon[0].addEventListener("click", finishTask);
+        completeIcon[task].addEventListener("focus", showCompleteIcon);
+        if (this.tasks[task].isComplete === false) {
+            taskDetails[task].style.textDecoration = "line-through";
+        } else {
+            completeIcon[task].addEventListener("click", finishTask.bind(task));
+        }
     }
 }
 

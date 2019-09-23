@@ -167,7 +167,7 @@ input:hover {
 }
 
 .task-info {
-    width: 25%;
+    width: 35%;
     display: none;
     background-color: #f5f5f5;
 }
@@ -193,7 +193,7 @@ input:hover {
 }
 
 .task-header span {
-    margin: 1% 0 0 4%;
+    margin: -5% 0 0 5%;
 }
 
 .header-imp-icon {
@@ -212,14 +212,20 @@ input:hover {
     color: #468be0;
     background-color: white;
     cursor: pointer;
+    margin-top: -7%;
+    margin-left: 42%;
+    padding: 10%;
+    height: 29px;
 }
 
 .add-step-input {
     color: #468be0;
     font-size: 0.95rem;
-    margin : -1% 0 0 7%;
+    margin : -1% 0 0 5%;
     border: none;
     outline: none;
+    width: 80%;
+    padding-left: 5%;
 }
 
 .add-my-day {
@@ -277,7 +283,7 @@ input:hover {
 
 .right-bar-footer {
     background-color: white;
-    margin: 34% 0 0 0;
+    margin: 30% 0 0 0;
     padding: 1%;
 }
 
@@ -358,15 +364,29 @@ input:hover {
 
 .step {
     color: #1579CE;
+    font-size: 1rem;
+    margin: 1.9% 0 0 05%; 
 }
 
 .steps {
+    width: 84%;
     margin-left: 3%;
     padding: 2%;
     padding-left: 8%;
     background-color: white;
 }
 
-task-info-title {
+.task-info-title {
     color: #1579CE;
+}
+
+.created-steps {
+    display: flex;
+}
+
+.step-icon {
+    margin: 0 0 0 -50%;
+    color: #1579CE;
+    display: inline;
+    cursor: pointer;
 }

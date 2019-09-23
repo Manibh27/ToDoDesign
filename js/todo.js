@@ -120,8 +120,8 @@ function openMenu() {
 function minimizeInfo() {
    var taskInfo = getElementsByClass("task-info");
    taskInfo[0].style.display="none";
-   var sideBar = getElementById("side-nav-bar");
-   sideBar.style.width="23.8%";
+   var sideBar = getElementsByClass("menu-bar");
+   sideBar[0].style.width="20%";
 }
 
 /**
@@ -130,11 +130,10 @@ function minimizeInfo() {
  */
 function getInfo() {
    var taskInfo = getElementsByClass("task-info");
-   var sideBar = getElementById("side-nav-bar");
-   sideBar.style.width="32.8%";
+   var sideBar = getElementsByClass("menu-bar");
+   sideBar[0].style.width="27%";
    taskInfo[0].style.display="block";
    taskId = this.id;
-   console.log(taskId);
    getElementsByClass("mark-complete-btn")[0].addEventListener("click", finishTask.bind(taskId))
    
    getElementById("task-info-name").innerHTML = "<p class='task-info-title'>"+this.name+"</P>";
@@ -144,10 +143,14 @@ function getInfo() {
    getElementById("steps").innerHTML = "";
    var stepInfos = lists[id].tasks[taskId].steps;
    for (var step = 0 ; step < stepInfos.length; step = step + 1) {
-        var newStep = getNewDiv();
+        var newStep = getDivWithClass("created-steps");
         var steps = getElementById("steps");
-        newStep.innerHTML = "<p class='step'>"+stepInfos[step]+"</p>";
+        newStep.innerHTML = "<a class='step-icon-link'>"
+            + "<i class='material-icons step-icon'>check_circle_outline</i></a>"+
+              "<p class='step'>"+stepInfos[step].name+"</p>";
         steps.appendChild(newStep);
+        console.log(stepInfos[step].id);
+        getElementsByClass("step-icon")[step].addEventListener("click", finishStep.bind(stepInfos[step]));
    }
    getElementById("add-step").value = "";
 }
@@ -168,6 +171,7 @@ function createNewTaskDiv(event) {
         tasks = lists[id].tasks;
         var task = {};
         task.id = tasks.length;
+        taskId = task.id;
         task.isComplete = true;
         task.name = event.target.value;
         task.steps = [];
@@ -183,12 +187,18 @@ function createNewTaskDiv(event) {
              +"<p class='task-name'>"+event.target.value+"</p>";
 		taskContainer.appendChild(completedDiv);
         count = count + 1;
+        var taskIcon = getElementsByClass("tick-icon");
+        taskIcon[taskIcon.length - 1].addEventListener("click", finishTask.bind(task.id));
+        var taskName = getElementsByClass("task-name");
+        taskName[taskName.length - 1].addEventListener("click", 
+                getInfo.bind(task));
         addTask[0].addEventListener("keyup", createNewTaskDiv );
         var completeIcon = getElementsByClass("tick-icon");
         completeIcon[0].addEventListener("focus", showCompleteIcon);
         completeIcon[0].addEventListener("click", finishTask);
         getElementById("add-new-task").value = "";
     }
+
 }
 
 /**
@@ -225,10 +235,12 @@ function finishTask() {
         lists[id].tasks[this].isComplete = false;
         completeTask[this].style.textDecoration = "line-through";
         getElementsByClass("task-info-title")[0].style.textDecoration = "line-through";
+        getElementsByClass("tick-icon")[this].innerHTML = "check_circle";
     } else {
         lists[id].tasks[this].isComplete = true;
         completeTask[this].style.textDecoration = "none";
         getElementsByClass("task-info-title")[0].style.textDecoration = "none";
+        getElementsByClass("tick-icon")[this].innerHTML = "check_circle_outline";
     }
 }
 
@@ -266,6 +278,7 @@ function addNewList(event) {
         listCount = listCount + 1;
         addList[0].addEventListener("keyup", addNewList);
         getElementById("add-list").value = "";
+        var existingDivIcon = getElementById('task-container').innerHTML = "";
     }
 }
 
@@ -329,14 +342,35 @@ step.addEventListener("keyup", addStep);
  */
 function addStep(event) {
     if (event.keyCode === 13 && event.target.value !== "") {
-        var newStep = getNewDiv();
+        var newStep = getDivWithClass("created-steps");
         var steps = getElementById("steps");
-        newStep.innerHTML = "<p class='step'>"+event.target.value+"</p>";
+        newStep.innerHTML = "<a class='step-icon-link'>"
+            + "<i class='material-icons step-icon'>check_circle_outline</i></a>"+
+            "<p class='step'>"+event.target.value+"</p>";
         steps.appendChild(newStep);
-        lists[id].tasks[taskId].steps.push(event.target.value);
-        console.log(lists[id].tasks[taskId].steps);
+        var step = {};
+        step.name = event.target.value;
+        step.id = lists[id].tasks[taskId].steps.length;
+        step.isComplete = true;
+        lists[id].tasks[taskId].steps.push(step);
+        getElementsByClass("step-icon")[step.id].addEventListener("click", finishStep.bind(step));
         getElementById("add-step").value = "";
     }
 }
 
+
+function finishStep() {
+    console.log("step");
+    if (this.isComplete === true) {
+        console.log("true");
+        this.isComplete = false;
+        getElementsByClass("step")[this.id].style.textDecoration = "line-through";
+        getElementsByClass("step-icon")[this.id].innerHTML = "check_circle";
+    } else {
+        console.log("fasle");
+        this.isComplete = true;
+        getElementsByClass("step")[this.id].style.textDecoration = "none";
+        getElementsByClass("step-icon")[this.id].innerHTML = "check_circle_outline"
+    }
+}
 

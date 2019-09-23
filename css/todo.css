@@ -55,7 +55,7 @@
 }
 
 .container .menu-bar {
-    width: 24%;
+    width: 20%;
     display: block;
     background-color: #f4f4f4;
     border-width: thin;
@@ -79,9 +79,8 @@
 }
 
 .container .side-menu-icon {
-    color: #50504cfa;
-    height: 2rem;
-    margin: 30% 0 0 25%;
+    width: 50%;
+    margin: 45% 0 0 25%;
 }
 
 .container .my-day-desc {
@@ -104,7 +103,7 @@
 .container .task-desc {
     color: #50504cfa;
     height: 3rem;
-    margin: -4% 0 0 3%;
+    margin: -3% 0 0 3%;
 }
 
 .container .icon-description {
@@ -133,9 +132,9 @@
 }
 
 .container .add-new-list {
-    color: #75756ff0;
-    height: 2rem;
-    margin: 10% 0 0 20%;
+    margin: 2% 0 0 20%;
+	width: 45%;
+	height: 25px;
 }
 
 
@@ -150,8 +149,15 @@
     outline: none;
 }
 
+.list-icon {
+	margin: 100% 0 0 0;
+}
+
 .container .new-list-icon {
     color: #468be0;
+	margin: 0% 0 0 20%;
+	width: 45%;
+	height: 25px;
 }
 
 input:hover {
@@ -284,7 +290,7 @@ input:hover {
 }
 
 .todo-task-list {
-    width: 100%;
+    width: 80%;
 }
 
 .task-title {
@@ -292,6 +298,16 @@ input:hover {
     margin: 3% 0 0 3%;
     color: #1579CE;
     font-family: sans-serif;
+}
+
+.added-task {
+    color: #1579CE;
+    margin: 2% 0 0 3%;
+    display: flex;
+    padding-bottom: 1%;
+    border-color: #50504cfa;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
 }
 
 .add-new-task {
@@ -333,5 +349,5 @@ input:hover {
 }
 
 .created-list {
-    margin: 7% 0 0 9%;
+    margin: 5% 0 0 9%;
 }

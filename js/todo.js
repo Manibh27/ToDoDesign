@@ -102,6 +102,7 @@ info.addEventListener("click", getInfo);
 function openMenu() {
     var iconValue = getElementValueById("icon");
     var sideBar = getElementById("side-nav-bar");
+	var listBar = getElementById("todo-list");
     if (iconValue == "close") {
         sideBar.style.display= "block";
         setElementValueById("icon", "open");
@@ -145,18 +146,19 @@ function createNewTaskDiv(event) {
 
         // Creates a new add task div with the coressponding class.
         var newTask =  createNewTask();    
-        var todoListDiv = getElementById("todo-list");
+        var taskContainer = getElementById("task-container");
         tasks = lists[id].tasks;
         tasks.push(event.target.value);
 
         // Append the created div with the main to-dolist div.
-        todoListDiv.appendChild(newTask);
-        var completedDiv = getElementsByClass('add-new-task');
+        //todoListDiv.appendChild(newTask);
+        var completedDiv = getDivWithClass("added-task");
 	
         // After new div is created the previous div is modified. 
-        completedDiv[count].innerHTML = 
+        completedDiv.innerHTML = 
             "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
              +"<p class='task-name'>"+event.target.value+"</p>";
+		taskContainer.appendChild(completedDiv);
         count = count + 1;
         addTask[0].addEventListener("keyup", createNewTaskDiv );
         var completeIcon = getElementsByClass("tick-icon");
@@ -214,7 +216,7 @@ function addNewList(event) {
         var listIconDiv = getElementById("list-icon-div");
         var listIcon = getNewDiv();
         listIcon.innerHTML = 
-            '<a href="#add-list"><i class="material-icons new-list-icon add-new-list">list</i></a>';
+            '<a href="#add-list"><img class="add-new-list" src="icon/list.png"></a>';
         listIconDiv.appendChild(listIcon);
         var newListDiv = getDivWithClass("lists");
         newListDiv.setAttribute("id", lists.length - 1);
@@ -235,20 +237,18 @@ function changeTask() {
     getElementById("task-name").innerHTML = this.name;
     id = this.id;
     var existingDiv = getElementsByClass('tick-icon');
-    var existingDivIcon = getElementsByClass('task-name');
-    for(var existingtask = 0; existingtask < existingDiv.length; existingtask = existingtask + 1) {
-        existingDiv[existingtask].innerHTML = "";
-        existingDivIcon[existingtask].innerHTML = "";
-    }
+    var existingDivIcon = getElementById('task-container').innerHTML = "";
+
     for(var task = 0; task < this.tasks.length; task = task + 1) {
-        var todoListDiv = getElementById("todo-list");
+        var taskContainer = getElementById("task-container");
        
-        var completedDiv = getElementsByClass('add-new-task');
+        var newDiv = getDivWithClass("added-task");
 	
         // After new div is created the previous div is modified. 
-        completedDiv[task].innerHTML = 
+        newDiv.innerHTML = 
             "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
              +"<p class='task-name'>"+this.tasks[task]+"</p>";
+		taskContainer.appendChild(newDiv);
         var completeIcon = getElementsByClass("tick-icon");
         var taskDetails = getElementsByClass("task-name");
         taskDetails[task].addEventListener("click", getInfo.bind(this.tasks[task]));

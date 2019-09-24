@@ -98,9 +98,6 @@ newList.addEventListener("click", openMenu);
 var minimize = getElementById("minimize");
 minimize.addEventListener("click", minimizeInfo);
 
-// Event listener to open the information side bar.
-var info = getElementById("info");
-info.addEventListener("click", getInfo);
 
 /**
  * Checks whether the menu bar is in open or close.
@@ -142,8 +139,12 @@ function getInfo() {
    taskInfo[0].style.display="block";
    taskId = this.id;
    getElementsByClass("mark-complete-btn")[0].addEventListener("click", finishTask.bind(taskId))
-   
-   getElementById("task-info-name").innerHTML = "<p class='task-info-title'>"+this.name+"</P>";
+   var title = getTextInputWithClass("task-info-input");
+   title.value = this.name;
+   var taskTitle = getElementById("task-info-name");
+   taskTitle.innerHTML = "";
+   taskTitle.appendChild(title);
+   getElementsByClass("task-info-input")[0].addEventListener("keyup", changeTaskName);
    if (lists[id].tasks[taskId].isComplete === false) {
        getElementsByClass("task-info-title")[0].style.textDecoration = "line-through";
    }
@@ -171,6 +172,12 @@ function getInfo() {
    getElementById("add-step").value = "";
 }
 
+function changeTaskName(event) {
+    if (event.keyCode === 13 && event.target.value !== "") {
+        lists[id].tasks[taskId].name = event.target.value;
+        getElementsByClass("task-name")[taskId].innerHTML = event.target.value;
+    }
+}
 var count = 0;
 var addTask = getElementsByClass("add-task-input");
 
@@ -299,7 +306,11 @@ function addNewList(event) {
         currentlist.subName = event.target.value;
         currentlist.id = listCount;    
         lists.push(currentlist);
-        getElementById("task-name").innerHTML =  currentlist.name;
+        var title = getTextInputWithClass("task-title-input");
+        title.value = currentlist.name;
+        var listTitle = getElementById("list-title");
+        listTitle.innerHTML = "";
+        listTitle.appendChild(title);
         getElementById("task-info-name").innerHTML =  currentlist.name;
         if (lists.length < 5) {
             var listIconDiv = getElementById("list-icon-div");
@@ -329,6 +340,15 @@ function addNewList(event) {
             getElementById("lists").style.height = "145px";
             getElementById("lists").style.overflow = "auto";
         }
+        getElementsByClass("task-title-input")[0].addEventListener("keyup", changeListName);
+    }
+}
+
+function changeListName(event) {
+    console.log(event.target.value);
+    if (event.keyCode === 13 && event.target.value != "") {
+        lists[id].name = event.target.value;
+        getElementsByClass("created-list")[id - 1].innerHTML = event.target.value;
     }
 }
 
@@ -378,8 +398,8 @@ function createNewList() {
  * printed in the screen. The tasks of the previous list is removed.
  */
 function changeList() {
-    getElementById("task-name").innerHTML = this.name;
     id = this.id;
+    getElementsByClass("task-title-input")[0].value = this.name;
     var existingDiv = getElementsByClass('tick-icon');
     var existingDivIcon = getElementById('task-container').innerHTML = "";
     for(var task = 0; task < this.tasks.length; task = task + 1) {
@@ -405,6 +425,7 @@ function changeList() {
         completeIcon[task].addEventListener("click", finishTask.bind(task));
         getElementById("add-new-task").value = "";
     }
+    console.log(this.tasks.length);
     if (this.tasks.length > 4) {
         taskContainer.style.height = "400px";
         taskContainer.style.overflow = "auto";

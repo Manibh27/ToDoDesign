@@ -379,7 +379,31 @@ input:hover {
     margin: 0.5% 0 0 2%;
     font-size: 1rem;
     cursor: pointer;
+    background: transparent;
+    outline:none;
+    border: none;
 }
+
+.task-title-input {
+    margin: 0.5% 0 0 2%;
+    font-size: 1rem;
+    cursor: pointer;
+    background: transparent;
+    outline:none;
+    border: none;
+}
+
+.task-info-input {
+    margin-top: -2%;
+    margin-left: 5%;
+    padding: 4%;
+    font-size: 1rem;
+    cursor: pointer;
+    background: transparent;
+    outline:none;
+    border: none;
+}
+
 
 .created-list {
     margin: 9% 0 0 9%;

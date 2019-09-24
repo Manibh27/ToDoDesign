@@ -7,7 +7,7 @@
     width: 100%;
 }
 
-.container .header {
+.header {
     margin: -0.6% 0 0 -1%;
     width: 99.6%;
     background-color: #1579CE;
@@ -16,14 +16,14 @@
     position: relative;
 }
 
-.container .search-icon {
+.search-icon {
     left: 39.5%;
     top: 25%;
     position: absolute;
     color: #1579CE;
 }
 
-.container .search-box {
+.search-box {
     color: #1579CE;
     margin-left: 35%;
     margin-top: -0.4%;
@@ -35,25 +35,18 @@
     background-color: #c7ddf5;
 }
 
-.task-title {
-    font-size: 1.8rem;
-    margin: 50% 0 0 40%;
-    color: #1579CE;
-    font-family: "Times New Roman", Times;
-}
-
 .header span {
     margin-top: 0.3%;
     color: #c7ddf5;
     font-family: sansation-font;
 }
 
-.container .main-frame {
+.main-frame {
     display: flex;
     flex-wrap:nowrap;
 }
 
-.container .menu-bar-icon {
+.menu-bar-icon {
     margin-left: -0.5%;
     width: 3%;
     background-color: #f4f4f4;
@@ -61,8 +54,9 @@
     height: 38rem;
 }
 
-.container .menu-bar {
-    width: 0;
+.menu-bar {
+    width: 20%;
+    display: block;
     background-color: #f4f4f4;
     border-width: thin;
     height: 38rem;
@@ -77,46 +71,46 @@
    outline: none;
 }
 
-.container .menu-icon {
+.menu-icon {
     color: #1579CE;
     margin: 100% 0 0 15%;
     height: 3rem;
     cursor: pointer;
 }
 
-.container .side-menu-icon {
-    color: #50504cfa;
-    height: 2rem;
-    margin: 30% 0 0 25%;
+.side-menu-icon {
+    width: 50%;
+    margin: 45% 0 0 25%;
 }
 
-.container .my-day-desc {
+.my-day-desc {
     color: #50504cfa;
     height: 3rem;
-    margin: 39% 0 0 3%;
+    margin: 42% 0 0 3%;
 }
 
-.container .important-desc {
+.important-desc {
     color: #50504cfa;
     height: 3rem;
-    margin: -2% 0 0 3%;
-}
-.container .planned-desc {
-    color: #50504cfa;
-    height: 3rem;
-    margin: -2.5% 0 0 3%;
+    margin: -4% 0 0 3%;
 }
 
-.container .task-desc {
+.planned-desc {
     color: #50504cfa;
     height: 3rem;
-    margin: -5% 0 0 3%;
+    margin: -3% 0 0 3%;
 }
 
-.container .icon-description {
+.task-desc {
+    color: #50504cfa;
+    height: 3rem;
+    margin: -3% 0 0 3%;
+}
+
+.icon-description {
     color: #50504cfa;
     margin: 1% 0 0 5%;
-    display: none;
+    font-family: sans-serif;
     text-decoration: none;
 }
 
@@ -124,41 +118,47 @@
     background-color: #75756ff0;
 }
 
-.container .side-menu-action {
+.side-menu-action {
     color: #468be0;
     height: 4rem;
     margin: 15% 0 0 25%;
     display: flex;
 }
 
-.container .action-description {
+.action-description {
     color: #468be0;
     margin: 1% 0 0 5%;
-    display: none;
+    font-family: sans-serif;
     text-decoration: none;
 }
 
-.container .add-new-list {
-    color: #468be0;
-    height: 2rem;
-    margin: 10% 0 0 20%;
+.add-new-list {
+    margin: 2% 0 0 20%;
+    width: 45%;
+    height: 25px;
 }
 
 
-.container .new-list {
-    background-color: #f4f4f4;
+.new-list {
+    background: transparent;
     font-size: 0.9rem;
     border: none;
-    color: #468be0;
+    color: #75756ff0;
     margin: 5.5% 0 0 -1%;
     padding: 2%;
-    display: none;
     padding-left: 10%;
     outline: none;
 }
 
-.container .new-list-icon {
+.list-icon {
+    margin: 100% 0 0 0;
+}
+
+.new-list-icon {
     color: #468be0;
+    margin: 6% 0 0 20%;
+    width: 45%;
+    height: 25px;
 }
 
 input:hover {
@@ -166,4 +166,207 @@ input:hover {
     border: none;
 }
 
+.task-info {
+    width: 25%;
+    display: none;
+    background-color: #f5f5f5;
+}
 
+.task-header {
+    width: 84%;
+    background-color: white;
+    margin: 3% 0 0 3%;
+    padding: 5%;
+    display: flex
+}
+
+.mark-complete-btn {
+    margin-top: 1%;
+    width: 6%;
+    height: 1rem;
+    border-radius: 70%;
+    border-width: thin;
+    border-color: #468be0;
+    background-color: white;
+    outline: none;
+    cursor: pointer;
+}
+
+.task-header span {
+    margin: 1% 0 0 4%;
+}
+
+.header-imp-icon {
+    margin: 0 0 0 74%;
+    color: #50504cfa;
+    font-size: 1.3rem;
+}
+
+.add-step {
+    color: #468be0;
+    margin: 20% 0 0 0;
+    display: flex;
+}
+
+.add-step-icon {
+    color: #468be0;
+    background-color: white;
+    cursor: pointer;
+}
+
+.add-step-input {
+    color: #468be0;
+    font-size: 0.95rem;
+    margin : -1% 0 0 7%;
+    border: none;
+    outline: none;
+}
+
+.add-my-day {
+    width: 88%;
+    background-color: white;
+    padding: 3%;
+    margin: 5% 0 0 3%;
+    display: flex;
+}
+
+
+.right-bar-icon {
+    font-size: 1rem;
+    margin: 1% 0 0 2%; 
+    color: #80889c;
+}
+
+.add-my-day span {
+    color: #80889c;
+    font-size: 0.9rem;
+    margin: 1% 0 0 5%;    
+}
+
+.add-note {
+    margin: 4% 0 0 3%;
+}
+
+.right-bar-menu {
+    margin: 0 0 0 3%;
+    width: 94%;
+    background-color: white;
+}
+
+.right-bar {
+    width: 88%;
+    background-color: white;
+    padding: 3%;
+    margin: 5% 0 0 0.5%;
+    display: flex;
+}
+
+.right-bar span {
+    color: #80889c;
+    font-size: 0.9rem;
+    margin: 1% 0 0 5%;    
+}
+
+.add-note-input {
+    border: none;
+    width: 95%;
+    padding-left: 2%;
+    height: 4rem;
+    outline: none;
+}
+
+.right-bar-footer {
+    background-color: white;
+    margin: 34% 0 0 0;
+    padding: 1%;
+}
+
+.minimize { 
+    font-size:  1rem;
+    margin: 1% 0 0 2%;
+    cursor: pointer;
+}
+
+.info {
+    cursor: pointer;
+}
+
+.todo-task-list {
+    width: 80%;
+}
+
+.task-title {
+    font-size: 1.5rem;
+    margin: 3% 0 0 3%;
+    color: #1579CE;
+    font-family: sans-serif;
+}
+
+.added-task {
+    color: #1579CE;
+    margin: 2% 0 0 3%;
+    display: flex;
+    padding-bottom: 1%;
+    border-color: #50504cfa;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+}
+
+.add-new-task {
+    color: #1579CE;
+    margin: 2% 0 0 3%;
+    display: flex;
+    padding-bottom: 1%;
+    border-color: #50504cfa;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+}
+
+.new-task-icon {
+    margin-top: 30%;
+    color: #1579CE;
+    text-decoration: none;
+}
+
+.add-task-input {
+    width: 100%;
+    padding: 1%;
+    font-size: 1rem;
+    margin: 0 0 0 1%;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.tick-icon {
+    margin: 0 0 0 3%;
+    color: #1579CE;
+    display: inline;
+    cursor: pointer;
+}
+
+.task-name {
+    margin: 0.5% 0 0 2%;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.created-list {
+    margin: 5% 0 0 9%;
+    cursor: pointer;
+}
+
+.step {
+    color: #1579CE;
+}
+
+.steps {
+    margin-left: 3%;
+    padding: 2%;
+    padding-left: 8%;
+    background-color: white;
+}
+
+task-info-title {
+    color: #1579CE;
+}

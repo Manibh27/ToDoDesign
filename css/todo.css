@@ -55,7 +55,7 @@
 }
 
 .menu-bar {
-    width: 20%;
+    width: 19%;
     display: block;
     background-color: #f4f4f4;
     border-width: thin;
@@ -130,10 +130,11 @@
     margin: 1% 0 0 5%;
     font-family: sans-serif;
     text-decoration: none;
+    cursor: pointer;
 }
 
 .add-new-list {
-    margin: 2% 0 0 20%;
+    margin: 30% 0 0 20%;
     width: 45%;
     height: 25px;
 }
@@ -164,7 +165,7 @@
 
 .new-list-icon {
     color: #468be0;
-    margin: 6% 0 0 20%;
+    margin: 8% 0 0 20%;
     width: 45%;
     height: 25px;
 }
@@ -381,14 +382,15 @@ input:hover {
 }
 
 .created-list {
-    margin: 5% 0 0 9%;
+    margin: 9% 0 0 9%;
     cursor: pointer;
+    width: 15%;
 }
 
 .step {
     color: #1579CE;
     font-size: 1rem;
-    margin: 1.9% 0 0 05%; 
+    margin: 1.9% 0 0 10%; 
 }
 
 .steps {
@@ -410,6 +412,20 @@ input:hover {
 .step-icon {
     margin: 0 0 0 -50%;
     color: #1579CE;
-    display: inline;
     cursor: pointer;
 }
+
+.created-lists {
+    display: flex;
+}
+
+.tasks-count {
+    margin-top: 6%;
+    margin-left: 70%;
+}
+
+.step-count {
+    font-size: 0.7rem;
+    margin: 3% 0 0 0;
+}
+

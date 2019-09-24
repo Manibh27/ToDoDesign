@@ -1,9 +1,11 @@
 
-// Object to store the task informations.
+// Global array to maintain the newly creating list.
 var lists = [];
 var tasks = [];
 var id = 0;
 var taskId = 0;
+
+// Default task list stored in the first index of the global array
 var defaultList = {};
 defaultList.name = "Tasks";
 defaultList.id = 0;
@@ -126,7 +128,7 @@ function minimizeInfo() {
    var taskInfo = getElementsByClass("task-info");
    taskInfo[0].style.display="none";
    var sideBar = getElementsByClass("menu-bar");
-   sideBar[0].style.width="20%";
+   sideBar[0].style.width="19%";
 }
 
 /**
@@ -151,10 +153,13 @@ function getInfo() {
         var newStep = getDivWithClass("created-steps");
         var steps = getElementById("steps");
         newStep.innerHTML = "<a class='step-icon-link'>"
-            + "<i class='material-icons step-icon'>check_circle_outline</i></a>"+
-              "<p class='step'>"+stepInfos[step].name+"</p>";
+                + "<i class='material-icons step-icon'>check_circle_outline</i></a>"+
+                "<p class='step'>"+stepInfos[step].name+"</p>";
         steps.appendChild(newStep);
-        console.log(stepInfos[step].id);
+        if (stepInfos[step].isComplete !== true) {
+            getElementsByClass("step")[step].style.textDecoration = "line-through";
+            getElementsByClass("step-icon")[step].innerHTML = "check_circle";
+        }
         getElementsByClass("step-icon")[step].addEventListener("click", finishStep.bind(stepInfos[step]));
         if (stepInfos.length > 2) {
             steps.style.height = "50px";
@@ -192,11 +197,13 @@ function createNewTaskDiv(event) {
         // Append the created div with the main to-dolist div.
         //todoListDiv.appendChild(newTask);
         var completedDiv = getDivWithClass("added-task");
-	
+        var stepLength = "0";
+         
         // After new div is created the previous div is modified. 
         completedDiv.innerHTML = 
             "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
-             +"<p class='task-name'>"+event.target.value+"</p>";
+             +"<p class='task-name'>"+event.target.value+"</p>"+
+             "<p class='step-count'>"+ 0 +" of " + stepLength + "</p>";
         taskContainer.appendChild(completedDiv);
         count = count + 1;
         var taskIcon = getElementsByClass("tick-icon");
@@ -205,11 +212,9 @@ function createNewTaskDiv(event) {
         taskName[taskName.length - 1].addEventListener("click", 
                 getInfo.bind(task));
         addTask[0].addEventListener("keyup", createNewTaskDiv );
-        var completeIcon = getElementsByClass("tick-icon");
-        completeIcon[0].addEventListener("focus", showCompleteIcon);
-        completeIcon[0].addEventListener("click", finishTask);
         getElementById("add-new-task").value = "";
-        if (tasks.length > 6) {
+        getElementsByClass("tasks-count")[id - 1].innerHTML = getTasksLength();
+        if (tasks.length > 4) {
             taskContainer.style.height = "400px";
             taskContainer.style.overflow = "auto";
         } else {
@@ -218,6 +223,16 @@ function createNewTaskDiv(event) {
     }
 
 }
+
+/**
+ * Return the length of tasks which is not completed of the current list.
+ * 
+ * @return {int} length - Length of tasks.
+ */ 
+function getTasksLength() {
+    return lists[id].tasks.filter(task => task.isComplete === true).length;
+}
+
 
 /**
  * Creates a new add task div with corresponding class.
@@ -249,16 +264,20 @@ function showCompleteIcon() {
  */
 function finishTask() {
     var completeTask = getElementsByClass("task-name");
+    getElementById("task-info-name").innerHTML = 
+           "<p class='task-info-title'>"+lists[id].tasks[this].name+"</P>";
     if (lists[id].tasks[this].isComplete === true) {
         lists[id].tasks[this].isComplete = false;
         completeTask[this].style.textDecoration = "line-through";
         getElementsByClass("task-info-title")[0].style.textDecoration = "line-through";
         getElementsByClass("tick-icon")[this].innerHTML = "check_circle";
+        getElementsByClass("tasks-count")[id - 1].innerHTML = getTasksLength();
     } else {
         lists[id].tasks[this].isComplete = true;
         completeTask[this].style.textDecoration = "none";
         getElementsByClass("task-info-title")[0].style.textDecoration = "none";
         getElementsByClass("tick-icon")[this].innerHTML = "check_circle_outline";
+        getElementsByClass("tasks-count")[id - 1].innerHTML = getTasksLength();
     }
 }
 
@@ -275,22 +294,26 @@ function addNewList(event) {
         defaultId = 1;  
         var listDiv = getElementById("lists");
         var currentlist = createNewList();
-        currentlist.name = event.target.value; 
-        currentlist.id = listCount;
-        id = listCount;       
+        id = listCount;   
+        currentlist.name = getListName(event.target.value); 
+        currentlist.subName = event.target.value;
+        currentlist.id = listCount;    
         lists.push(currentlist);
         getElementById("task-name").innerHTML =  currentlist.name;
         getElementById("task-info-name").innerHTML =  currentlist.name;
-        if (lists.length < 7) {
+        if (lists.length < 5) {
             var listIconDiv = getElementById("list-icon-div");
             var listIcon = getNewDiv();
             listIcon.innerHTML = 
                 '<a href="#add-list"><img class="add-new-list" src="icon/list.png"></a>';
             listIconDiv.appendChild(listIcon);
         }
-        var newListDiv = getDivWithClass("lists");
+        var newListDiv = getDivWithClass("created-lists");
         newListDiv.setAttribute("id", lists.length - 1);
-        newListDiv.innerHTML = '<p class="created-list">'+event.target.value+'</p>';
+        var length = "0";
+        newListDiv.innerHTML = '<p class="created-list">'+ currentlist.name +'</p>' +
+                                '<p class="tasks-count">'+ length +'</p>';
+       
         listDiv.appendChild(newListDiv);
         var newList = getElementsByClass("new-list-input");
         var listInput = getTextInputWithClass("new-list");
@@ -302,11 +325,37 @@ function addNewList(event) {
         var existingDivIcon = getElementById('task-container').innerHTML = "";
         getElementById("task-container").style.height = "";
         if (lists.length > 5) {
+            getElementById("list-icon-div").style.height = "145px";
             getElementById("lists").style.height = "145px";
             getElementById("lists").style.overflow = "auto";
         }
     }
 }
+
+/**
+ * If the enterd name is already present then the name is concated with no of the
+ * times it is repeated.
+ */
+function getListName(name) {
+    console.log(name);
+    var repeatedCount = getRepeatedListCount(name);
+    console.log("count " + repeatedCount);
+    if (repeatedCount === 0) {
+        return name; 
+    } else {
+        return name+"("+repeatedCount+")";
+    }
+}
+
+/**
+ * Return the count of list name repeated.
+ * 
+ * @return {int} length - count of repeated name.
+ */ 
+function getRepeatedListCount(name) {
+    return lists.filter(list => list.subName === name).length;
+}
+
 
 addList[0].addEventListener("keyup", addNewList);
 
@@ -334,27 +383,29 @@ function changeList() {
     var existingDiv = getElementsByClass('tick-icon');
     var existingDivIcon = getElementById('task-container').innerHTML = "";
     for(var task = 0; task < this.tasks.length; task = task + 1) {
-        var taskContainer = getElementById("task-container");
-       
-        var newDiv = getDivWithClass("added-task");
-	
+        var taskContainer = getElementById("task-container");     
+        var newDiv = getDivWithClass("added-task");	
+        taskId = this.tasks[task].id;
+        var stepLength = getStepsLength();
+
         // After new div is created the previous div is modified. 
         newDiv.innerHTML = 
             "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
-             +"<p class='task-name'>"+this.tasks[task].name+"</p>";
-		taskContainer.appendChild(newDiv);
+             +"<p class='task-name'>"+this.tasks[task].name+"</p>" +
+             "<p class='step-count'>"+stepLength+ " of " + lists[id].tasks[taskId].steps.length+"</p>";
+        taskContainer.appendChild(newDiv);
         var completeIcon = getElementsByClass("tick-icon");
         var taskDetails = getElementsByClass("task-name");
         taskDetails[task].addEventListener("click", getInfo.bind(this.tasks[task]));
         completeIcon[task].addEventListener("focus", showCompleteIcon);
         if (this.tasks[task].isComplete === false) {
             taskDetails[task].style.textDecoration = "line-through";
-        } else {
-            completeIcon[task].addEventListener("click", finishTask.bind(task));
-        }
+            getElementsByClass("tick-icon")[task].innerHTML = "check_circle";
+        } 
+        completeIcon[task].addEventListener("click", finishTask.bind(task));
         getElementById("add-new-task").value = "";
     }
-    if (this.tasks.length > 6) {
+    if (this.tasks.length > 4) {
         taskContainer.style.height = "400px";
         taskContainer.style.overflow = "auto";
     } else {
@@ -393,22 +444,37 @@ function addStep(event) {
         } else {
             steps.style.height = "";
         }
+        getElementsByClass("step-count")[taskId].innerHTML = 
+                  getStepsLength() + " of " + lists[id].tasks[taskId].steps.length;
     }
 }
 
+/**
+ * Return the length of sub tasks which is not completed of the current task.
+ * 
+ * @return {int} length - Length of sub tasks.
+ */ 
+function getStepsLength() {
+    return lists[id].tasks[taskId].steps.filter(step => step.isComplete !== true).length;
+}
 
+/**
+ * When the step is marked complete it is striked and the icon is changed.
+ * When the step is unmarked the strike is removed and the icon is changed.
+ */
 function finishStep() {
-    console.log("step");
     if (this.isComplete === true) {
-        console.log("true");
         this.isComplete = false;
         getElementsByClass("step")[this.id].style.textDecoration = "line-through";
         getElementsByClass("step-icon")[this.id].innerHTML = "check_circle";
+        getElementsByClass("step-count")[taskId].innerHTML =  
+            getStepsLength() + " of " + lists[id].tasks[taskId].steps.length;
     } else {
-        console.log("fasle");
         this.isComplete = true;
         getElementsByClass("step")[this.id].style.textDecoration = "none";
         getElementsByClass("step-icon")[this.id].innerHTML = "check_circle_outline"
+        getElementsByClass("step-count")[taskId].innerHTML = 
+            getStepsLength() + " of " + lists[id].tasks[taskId].steps.length;;
     }
 }
 

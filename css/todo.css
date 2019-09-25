@@ -425,10 +425,11 @@ input:hover {
 
 .created-steps {
     display: flex;
+    margin-left: -21px;
+    padding: 10px;
 }
 
 .step-icon {
-    margin: 0 0 0 -50%;
     color: #1579CE;
     cursor: pointer;
 }

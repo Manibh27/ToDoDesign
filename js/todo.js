@@ -110,6 +110,10 @@ function openMenu() {
     if (iconValue == "close") {
         sideBar.style.width= "4%";
         setElementValueById("icon", "open");
+        getElementsByClass("side-menu-icon")[0].style.height = "4rem";
+        getElementsByClass("side-menu-icon")[1].style.height = "4rem";
+        getElementsByClass("side-menu-icon")[2].style.height = "4rem";
+        getElementsByClass("side-menu-icon")[3].style.height = "4rem";
         getElementsByClass("icon-desc")[0].style.display = "none";
         getElementsByClass("icon-desc")[1].style.display = "none";
         getElementsByClass("icon-desc")[2].style.display = "none";

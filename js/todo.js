@@ -110,6 +110,10 @@ function openMenu() {
     if (iconValue == "close") {
         sideBar.style.width= "4%";
         setElementValueById("icon", "open");
+        getElementsByClass("side-menu-icon")[0].style.height = "4rem";
+        getElementsByClass("side-menu-icon")[1].style.height = "4rem";
+        getElementsByClass("side-menu-icon")[2].style.height = "4rem";
+        getElementsByClass("side-menu-icon")[3].style.height = "4rem";
         getElementsByClass("icon-desc")[0].style.display = "none";
         getElementsByClass("icon-desc")[1].style.display = "none";
         getElementsByClass("icon-desc")[2].style.display = "none";
@@ -159,20 +163,30 @@ function getInfo() {
    if (lists[id].tasks[taskId].isComplete === false) {
        getElementsByClass("task-info-input")[0].style.textDecoration = "line-through";
    }
+   
+   getElementsByClass("notes")[0].innerHTML = lists[id].tasks[taskId].notes;
    getElementById("steps").innerHTML = "";
    var stepInfos = lists[id].tasks[taskId].steps;
-   for (var step = 0 ; step < stepInfos.length; step = step + 1) {
-        var newStep = getDivWithClass("created-steps");
-        var steps = getElementById("steps");
-        newStep.innerHTML = "<a class='step-icon-link'>"
+    for (var step = 0 ; step < stepInfos.length; step = step + 1) {
+        if (stepInfos[step].deleteStatus !== true) {
+            var newStep = getDivWithClass("created-steps");
+            var steps = getElementById("steps");
+            newStep.innerHTML = "<a class='step-icon-link'>"
                 + "<i class='material-icons step-icon'>check_circle_outline</i></a>"+
-                "<p class='step'>"+stepInfos[step].name+"</p>";
-        steps.appendChild(newStep);
-        if (stepInfos[step].isComplete !== true) {
-            getElementsByClass("step")[step].style.textDecoration = "line-through";
-            getElementsByClass("step-icon")[step].innerHTML = "check_circle";
+                "<p class='step'>"+stepInfos[step].name+"</p> <p class='delete-step'>x</p>";
+            steps.appendChild(newStep);
+            var stepIcon  = getElementsByClass("step-icon");
+            var stepInfo = getElementsByClass("step");
+            if (stepInfos[step].isComplete !== true) {
+                stepInfo[stepInfo.length - 1].style.textDecoration = "line-through";
+                stepIcon[stepIcon.length - 1].innerHTML = "check_circle";
+            }
+            stepIcon[stepIcon.length - 1].addEventListener("click", finishStep.bind(stepInfos[step]));
+            var deleteStep = getElementsByClass("delete-step");
+            deleteStep[deleteStep.length - 1].addEventListener("click", deleteSubTask.bind(stepInfos[step]));
+            newStep.addEventListener("mouseover", viewDeleteIcon.bind(deleteStep.length - 1));
+            newStep.addEventListener("mouseout", hideDeleteIcon.bind(deleteStep.length - 1));
         }
-        getElementsByClass("step-icon")[step].addEventListener("click", finishStep.bind(stepInfos[step]));
    }
    getElementById("add-step").value = "";
 }
@@ -200,9 +214,11 @@ function createNewTaskDiv(event) {
         tasks = lists[id].tasks;
         task.id = tasks.length;
         taskId = task.id;
+        task.deleteStatus = false;
         task.isComplete = true;
         task.name = event.target.value;
         task.steps = [];
+        task.notes;
         tasks.push(task);
 
 
@@ -398,29 +414,30 @@ function changeList() {
     var existingDiv = getElementsByClass('tick-icon');
     var existingDivIcon = getElementById('task-container').innerHTML = "";
     for(var task = 0; task < this.tasks.length; task = task + 1) {
-        var taskContainer = getElementById("task-container");     
-        var newDiv = getDivWithClass("added-task");	
-        taskId = this.tasks[task].id;
-        var stepLength = getStepsLength();
+        console.log(this.tasks[task].deleteStatus);
+        if (this.tasks[task].deleteStatus !== true) {
+            var taskContainer = getElementById("task-container");     
+            var newDiv = getDivWithClass("added-task");	
+            taskId = this.tasks[task].id;
+            var stepLength = getStepsLength();
 
-        // After new div is created the previous div is modified. 
-        newDiv.innerHTML = 
-            "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
-             +"<p class='task-name'>"+this.tasks[task].name+"</p>" +
-             "<p class='step-count'>"+stepLength+ " of " + lists[id].tasks[taskId].steps.length+"</p>";
-        taskContainer.appendChild(newDiv);
-        var completeIcon = getElementsByClass("tick-icon");
-        var taskDetails = getElementsByClass("task-name");
-        taskDetails[task].addEventListener("click", getInfo.bind(this.tasks[task]));
-        completeIcon[task].addEventListener("focus", showCompleteIcon);
-        if (this.tasks[task].isComplete === false) {
-            taskDetails[task].style.textDecoration = "line-through";
-            getElementsByClass("tick-icon")[task].innerHTML = "check_circle";
-        } 
-        completeIcon[task].addEventListener("click", finishTask.bind(task));
-        getElementById("add-new-task").value = "";
+            // After new div is created the previous div is modified. 
+            newDiv.innerHTML = 
+                "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
+                +"<p class='task-name'>"+this.tasks[task].name+"</p>" +
+                "<p class='step-count'>"+stepLength+ " of " + lists[id].tasks[taskId].steps.length+"</p>";
+            taskContainer.appendChild(newDiv);
+            var completeIcon = getElementsByClass("tick-icon");
+            var taskDetails = getElementsByClass("task-name");
+            taskDetails[taskDetails.length - 1].addEventListener("click", getInfo.bind(this.tasks[task]));
+            if (this.tasks[task].isComplete === false) {
+                taskDetails[task].style.textDecoration = "line-through";
+                getElementsByClass("tick-icon")[task].innerHTML = "check_circle";
+            } 
+            completeIcon[completeIcon.length - 1].addEventListener("click", finishTask.bind(task));
+            getElementById("add-new-task").value = "";
+        }
     }
-    console.log(this.tasks.length);
     if (this.tasks.length > 4) {
         taskContainer.style.height = "400px";
         taskContainer.style.overflow = "auto";
@@ -442,10 +459,11 @@ function addStep(event) {
         var steps = getElementById("steps");
         newStep.innerHTML = "<a class='step-icon-link'>"
             + "<i class='material-icons step-icon'>check_circle_outline</i></a>"+
-            "<p class='step'>"+event.target.value+"</p>";
+            "<p class='step'>"+event.target.value+"</p> <p class='delete-step'>x</p>";
         steps.style.height = "";
         steps.appendChild(newStep);
         var step = {};
+        step.deleteStatus = false;
         step.name = event.target.value;
         step.id = lists[id].tasks[taskId].steps.length;
         step.isComplete = true;
@@ -458,9 +476,29 @@ function addStep(event) {
         }
         getElementsByClass("step-count")[taskId].innerHTML = 
                   getStepsLength() + " of " + lists[id].tasks[taskId].steps.length;
+        var deleteStep = getElementsByClass("delete-step");
+        deleteStep[deleteStep.length - 1].addEventListener("click", deleteSubTask.bind(step));
+        newStep.addEventListener("mouseover", viewDeleteIcon.bind(deleteStep.length - 1));
+        newStep.addEventListener("mouseout", hideDeleteIcon.bind(deleteStep.length - 1));
     }
 }
 
+function viewDeleteIcon() {
+    getElementsByClass("delete-step")[this].style.display = "block";
+}
+
+function hideDeleteIcon() {
+    getElementsByClass("delete-step")[this].style.display = "none";
+}
+
+function deleteSubTask() {
+    this.isComplete = false;
+    this.deleteStatus = true;
+    getElementsByClass("step-count")[taskId].innerHTML = 
+            getStepsLength() + " of " + lists[id].tasks[taskId].steps.length;
+    var updateSteps = getInfo.bind(lists[id].tasks[taskId]);
+    updateSteps();
+}
 /**
  * Return the length of sub tasks which is not completed of the current task.
  * 
@@ -493,3 +531,32 @@ function finishStep() {
 var homeList = getElementsByClass("task-desc");
 homeList[0].addEventListener("click", changeList.bind(lists[0]));
 
+var notes = getElementsByClass("notes");
+notes[0].addEventListener("blur", saveNotes);
+
+function saveNotes(event) {
+    lists[id].tasks[taskId].notes = event.target.textContent;
+}
+
+var deleteIcon = getElementById("delete");
+deleteIcon.addEventListener("click", getConfirmation);
+
+function getConfirmation() {
+    var modal = document.getElementById("myModal");
+    var cancel = getElementsByClass("cancel")[0];
+    modal.style.display = "block";
+    cancel.onclick = function() {
+        modal.style.display = "none";
+    }
+    var deleteTask = getElementsByClass("delete-task")[0];
+    deleteTask.onclick = function() {
+        modal.style.display = "none";
+        console.log(lists[id].tasks[taskId]);
+        lists[id].tasks[taskId].isComplete = false;
+        lists[id].tasks[taskId].deleteStatus = true;
+        var updateTasks = changeList.bind(lists[id]);
+        updateTasks();
+        minimizeInfo();
+        getElementsByClass("tasks-count")[id - 1].innerHTML = getTasksLength();
+    }
+}

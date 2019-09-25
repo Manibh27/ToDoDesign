@@ -113,12 +113,21 @@
                    	<span>Add file</span>                      
                	</div>
                 <div class="add-note">
-                    <input type="text"  placeholder="Add note" class="add-note-input"/>
+                    <div contentEditable = "true" class="notes"></div>
                 </div>
                 <div class="right-bar-footer">
                    <a id="minimize" ><i class="material-icons minimize">arrow_right_alt</i></a>
+                   <a id="delete" class="delete-icon"><i class="material-icons minimize">delete</i></a>
                 </div>
             </div>               
+        </div>
+    </div>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <p>Do you want to delete..</p>
+            <p>you won't be able to undo this action</p><br>
+            <span class="cancel">Cancel</span>
+            <span class="delete-task">Delete task</span>
         </div>
     </div>
     <script src="js/todo.js"></script>

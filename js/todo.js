@@ -175,11 +175,13 @@ function getInfo() {
                 + "<i class='material-icons step-icon'>check_circle_outline</i></a>"+
                 "<p class='step'>"+stepInfos[step].name+"</p> <p class='delete-step'>x</p>";
             steps.appendChild(newStep);
+            var stepIcon  = getElementsByClass("step-icon");
+            var stepInfo = getElementsByClass("step");
             if (stepInfos[step].isComplete !== true) {
-                getElementsByClass("step")[step].style.textDecoration = "line-through";
-                getElementsByClass("step-icon")[step].innerHTML = "check_circle";
+                stepInfo[stepInfo.length - 1].style.textDecoration = "line-through";
+                stepIcon[stepIcon.length - 1].innerHTML = "check_circle";
             }
-            getElementsByClass("step-icon")[step].addEventListener("click", finishStep.bind(stepInfos[step]));
+            stepIcon[stepIcon.length - 1].addEventListener("click", finishStep.bind(stepInfos[step]));
             var deleteStep = getElementsByClass("delete-step");
             deleteStep[deleteStep.length - 1].addEventListener("click", deleteSubTask.bind(stepInfos[step]));
             newStep.addEventListener("mouseover", viewDeleteIcon.bind(deleteStep.length - 1));
@@ -427,13 +429,12 @@ function changeList() {
             taskContainer.appendChild(newDiv);
             var completeIcon = getElementsByClass("tick-icon");
             var taskDetails = getElementsByClass("task-name");
-            taskDetails[task].addEventListener("click", getInfo.bind(this.tasks[task]));
-            completeIcon[task].addEventListener("focus", showCompleteIcon);
+            taskDetails[taskDetails.length - 1].addEventListener("click", getInfo.bind(this.tasks[task]));
             if (this.tasks[task].isComplete === false) {
                 taskDetails[task].style.textDecoration = "line-through";
                 getElementsByClass("tick-icon")[task].innerHTML = "check_circle";
             } 
-            completeIcon[task].addEventListener("click", finishTask.bind(task));
+            completeIcon[completeIcon.length - 1].addEventListener("click", finishTask.bind(task));
             getElementById("add-new-task").value = "";
         }
     }
@@ -550,7 +551,7 @@ function getConfirmation() {
     var deleteTask = getElementsByClass("delete-task")[0];
     deleteTask.onclick = function() {
         modal.style.display = "none";
-        console.log(lists[id]);
+        console.log(lists[id].tasks[taskId]);
         lists[id].tasks[taskId].isComplete = false;
         lists[id].tasks[taskId].deleteStatus = true;
         var updateTasks = changeList.bind(lists[id]);

@@ -107,14 +107,25 @@ minimize.addEventListener("click", minimizeInfo);
 function openMenu() {
     var iconValue = getElementValueById("icon");
     var sideBar = getElementById("side-nav-bar");
-	var listBar = getElementById("todo-list");
     if (iconValue == "close") {
-        sideBar.style.display= "block";
+        sideBar.style.width= "4%";
         setElementValueById("icon", "open");
+        getElementsByClass("icon-desc")[0].style.display = "none";
+        getElementsByClass("icon-desc")[1].style.display = "none";
+        getElementsByClass("icon-desc")[2].style.display = "none";
+        getElementsByClass("task-desc")[0].style.display = "none";
+        getElementsByClass("new-list-input")[0].style.display = "none";
+        getElementById("new-lists").style.display = "none";
     }
     if (iconValue == "open") {
-        sideBar.style.display= "none";
+        sideBar.style.width= "19%";
         setElementValueById("icon", "close");
+        getElementsByClass("icon-desc")[0].style.display = "block";
+        getElementsByClass("icon-desc")[1].style.display = "block";
+        getElementsByClass("icon-desc")[2].style.display = "block";
+        getElementsByClass("task-desc")[0].style.display = "block";
+        getElementsByClass("new-list-input")[0].style.display = "block";
+        getElementById("new-lists").style.display = "block";
     }
 }
 
@@ -146,7 +157,7 @@ function getInfo() {
    taskTitle.appendChild(title);
    getElementsByClass("task-info-input")[0].addEventListener("keyup", changeTaskName);
    if (lists[id].tasks[taskId].isComplete === false) {
-       getElementsByClass("task-info-title")[0].style.textDecoration = "line-through";
+       getElementsByClass("task-info-input")[0].style.textDecoration = "line-through";
    }
    getElementById("steps").innerHTML = "";
    var stepInfos = lists[id].tasks[taskId].steps;
@@ -162,12 +173,6 @@ function getInfo() {
             getElementsByClass("step-icon")[step].innerHTML = "check_circle";
         }
         getElementsByClass("step-icon")[step].addEventListener("click", finishStep.bind(stepInfos[step]));
-        if (stepInfos.length > 2) {
-            steps.style.height = "50px";
-            steps.style.overflow = "auto";
-        } else {
-            steps.style.height = "";
-        }
    }
    getElementById("add-step").value = "";
 }
@@ -312,33 +317,22 @@ function addNewList(event) {
         listTitle.innerHTML = "";
         listTitle.appendChild(title);
         getElementById("task-info-name").innerHTML =  currentlist.name;
-        if (lists.length < 5) {
-            var listIconDiv = getElementById("list-icon-div");
-            var listIcon = getNewDiv();
-            listIcon.innerHTML = 
-                '<a href="#add-list"><img class="add-new-list" src="icon/list.png"></a>';
-            listIconDiv.appendChild(listIcon);
-        }
+
         var newListDiv = getDivWithClass("created-lists");
         newListDiv.setAttribute("id", lists.length - 1);
         var length = "0";
-        newListDiv.innerHTML = '<p class="created-list">'+ currentlist.name +'</p>' +
+        newListDiv.innerHTML = '<a href="#add-list"><img class="add-new-list" src="icon/list.png"></a>'+
+                                '<p class="created-list">'+ currentlist.name +'</p>' +
                                 '<p class="tasks-count">'+ length +'</p>';
-       
-        listDiv.appendChild(newListDiv);
-        var newList = getElementsByClass("new-list-input");
-        var listInput = getTextInputWithClass("new-list");
-        newList[0].appendChild(listInput);
+        getElementById("new-lists").appendChild(newListDiv);
+        console.log(currentlist.name);
         newListDiv.addEventListener("click", changeList.bind(currentlist));
         listCount = listCount + 1;
-        addList[0].addEventListener("keyup", addNewList);
         getElementById("add-list").value = "";
         var existingDivIcon = getElementById('task-container').innerHTML = "";
-        getElementById("task-container").style.height = "";
         if (lists.length > 5) {
-            getElementById("list-icon-div").style.height = "145px";
-            getElementById("lists").style.height = "145px";
-            getElementById("lists").style.overflow = "auto";
+            getElementById("side-nav-bar").style.height = "600px";
+            getElementById("side-nav-bar").style.overflow = "auto";
         }
         getElementsByClass("task-title-input")[0].addEventListener("keyup", changeListName);
     }
@@ -398,6 +392,7 @@ function createNewList() {
  * printed in the screen. The tasks of the previous list is removed.
  */
 function changeList() {
+    console.log(this.name);
     id = this.id;
     getElementsByClass("task-title-input")[0].value = this.name;
     var existingDiv = getElementsByClass('tick-icon');
@@ -429,9 +424,7 @@ function changeList() {
     if (this.tasks.length > 4) {
         taskContainer.style.height = "400px";
         taskContainer.style.overflow = "auto";
-    } else {
-        taskContainer.style.height = "";
-    }
+    } 
 }
 
 // Adding event listneer to add steps.
@@ -460,10 +453,8 @@ function addStep(event) {
         getElementsByClass("step-icon")[step.id].addEventListener("click", finishStep.bind(step));
         getElementById("add-step").value = "";
         if (lists[id].tasks[taskId].steps.length > 2) {
-            steps.style.height = "50px";
-            steps.style.overflow = "auto";
-        } else {
-            steps.style.height = "";
+            getElementsByClass("task-info")[0].style.height = "600px";
+            getElementsByClass("task-info")[0].style.overflow = "auto";
         }
         getElementsByClass("step-count")[taskId].innerHTML = 
                   getStepsLength() + " of " + lists[id].tasks[taskId].steps.length;

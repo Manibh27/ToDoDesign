@@ -157,7 +157,7 @@ function getInfo() {
    taskTitle.appendChild(title);
    getElementsByClass("task-info-input")[0].addEventListener("keyup", changeTaskName);
    if (lists[id].tasks[taskId].isComplete === false) {
-       getElementsByClass("task-info-title")[0].style.textDecoration = "line-through";
+       getElementsByClass("task-info-input")[0].style.textDecoration = "line-through";
    }
    getElementById("steps").innerHTML = "";
    var stepInfos = lists[id].tasks[taskId].steps;

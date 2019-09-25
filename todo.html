@@ -14,40 +14,52 @@
             <input type="text" class="search-box" placeholder="Search"/>
         </div>
         <div class="main-frame">
-            <div class="menu-bar-icon">
+            <div id="side-nav-bar" class="menu-bar">
                 <div class="menu-icon">
                  <button class="menu-btn" id="icon" value="open">
                      <i class="material-icons" >menu</i>
                  </button>
                 </div>
-                <img class="side-menu-icon" src="icon/day.png"/>
-                <img class="side-menu-icon" src="icon/important.png"/>
-		<img class="side-menu-icon" src="icon/today.png"/>
-		<img class="side-menu-icon" src="icon/home.png"/>
-                <div id="list-icon-div">
-                    <div class="list-icon"></div>
-                </div>
-                <a href="#add-list" id="new-list"> 
-                    <img class="new-list-icon" src="icon/add.png"/>
-                </a>
-            </div>
-            <div id="side-nav-bar" class="menu-bar">
-                <div class="my-day-desc">
-                    <a href="" class="icon-description">My Day</a>
-                </div>    
-                <div class="important-desc">
-                    <a href="" class="icon-description">Important</a>
-                </div> 
-                <div class="planned-desc">
-                    <a href="" class="icon-description">Planned</a>
-                </div>    
-                <div class="task-desc">    
-                    <p class="action-description">Tasks</p>
-                </div>
-                <div id="lists"></div>
-                <div class="new-list-input">
-                    <input id="add-list" type="text" class="new-list" placeholder="New List"/>
-                </div>
+			    <div class="side-div">  
+                    <div class="side-menu-icon">
+                        <img src="icon/day.png"/>
+                    </div>
+					<div class="icon-desc">
+                    	<a href="" class="icon-description">My Day</a>
+                	</div>
+				</div>    	
+				<div class="side-div">
+                    <div class="side-menu-icon">
+                        <img src="icon/important.png"/>
+                    </div>
+                	<div class="icon-desc">
+                    	<a href="" class="icon-description">Important</a>
+                	</div>
+				</div>
+				<div class="side-div"> 
+                    <div  class="side-menu-icon">
+                        <img src="icon/today.png"/>
+                    </div>
+                	<div class="icon-desc">
+                    	<a href="" class="icon-description">Planned</a>
+                	</div>
+				</div>    
+				<div class="side-div">
+                    <div class="side-menu-icon" >
+                        <img src="icon/home.png"/>
+                    </div>
+                	<div class="task-desc">    
+                    	<p class="action-description">Tasks</p>
+                	</div>
+			    </div>
+				<div id = "new-lists">
+				</div>
+				<div class="side-div"> 
+                    <img id="new-list" class="new-list-icon" src="icon/add.png"/>
+                	<div class="new-list-input">
+                    	<input id="add-list" type="text" class="new-list" placeholder="New List"/>
+                	</div>
+				</div>
             </div>
             <div id="todo-list" class="todo-task-list">
                 <a id="info" class="info">
@@ -68,7 +80,6 @@
                 <div class="task-header">
                     <button class="mark-complete-btn"></button>
                     <div id="task-info-name"><input class="task-info-input" type="text" value=""/></div>
-                    <i class="material-icons header-imp-icon">star_border</i>
                 </div>
                 <div id="steps" class="steps"></div>
                 <div class="add-step">

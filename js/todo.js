@@ -1,16 +1,63 @@
 
-// Global array to maintain the newly creating list.
-var lists = [];
-var tasks = [];
-var id = 0;
-var taskId = 0;
+init();
 
-// Default task list stored in the first index of the global array
-var defaultList = {};
-defaultList.name = "Tasks";
-defaultList.id = 0;
-defaultList.tasks= [];
-lists.push(defaultList);
+function init() {
+    initGlobalVariables();
+    initEventListeners();
+}
+
+function initGlobalVariables() {
+
+    // Global array to maintain the newly creating list.
+    lists = [];
+    tasks = [];
+    id = 0;
+    taskId = 0;
+    
+    // Default task list stored in the first index of the global array
+    defaultList = {};
+    defaultList.name = "Tasks";
+    defaultList.id = 0;
+    defaultList.tasks= [];
+    lists.push(defaultList);
+
+    addList = getElementsByClass("new-list");
+    listCount = 1;
+}
+
+function initEventListeners() {
+
+    // Add an event listener to menu button.
+    var menuBtn = getElementById("icon");
+    menuBtn.addEventListener("click", openMenu);
+
+    // when add list is clicked the menu bar is opened.
+    var newList = getElementById("new-list");
+    newList.addEventListener("click", openMenu);
+
+    // To minize the right side information bar.
+    var minimize = getElementById("minimize");
+    minimize.addEventListener("click", minimizeInfo);
+
+    // Adding event listener to create new lists. 
+    addList[0].addEventListener("keyup", addNewList);
+
+    // Adding event listner to add steps.
+    var step = getElementById("add-step");
+    step.addEventListener("keyup", addStep);
+
+    // Adding event listener to change tasks. 
+    var homeList = getElementsByClass("task-desc");
+    homeList[0].addEventListener("click", changeList.bind(lists[0]));
+
+    // Adding event listener to save notes on moving out of notes.
+    var notes = getElementsByClass("notes");    
+    notes[0].addEventListener("blur", saveNotes);
+
+    //Add event listener to delete icon to delete task.
+    var deleteIcon = getElementById("delete");
+    deleteIcon.addEventListener("click", getConfirmation);
+}
 
 /**
  * Return the element with the given id.
@@ -20,6 +67,16 @@ lists.push(defaultList);
  */
 function getElementById(id) {
     return document.getElementById(id);
+}
+
+/**
+ *  Append the child elemnt with the parent element.
+ * 
+ * @param {element} parentElement - Element to which the sub element to be appended. 
+ * @param {element} childElement - Element to be appended.
+ */
+function appendElement(parentElement, childElement) {
+    parentElement.appendChild(childElement);
 }
 
 /**
@@ -42,6 +99,15 @@ function getDivWithClass(className) {
     var newTask = document.createElement("DIV");
     newTask.setAttribute("class", className);     
     return newTask;
+}
+
+/**
+ * Set the given value as string in the innerHTML for the given element. 
+ * @param {div} element - Div for in which the value to be set. 
+ * @param {String} value - Value to be set.
+ */
+function setInnerHTML(element, value) {
+    element.innerHTML = value;
 }
 
 /**
@@ -86,51 +152,21 @@ function setElementValueById(id, value) {
     document.getElementById(id).value = value;
 }
 
-// Add an event listener to menu button.
-var menuBtn = getElementById("icon");
-menuBtn.addEventListener("click", openMenu);
-
-// when add list is clicked the menu bar is opened.
-var newList = getElementById("new-list");
-newList.addEventListener("click", openMenu);
-
-// To minize the right side information bar.
-var minimize = getElementById("minimize");
-minimize.addEventListener("click", minimizeInfo);
-
-
 /**
  * Checks whether the menu bar is in open or close.
  * If it is in open, close the menu bar and set the value close 
  * and performs in vice versa when it is in close.
  */
 function openMenu() {
-    var iconValue = getElementValueById("icon");
     var sideBar = getElementById("side-nav-bar");
-    if (iconValue == "close") {
-        sideBar.style.width= "4%";
-        setElementValueById("icon", "open");
-        getElementsByClass("side-menu-icon")[0].style.height = "4rem";
-        getElementsByClass("side-menu-icon")[1].style.height = "4rem";
-        getElementsByClass("side-menu-icon")[2].style.height = "4rem";
-        getElementsByClass("side-menu-icon")[3].style.height = "4rem";
-        getElementsByClass("icon-desc")[0].style.display = "none";
-        getElementsByClass("icon-desc")[1].style.display = "none";
-        getElementsByClass("icon-desc")[2].style.display = "none";
-        getElementsByClass("task-desc")[0].style.display = "none";
-        getElementsByClass("new-list-input")[0].style.display = "none";
-        getElementById("new-lists").style.display = "none";
+    sideBar.classList.toggle("side-bar-width");
+    var iconDescriptions =  getElementsByClass("icon-desc");
+    for (iconDescription of iconDescriptions) {
+        iconDescription.classList.toggle("display");
     }
-    if (iconValue == "open") {
-        sideBar.style.width= "19%";
-        setElementValueById("icon", "close");
-        getElementsByClass("icon-desc")[0].style.display = "block";
-        getElementsByClass("icon-desc")[1].style.display = "block";
-        getElementsByClass("icon-desc")[2].style.display = "block";
-        getElementsByClass("task-desc")[0].style.display = "block";
-        getElementsByClass("new-list-input")[0].style.display = "block";
-        getElementById("new-lists").style.display = "block";
-    }
+    getElementsByClass("task-desc")[0].classList.toggle("display");
+    getElementsByClass("new-list-input")[0].classList.toggle("display");
+    getElementById("new-lists").classList.toggle("dsiplay");
 }
 
 /**
@@ -144,53 +180,9 @@ function minimizeInfo() {
 }
 
 /**
- * Open the task information bar. Removes the previous steps.
- * And prints the steps added for the particular task.
+ * Updates the task name when the task name is changed and press enter.
+ * @param {*} event - Used to find whether the pressed key is enter.
  */
-function getInfo() {
-   var taskInfo = getElementsByClass("task-info");
-   var sideBar = getElementsByClass("menu-bar");
-   sideBar[0].style.width="27%";
-   taskInfo[0].style.display="block";
-   taskId = this.id;
-   getElementsByClass("mark-complete-btn")[0].addEventListener("click", finishTask.bind(taskId))
-   var title = getTextInputWithClass("task-info-input");
-   title.value = this.name;
-   var taskTitle = getElementById("task-info-name");
-   taskTitle.innerHTML = "";
-   taskTitle.appendChild(title);
-   getElementsByClass("task-info-input")[0].addEventListener("keyup", changeTaskName);
-   if (lists[id].tasks[taskId].isComplete === false) {
-       getElementsByClass("task-info-input")[0].style.textDecoration = "line-through";
-   }
-   
-   getElementsByClass("notes")[0].innerHTML = lists[id].tasks[taskId].notes;
-   getElementById("steps").innerHTML = "";
-   var stepInfos = lists[id].tasks[taskId].steps;
-    for (var step = 0 ; step < stepInfos.length; step = step + 1) {
-        if (stepInfos[step].deleteStatus !== true) {
-            var newStep = getDivWithClass("created-steps");
-            var steps = getElementById("steps");
-            newStep.innerHTML = "<a class='step-icon-link'>"
-                + "<i class='material-icons step-icon'>check_circle_outline</i></a>"+
-                "<p class='step'>"+stepInfos[step].name+"</p> <p class='delete-step'>x</p>";
-            steps.appendChild(newStep);
-            var stepIcon  = getElementsByClass("step-icon");
-            var stepInfo = getElementsByClass("step");
-            if (stepInfos[step].isComplete !== true) {
-                stepInfo[stepInfo.length - 1].style.textDecoration = "line-through";
-                stepIcon[stepIcon.length - 1].innerHTML = "check_circle";
-            }
-            stepIcon[stepIcon.length - 1].addEventListener("click", finishStep.bind(stepInfos[step]));
-            var deleteStep = getElementsByClass("delete-step");
-            deleteStep[deleteStep.length - 1].addEventListener("click", deleteSubTask.bind(stepInfos[step]));
-            newStep.addEventListener("mouseover", viewDeleteIcon.bind(deleteStep.length - 1));
-            newStep.addEventListener("mouseout", hideDeleteIcon.bind(deleteStep.length - 1));
-        }
-   }
-   getElementById("add-step").value = "";
-}
-
 function changeTaskName(event) {
     if (event.keyCode === 13 && event.target.value !== "") {
         lists[id].tasks[taskId].name = event.target.value;
@@ -210,29 +202,10 @@ function createNewTaskDiv(event) {
         // Creates a new add task div with the coressponding class.
         var newTask =  createNewTask();    
         var taskContainer = getElementById("task-container");
-        var task = {};
         tasks = lists[id].tasks;
-        task.id = tasks.length;
-        taskId = task.id;
-        task.deleteStatus = false;
-        task.isComplete = true;
-        task.name = event.target.value;
-        task.steps = [];
-        task.notes;
-        tasks.push(task);
-
-
-        // Append the created div with the main to-dolist div.
-        //todoListDiv.appendChild(newTask);
-        var completedDiv = getDivWithClass("added-task");
-        var stepLength = "0";
-         
-        // After new div is created the previous div is modified. 
-        completedDiv.innerHTML = 
-            "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
-             +"<p class='task-name'>"+event.target.value+"</p>"+
-             "<p class='step-count'>"+ 0 +" of " + stepLength + "</p>";
-        taskContainer.appendChild(completedDiv);
+        var task = getNewTask(tasks.length, event.target.value);
+        var completedDiv = createNewTask(event.target.value);
+        appendElement(taskContainer, completedDiv);
         count = count + 1;
         var taskIcon = getElementsByClass("tick-icon");
         taskIcon[taskIcon.length - 1].addEventListener("click", finishTask.bind(task.id));
@@ -249,7 +222,26 @@ function createNewTaskDiv(event) {
             taskContainer.style.height = "";
         }
     }
+}
 
+/**
+ * Creates a new task object set the attributes and its value.
+ * 
+ * @param {int} newTaskId - Length of the task created is assigned as the id.  
+ * @param {String} newTaskName - Name of the new task added.
+ * @return {Object} - Created new task object.
+ */
+function getNewTask(newTaskId, newTaskName) {
+    var task = {};
+    task.id = newTaskId;
+    taskId = task.id;
+    task.deleteStatus = false;
+    task.isComplete = true;
+    task.name = newTaskName
+    task.steps = [];
+    task.notes;
+    tasks.push(task);
+    return task;
 }
 
 /**
@@ -261,7 +253,6 @@ function getTasksLength() {
     return lists[id].tasks.filter(task => task.isComplete === true).length;
 }
 
-
 /**
  * Creates a new add task div with corresponding class.
  */
@@ -269,48 +260,45 @@ function createNewTask() {
     var newTask = getDivWithClass("add-new-task");
     var textInput = getTextInputWithClass("add-task-input");
     textInput.setAttribute("id", "add-new-task");
-    newTask.innerHTML =
+    var newTaskValue =
             '<a href="#add-new-task"><i class="material-icons new-task-icon">add</i></a>';
-    newTask.appendChild(textInput);
+    setInnerHTML(newTask, newTaskValue);
+    appendElement(newTask, textInput);
     return newTask;
 }
 
 addTask[0].addEventListener("keyup", createNewTaskDiv);
 
-// Add event listner for focus of complete icon.
-
-
-/**
- * When the strike task icon is focused the icon is changed.  
- */
-function showCompleteIcon() {
-    completeIcon[0].innerHTML = '<i class="material-icons tick-icon">check_circle</i>'
-}
-
 /**
  * when the finish task icon is clicked the task icon is changed and stiked out.
  */
 function finishTask() {
-    var completeTask = getElementsByClass("task-name");
     getElementById("task-info-name").innerHTML = 
-           "<p class='task-info-title'>"+lists[id].tasks[this].name+"</P>";
+           "<p class='task-info-title'>"+lists[id].tasks[taskId].name+"</P>";
     if (lists[id].tasks[this].isComplete === true) {
         lists[id].tasks[this].isComplete = false;
-        completeTask[this].style.textDecoration = "line-through";
-        getElementsByClass("task-info-title")[0].style.textDecoration = "line-through";
-        getElementsByClass("tick-icon")[this].innerHTML = "check_circle";
-        getElementsByClass("tasks-count")[id - 1].innerHTML = getTasksLength();
+        changeTaskCompleteStatus(this, "line-through", "check_circle");
     } else {
         lists[id].tasks[this].isComplete = true;
-        completeTask[this].style.textDecoration = "none";
-        getElementsByClass("task-info-title")[0].style.textDecoration = "none";
-        getElementsByClass("tick-icon")[this].innerHTML = "check_circle_outline";
-        getElementsByClass("tasks-count")[id - 1].innerHTML = getTasksLength();
+        changeTaskCompleteStatus(this, "none", "check_circle_outline");
     }
 }
 
-var addList = getElementsByClass("new-list");
-var listCount = 1;
+/**
+ * Change the status of the task if it is marked completed the name is striked.
+ * If not then the strike is removed. Then the icon is changed accordingly.
+ * 
+ * @param {int} currentTaskId - Id  of task to be striked.
+ * @param {String} textStyle - Text style to be changed.
+ * @param {String} iconStyle - Icon name according to the text style.
+ */
+function changeTaskCompleteStatus(currentTaskId, textStyle, iconStyle) {
+    var completeTask = getElementsByClass("task-name");
+    completeTask[currentTaskId].style.textDecoration = textStyle;
+    getElementsByClass("task-info-title")[0].style.textDecoration = textStyle;
+    setInnerHTML(getElementsByClass("tick-icon")[currentTaskId], iconStyle);
+    setInnerHTML(getElementsByClass("tasks-count")[id - 1], getTasksLength());
+}
 
 /**
  * When a new list is added , a new object is created and the entered value is
@@ -321,27 +309,15 @@ function addNewList(event) {
     if (event.keyCode === 13 && event.target.value !== "") { 
         defaultId = 1;  
         var listDiv = getElementById("lists");
-        var currentlist = createNewList();
-        id = listCount;   
-        currentlist.name = getListName(event.target.value); 
-        currentlist.subName = event.target.value;
-        currentlist.id = listCount;    
-        lists.push(currentlist);
+        var currentlist = createNewList(event.target.value);
         var title = getTextInputWithClass("task-title-input");
         title.value = currentlist.name;
         var listTitle = getElementById("list-title");
         listTitle.innerHTML = "";
-        listTitle.appendChild(title);
-        getElementById("task-info-name").innerHTML =  currentlist.name;
-
-        var newListDiv = getDivWithClass("created-lists");
-        newListDiv.setAttribute("id", lists.length - 1);
-        var length = "0";
-        newListDiv.innerHTML = '<a href="#add-list"><img class="add-new-list" src="icon/list.png"></a>'+
-                                '<p class="created-list">'+ currentlist.name +'</p>' +
-                                '<p class="tasks-count">'+ length +'</p>';
-        getElementById("new-lists").appendChild(newListDiv);
-        console.log(currentlist.name);
+        appendElement(listTitle, title);
+        setInnerHTML(getElementById("task-info-name"), currentlist.name);
+        var newListDiv = getNewList(lists.length - 1, currentlist.name);
+        appendElement(getElementById("new-lists"), newListDiv);
         newListDiv.addEventListener("click", changeList.bind(currentlist));
         listCount = listCount + 1;
         getElementById("add-list").value = "";
@@ -354,11 +330,31 @@ function addNewList(event) {
     }
 }
 
+/**
+ * Creates a new div and set the list attributes to the div.
+ * 
+ * @param {int} divId - Length of the list is assigned as id for the div.
+ * @param {String} listName - Name of the list added.
+ */
+function getNewList(divId, listName) {
+    var newListDiv = getDivWithClass("created-lists");
+    newListDiv.setAttribute("id", divId);
+    var length = "0";
+    var newListValue = '<a href="#add-list"><img class="add-new-list" src="icon/list.png"></a>'+
+            '<p class="created-list">'+ listName +'</p>' +
+            '<p class="tasks-count">'+ length +'</p>';
+    setInnerHTML(newListDiv, newListValue);
+    return newListDiv;
+}
+
+/**
+ * When the list name is updated and pressed enter the list name is changed.
+ * @param {} event -  Used to find whether the pressed key is enter.
+ */
 function changeListName(event) {
-    console.log(event.target.value);
     if (event.keyCode === 13 && event.target.value != "") {
         lists[id].name = event.target.value;
-        getElementsByClass("created-list")[id - 1].innerHTML = event.target.value;
+        setInnerHTML(getElementsByClass("created-list")[id - 1], event.target.value);
     }
 }
 
@@ -386,23 +382,37 @@ function getRepeatedListCount(name) {
     return lists.filter(list => list.subName === name).length;
 }
 
-
-addList[0].addEventListener("keyup", addNewList);
-
 /**
  * Create a new list object with name, id and an tasks array.
- *
+ * 
+ * @param {String} listName - Name of the list enterd.
  * @return {object} - A newly created list object.
  */
-function createNewList() {
+function createNewList(listName) {
     var list = {};
-    list.name;
-    list.id;
     list.tasks = [];
+    id = listCount;   
+    list.name = getListName(listName); 
+    list.subName = listName;
+    list.id = listCount;    
+    lists.push(list);
     return list;
 }
 
-
+/**
+ * Creates a new div, set the icon and the the name of the created task in the div through innerHTML.
+ * 
+ * @param {String} createdTaskName - name of the created task. 
+ * @return {div} - Div with the created task values.
+ */
+function createNewTask(createdTaskName) {
+    var newDiv = getDivWithClass("added-task");
+    var taskValue = "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
+        + "<p class='task-name'>" + createdTaskName + "</p>" 
+        + "<p class='step-count'>0 of 0</p>";
+    setInnerHTML(newDiv, taskValue);
+    return newDiv;
+}
 /**
  * When the list is clicked the array of task within the list is iterated and 
  * printed in the screen. The tasks of the previous list is removed.
@@ -414,27 +424,20 @@ function changeList() {
     var existingDiv = getElementsByClass('tick-icon');
     var existingDivIcon = getElementById('task-container').innerHTML = "";
     for(var task = 0; task < this.tasks.length; task = task + 1) {
-        console.log(this.tasks[task].deleteStatus);
         if (this.tasks[task].deleteStatus !== true) {
             var taskContainer = getElementById("task-container");     
-            var newDiv = getDivWithClass("added-task");	
-            taskId = this.tasks[task].id;
-            var stepLength = getStepsLength();
-
-            // After new div is created the previous div is modified. 
-            newDiv.innerHTML = 
-                "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
-                +"<p class='task-name'>"+this.tasks[task].name+"</p>" +
-                "<p class='step-count'>"+stepLength+ " of " + lists[id].tasks[taskId].steps.length+"</p>";
-            taskContainer.appendChild(newDiv);
+            var newDiv = createNewTask(this.tasks[task].name);
+            appendElement(taskContainer, newDiv);
             var completeIcon = getElementsByClass("tick-icon");
             var taskDetails = getElementsByClass("task-name");
+            taskId = this.tasks[task].id;
+            setStepCount();
             taskDetails[taskDetails.length - 1].addEventListener("click", getInfo.bind(this.tasks[task]));
             if (this.tasks[task].isComplete === false) {
                 taskDetails[task].style.textDecoration = "line-through";
-                getElementsByClass("tick-icon")[task].innerHTML = "check_circle";
+                setInnerHTML(getElementsByClass("tick-icon")[task], "check_circle");
             } 
-            completeIcon[completeIcon.length - 1].addEventListener("click", finishTask.bind(task));
+            completeIcon[completeIcon.length - 1].addEventListener("click", finishTask.bind(taskDetails.length - 1));
             getElementById("add-new-task").value = "";
         }
     }
@@ -444,9 +447,21 @@ function changeList() {
     } 
 }
 
-// Adding event listneer to add steps.
-var step = getElementById("add-step");
-step.addEventListener("keyup", addStep);
+/**
+ * Creates a new div, add icon and name of the step created  as string to the newly created 
+ * div through innerHTML.
+ * 
+ * @param {String} stepName - Name of the step created.
+ * @return {div} - Div with created step values.
+ */
+function getNewStep(stepName) {
+    var newStep = getDivWithClass("created-steps");
+    var stepValue = "<a class='step-icon-link'>"
+            + "<i class='material-icons step-icon'>check_circle_outline</i></a>"+
+            "<p class='step'>" + stepName + "</p> <p class='delete-step'>x</p>";
+    setInnerHTML(newStep, stepValue);
+    return newStep;
+}
 
 /**
  * When a any input is eneterd in add step input it checks for enter.
@@ -455,49 +470,124 @@ step.addEventListener("keyup", addStep);
  */
 function addStep(event) {
     if (event.keyCode === 13 && event.target.value !== "") {
-        var newStep = getDivWithClass("created-steps");
         var steps = getElementById("steps");
-        newStep.innerHTML = "<a class='step-icon-link'>"
-            + "<i class='material-icons step-icon'>check_circle_outline</i></a>"+
-            "<p class='step'>"+event.target.value+"</p> <p class='delete-step'>x</p>";
+        var newStep = getNewStep(event.target.value);      
         steps.style.height = "";
-        steps.appendChild(newStep);
-        var step = {};
-        step.deleteStatus = false;
-        step.name = event.target.value;
-        step.id = lists[id].tasks[taskId].steps.length;
-        step.isComplete = true;
-        lists[id].tasks[taskId].steps.push(step);
-        getElementsByClass("step-icon")[step.id].addEventListener("click", finishStep.bind(step));
+        appendElement(steps, newStep);
+        var step = createStep(event.target.value);
         getElementById("add-step").value = "";
         if (lists[id].tasks[taskId].steps.length > 2) {
             getElementsByClass("task-info")[0].style.height = "600px";
             getElementsByClass("task-info")[0].style.overflow = "auto";
         }
-        getElementsByClass("step-count")[taskId].innerHTML = 
-                  getStepsLength() + " of " + lists[id].tasks[taskId].steps.length;
-        var deleteStep = getElementsByClass("delete-step");
-        deleteStep[deleteStep.length - 1].addEventListener("click", deleteSubTask.bind(step));
-        newStep.addEventListener("mouseover", viewDeleteIcon.bind(deleteStep.length - 1));
-        newStep.addEventListener("mouseout", hideDeleteIcon.bind(deleteStep.length - 1));
+        addStepEventListener(step, newStep);
+        setStepCount();
     }
 }
 
+/**
+ * event listeners for step delete operation and mark complete operation is added.
+ *  
+ * @param {Object} step - Object of to which the listeners to be added. 
+ * @param {Div} newStep - Div to which the delete function listener to be added.
+ */
+function addStepEventListener(step, newStep) {
+    getElementsByClass("step-icon")[step.id].addEventListener("click", finishStep.bind(step));
+    var deleteStep = getElementsByClass("delete-step");
+    deleteStep[deleteStep.length - 1].addEventListener("click", deleteSubTask.bind(step));
+    newStep.addEventListener("mouseover", viewDeleteIcon.bind(deleteStep.length - 1));
+    newStep.addEventListener("mouseout", hideDeleteIcon.bind(deleteStep.length - 1));
+}
+
+/**
+ * Open the task information bar. Removes the previous steps.
+ * And prints the steps added for the particular task.
+ */
+function getInfo() {
+    var taskInfo = getElementsByClass("task-info");
+    taskInfo[0].style.display="block";
+    taskId = this.id;
+    getElementsByClass("mark-complete-btn")[0].addEventListener("click", finishTask.bind(taskId))
+    var title = getTextInputWithClass("task-info-input");
+    title.value = this.name;
+    var taskTitle = getElementById("task-info-name");
+    taskTitle.innerHTML = "";
+    appendElement(taskTitle, title);
+    getElementsByClass("task-info-input")[0].addEventListener("keyup", changeTaskName);
+    if (lists[id].tasks[taskId].isComplete === false) {
+        getElementsByClass("task-info-input")[0].style.textDecoration = "line-through";
+    }   
+    getElementsByClass("notes")[0].innerHTML = lists[id].tasks[taskId].notes;
+    getElementById("steps").innerHTML = "";
+    var stepInfos = lists[id].tasks[taskId].steps;
+     for (var step = 0 ; step < stepInfos.length; step = step + 1) {
+         if (stepInfos[step].deleteStatus !== true) {
+             var newStep = getNewStep(stepInfos[step].name);
+             var steps = getElementById("steps");
+             appendElement(steps, newStep);
+             var stepIcon  = getElementsByClass("step-icon");
+             var stepInfo = getElementsByClass("step");
+             if (stepInfos[step].isComplete !== true) {
+                 stepInfo[stepInfo.length - 1].style.textDecoration = "line-through";
+                 setInnerHTML(stepIcon[stepIcon.length - 1], "check_circle");
+             }
+             stepInfos[step].id = stepIcon.length - 1;
+             addStepEventListener(stepInfos[step], newStep);
+         }
+    }
+    getElementById("add-step").value = "";
+ }
+
+/**
+ * Creates a new step object and set the default attributes and value for it.
+ * 
+ * @param {String} stepName - Name of the step entered.
+ * @return {Object} - New step object.
+ */
+function createStep(stepName) {
+    var step = {};
+    step.deleteStatus = false;
+    step.name = stepName;
+    step.id = lists[id].tasks[taskId].steps.length;
+    step.isComplete = true;
+    lists[id].tasks[taskId].steps.push(step);
+    return step;
+}
+
+/**
+ * Calculates the number of steps completed and the total steps length of the particular task.
+ * Then set the value near the task name. 
+ */
+function setStepCount() {
+    getElementsByClass("step-count")[taskId].innerHTML =  getStepsLength() + " of " 
+            + lists[id].tasks[taskId].steps.filter(stepInfo => stepInfo.deleteStatus === false).length;
+}
+/**
+ * When the mouse is moved over the sub task the delete symbol will be displayed.
+ */
 function viewDeleteIcon() {
     getElementsByClass("delete-step")[this].style.display = "block";
 }
 
+/**
+ * When the mouse is moved from the sub task the delete symbol will be hidden.
+ */
 function hideDeleteIcon() {
     getElementsByClass("delete-step")[this].style.display = "none";
 }
 
+/**
+ * When the subtask is deleted, the deleteStatus is changed.
+ */
 function deleteSubTask() {
     this.isComplete = false;
     this.deleteStatus = true;
-    getElementsByClass("step-count")[taskId].innerHTML = 
-            getStepsLength() + " of " + lists[id].tasks[taskId].steps.length;
+    var modifiedStepCount = getStepsLength() + " of " + lists[id].tasks[taskId].steps.length;
+    setInnerHTML(getElementsByClass("step-count")[taskId], modifiedStepCount);
     var updateSteps = getInfo.bind(lists[id].tasks[taskId]);
     updateSteps();
+    var updateTasks = changeList.bind(lists[id]);
+    updateTasks();
 }
 /**
  * Return the length of sub tasks which is not completed of the current task.
@@ -505,7 +595,7 @@ function deleteSubTask() {
  * @return {int} length - Length of sub tasks.
  */ 
 function getStepsLength() {
-    return lists[id].tasks[taskId].steps.filter(step => step.isComplete !== true).length;
+    return lists[id].tasks[taskId].steps.filter(step => (step.isComplete !== true || step.deleteStatus === true)).length;
 }
 
 /**
@@ -515,32 +605,38 @@ function getStepsLength() {
 function finishStep() {
     if (this.isComplete === true) {
         this.isComplete = false;
-        getElementsByClass("step")[this.id].style.textDecoration = "line-through";
-        getElementsByClass("step-icon")[this.id].innerHTML = "check_circle";
-        getElementsByClass("step-count")[taskId].innerHTML =  
-            getStepsLength() + " of " + lists[id].tasks[taskId].steps.length;
+        changeStepCompleteStatus(this.id, "line-through", "check_circle");
     } else {
         this.isComplete = true;
-        getElementsByClass("step")[this.id].style.textDecoration = "none";
-        getElementsByClass("step-icon")[this.id].innerHTML = "check_circle_outline"
-        getElementsByClass("step-count")[taskId].innerHTML = 
-            getStepsLength() + " of " + lists[id].tasks[taskId].steps.length;;
+        changeStepCompleteStatus(this.id, "none", "check_circle_outline");
     }
 }
 
-var homeList = getElementsByClass("task-desc");
-homeList[0].addEventListener("click", changeList.bind(lists[0]));
+/**
+ * If the step is marked complete then the step name is striked and similarly when
+ * the step is removed from complete the strike is removed. 
+ * 
+ * @param {int} stepId - Id of the step name to striked or un striked.
+ * @param {String} textStyle - Style to strike or remove.
+ * @param {String} iconName - To change icon as per the status.
+ */
+function changeStepCompleteStatus(stepId, textStyle, iconName) {
+    getElementsByClass("step")[stepId].style.textDecoration = textStyle;
+    setInnerHTML(getElementsByClass("step-icon")[stepId], iconName);
+    var modifiedStepCount = getStepsLength() + " of " 
+            + lists[id].tasks[taskId].steps.filter(stepInfo => stepInfo.deleteStatus === false).length;
+    setInnerHTML(getElementsByClass("step-count")[taskId], modifiedStepCount);
+        
+}
 
-var notes = getElementsByClass("notes");
-notes[0].addEventListener("blur", saveNotes);
-
+//Adding notes for each task.
 function saveNotes(event) {
     lists[id].tasks[taskId].notes = event.target.textContent;
 }
 
-var deleteIcon = getElementById("delete");
-deleteIcon.addEventListener("click", getConfirmation);
-
+/**
+ * When the task is deleted, a confirmation popup is rised. If it is confirmed the status is changed.
+ */
 function getConfirmation() {
     var modal = document.getElementById("myModal");
     var cancel = getElementsByClass("cancel")[0];
@@ -557,6 +653,6 @@ function getConfirmation() {
         var updateTasks = changeList.bind(lists[id]);
         updateTasks();
         minimizeInfo();
-        getElementsByClass("tasks-count")[id - 1].innerHTML = getTasksLength();
+        setInnerHTML(getElementsByClass("tasks-count")[id - 1], getTasksLength());
     }
 }

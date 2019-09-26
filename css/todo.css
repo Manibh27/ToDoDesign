@@ -83,7 +83,7 @@
 
 .side-menu-icon {
 	width: 20px;
-    height: 2rem;
+    height: 4rem;
     display: block;
     margin-left: 12px;
 }
@@ -521,4 +521,12 @@ input:hover {
       margin-left: 70%;
       display: none;
       cursor: hover
+  }
+
+  .display {
+      display: none;
+  }
+
+  .side-bar-width {
+      width: 4%;
   }

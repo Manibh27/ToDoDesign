@@ -1,62 +1,77 @@
+"use strict";
+
+// Global variables.
+var lists = [];
+var tasks = [];
+var id = 0;
+var taskId = 0;
+var addList = getElementsByClass("new-list");
+var listCount = 1;
+var count = 0;
+var addTask = getElementsByClass("add-task-input");
 
 init();
 
 function init() {
-    initGlobalVariables();
     initEventListeners();
+    initiateDefaultList();
 }
 
-function initGlobalVariables() {
+/**
+ *  An event listener for the particular element is added for the given action.
+ * 
+ * @param {element} element -Element for which the listener to be added. 
+ * @param {String} action - Type of event.
+ * @param {function} functionName - Function to be performed for the particular action.
+ * @param {object} bindValue - If the bindValue is passed it is binded with the function. 
+ */
+function addListener(element, action, functionName, bindValue = "") {
+    element.addEventListener(action, functionName.bind(bindValue));
+}
 
-    // Global array to maintain the newly creating list.
-    lists = [];
-    tasks = [];
-    id = 0;
-    taskId = 0;
-    
-    // Default task list stored in the first index of the global array
-    defaultList = {};
+/**
+ * Default task list stored in the first index of the global array
+ */
+function initiateDefaultList() {
+    var defaultList = {};
     defaultList.name = "Tasks";
     defaultList.id = 0;
     defaultList.tasks= [];
     lists.push(defaultList);
 
-    addList = getElementsByClass("new-list");
-    listCount = 1;
+    // Adding event listener to default list. 
+    var homeList = getElementsByClass("task-desc");
+    addListener(homeList[0], "click", changeList, defaultList);
 }
 
+/**
+ * All global event listeners are initiated.
+ */
 function initEventListeners() {
 
     // Add an event listener to menu button.
-    var menuBtn = getElementById("icon");
-    menuBtn.addEventListener("click", openMenu);
+    addListener(getElementById("icon"), "click", openMenu);
 
     // when add list is clicked the menu bar is opened.
-    var newList = getElementById("new-list");
-    newList.addEventListener("click", openMenu);
+    addListener(getElementById("new-list"), "click", openMenu);
 
     // To minize the right side information bar.
-    var minimize = getElementById("minimize");
-    minimize.addEventListener("click", minimizeInfo);
+    addListener(getElementById("minimize"), "click", minimizeInfo);
 
     // Adding event listener to create new lists. 
-    addList[0].addEventListener("keyup", addNewList);
+    addListener(getElementsByClass("new-list")[0], "keyup", addNewList);
 
     // Adding event listner to add steps.
-    var step = getElementById("add-step");
-    step.addEventListener("keyup", addStep);
-
-    // Adding event listener to change tasks. 
-    var homeList = getElementsByClass("task-desc");
-    homeList[0].addEventListener("click", changeList.bind(lists[0]));
+    addListener(getElementById("add-step"), "keyup", addStep);
 
     // Adding event listener to save notes on moving out of notes.
-    var notes = getElementsByClass("notes");    
-    notes[0].addEventListener("blur", saveNotes);
+    addListener(getElementsByClass("notes")[0], "blur", saveNotes);
 
     //Add event listener to delete icon to delete task.
-    var deleteIcon = getElementById("delete");
-    deleteIcon.addEventListener("click", getConfirmation);
+    addListener(getElementById("delete"), "click", getConfirmation);
+
+    // Add event listener to create new task.
+    addListener(getElementsByClass("add-task-input")[0], "keyup", createNewTaskDiv);
 }
 
 /**
@@ -161,12 +176,12 @@ function openMenu() {
     var sideBar = getElementById("side-nav-bar");
     sideBar.classList.toggle("side-bar-width");
     var iconDescriptions =  getElementsByClass("icon-desc");
-    for (iconDescription of iconDescriptions) {
+    for (var iconDescription of iconDescriptions) {
         iconDescription.classList.toggle("display");
     }
     getElementsByClass("task-desc")[0].classList.toggle("display");
     getElementsByClass("new-list-input")[0].classList.toggle("display");
-    getElementById("new-lists").classList.toggle("dsiplay");
+    getElementById("new-lists").classList.toggle("display");
 }
 
 /**
@@ -186,11 +201,10 @@ function minimizeInfo() {
 function changeTaskName(event) {
     if (event.keyCode === 13 && event.target.value !== "") {
         lists[id].tasks[taskId].name = event.target.value;
-        getElementsByClass("task-name")[taskId].innerHTML = event.target.value;
+        setInnerHTML(getElementsByClass("task-name")[taskId], event.target.value)
     }
 }
-var count = 0;
-var addTask = getElementsByClass("add-task-input");
+
 
 /**
  * Checks whether the entered key is enter, if it is enter create a new
@@ -208,13 +222,12 @@ function createNewTaskDiv(event) {
         appendElement(taskContainer, completedDiv);
         count = count + 1;
         var taskIcon = getElementsByClass("tick-icon");
-        taskIcon[taskIcon.length - 1].addEventListener("click", finishTask.bind(task.id));
+        addListener(taskIcon[taskIcon.length - 1], "click", finishTask, task.id);
         var taskName = getElementsByClass("task-name");
-        taskName[taskName.length - 1].addEventListener("click", 
-                getInfo.bind(task));
-        addTask[0].addEventListener("keyup", createNewTaskDiv );
+        addListener(taskName[taskName.length - 1], "click", getInfo, task);
+        addListener(addTask[0], "keyup", createNewTaskDiv);
         getElementById("add-new-task").value = "";
-        getElementsByClass("tasks-count")[id - 1].innerHTML = getTasksLength();
+        setInnerHTML(getElementsByClass("tasks-count")[id - 1], getTasksLength());
         if (tasks.length > 4) {
             taskContainer.style.height = "400px";
             taskContainer.style.overflow = "auto";
@@ -267,8 +280,6 @@ function createNewTask() {
     return newTask;
 }
 
-addTask[0].addEventListener("keyup", createNewTaskDiv);
-
 /**
  * when the finish task icon is clicked the task icon is changed and stiked out.
  */
@@ -307,7 +318,6 @@ function changeTaskCompleteStatus(currentTaskId, textStyle, iconStyle) {
  */
 function addNewList(event) {
     if (event.keyCode === 13 && event.target.value !== "") { 
-        defaultId = 1;  
         var listDiv = getElementById("lists");
         var currentlist = createNewList(event.target.value);
         var title = getTextInputWithClass("task-title-input");
@@ -318,15 +328,15 @@ function addNewList(event) {
         setInnerHTML(getElementById("task-info-name"), currentlist.name);
         var newListDiv = getNewList(lists.length - 1, currentlist.name);
         appendElement(getElementById("new-lists"), newListDiv);
-        newListDiv.addEventListener("click", changeList.bind(currentlist));
+        addListener(newListDiv, "click", changeList, currentlist);
         listCount = listCount + 1;
         getElementById("add-list").value = "";
-        var existingDivIcon = getElementById('task-container').innerHTML = "";
+        setInnerHTML(getElementById('task-container'), "");
         if (lists.length > 5) {
             getElementById("side-nav-bar").style.height = "600px";
             getElementById("side-nav-bar").style.overflow = "auto";
         }
-        getElementsByClass("task-title-input")[0].addEventListener("keyup", changeListName);
+        addListener(getElementsByClass("task-title-input")[0], "keyup", changeListName);
     }
 }
 
@@ -418,7 +428,6 @@ function createNewTask(createdTaskName) {
  * printed in the screen. The tasks of the previous list is removed.
  */
 function changeList() {
-    console.log(this.name);
     id = this.id;
     getElementsByClass("task-title-input")[0].value = this.name;
     var existingDiv = getElementsByClass('tick-icon');
@@ -432,12 +441,12 @@ function changeList() {
             var taskDetails = getElementsByClass("task-name");
             taskId = this.tasks[task].id;
             setStepCount();
-            taskDetails[taskDetails.length - 1].addEventListener("click", getInfo.bind(this.tasks[task]));
+            addListener(taskDetails[taskDetails.length - 1], "click", getInfo, this.tasks[task]);
             if (this.tasks[task].isComplete === false) {
                 taskDetails[task].style.textDecoration = "line-through";
                 setInnerHTML(getElementsByClass("tick-icon")[task], "check_circle");
             } 
-            completeIcon[completeIcon.length - 1].addEventListener("click", finishTask.bind(taskDetails.length - 1));
+            addListener(completeIcon[completeIcon.length - 1], "click", finishTask, taskDetails.length - 1);
             getElementById("add-new-task").value = "";
         }
     }
@@ -492,11 +501,11 @@ function addStep(event) {
  * @param {Div} newStep - Div to which the delete function listener to be added.
  */
 function addStepEventListener(step, newStep) {
-    getElementsByClass("step-icon")[step.id].addEventListener("click", finishStep.bind(step));
+    addListener(getElementsByClass("step-icon")[step.id], "click", finishStep, step);
     var deleteStep = getElementsByClass("delete-step");
-    deleteStep[deleteStep.length - 1].addEventListener("click", deleteSubTask.bind(step));
-    newStep.addEventListener("mouseover", viewDeleteIcon.bind(deleteStep.length - 1));
-    newStep.addEventListener("mouseout", hideDeleteIcon.bind(deleteStep.length - 1));
+    addListener(deleteStep[deleteStep.length - 1], "click", deleteSubTask, step);
+    addListener(newStep, "mouseover", viewDeleteIcon, deleteStep.length - 1);
+    addListener(newStep, "mouseout", hideDeleteIcon, deleteStep.length - 1);
 }
 
 /**
@@ -507,17 +516,17 @@ function getInfo() {
     var taskInfo = getElementsByClass("task-info");
     taskInfo[0].style.display="block";
     taskId = this.id;
-    getElementsByClass("mark-complete-btn")[0].addEventListener("click", finishTask.bind(taskId))
+    addListener(getElementsByClass("mark-complete-btn")[0], "click", finishTask, taskId);
     var title = getTextInputWithClass("task-info-input");
     title.value = this.name;
     var taskTitle = getElementById("task-info-name");
     taskTitle.innerHTML = "";
     appendElement(taskTitle, title);
-    getElementsByClass("task-info-input")[0].addEventListener("keyup", changeTaskName);
+    addListener(getElementsByClass("task-info-input")[0], "keyup", changeTaskName);
     if (lists[id].tasks[taskId].isComplete === false) {
         getElementsByClass("task-info-input")[0].style.textDecoration = "line-through";
     }   
-    getElementsByClass("notes")[0].innerHTML = lists[id].tasks[taskId].notes;
+    setInnerHTML(getElementsByClass("notes")[0], lists[id].tasks[taskId].notes);
     getElementById("steps").innerHTML = "";
     var stepInfos = lists[id].tasks[taskId].steps;
      for (var step = 0 ; step < stepInfos.length; step = step + 1) {

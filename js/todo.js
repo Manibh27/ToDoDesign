@@ -40,8 +40,8 @@ function initiateDefaultList() {
     lists.push(defaultList);
 
     // Adding event listener to default list. 
-    var homeList = getElementsByClass("task-desc");
-    addListener(homeList[0], "click", changeList, defaultList);
+    var homeList = getElementById("task-desc");
+    addListener(homeList, "click", changeList, defaultList);
 }
 
 /**
@@ -51,9 +51,6 @@ function initEventListeners() {
 
     // Add an event listener to menu button.
     addListener(getElementById("icon"), "click", openMenu);
-
-    // when add list is clicked the menu bar is opened.
-    addListener(getElementById("new-list"), "click", openMenu);
 
     // To minize the right side information bar.
     addListener(getElementById("minimize"), "click", minimizeInfo);
@@ -189,9 +186,9 @@ function openMenu() {
  */
 function minimizeInfo() {
    var taskInfo = getElementsByClass("task-info");
-   taskInfo[0].style.display="none";
+   taskInfo[0].classList.add("display");
    var sideBar = getElementsByClass("menu-bar");
-   sideBar[0].style.width="19%";
+   sideBar[0].classList.add("right-bar-width");
 }
 
 /**
@@ -222,17 +219,15 @@ function createNewTaskDiv(event) {
         appendElement(taskContainer, completedDiv);
         count = count + 1;
         var taskIcon = getElementsByClass("tick-icon");
-        addListener(taskIcon[taskIcon.length - 1], "click", finishTask, task.id);
+        console.log(task);
+        addListener(taskIcon[taskIcon.length - 1], "click", finishTask, task);
         var taskName = getElementsByClass("task-name");
         addListener(taskName[taskName.length - 1], "click", getInfo, task);
         addListener(addTask[0], "keyup", createNewTaskDiv);
         getElementById("add-new-task").value = "";
         setInnerHTML(getElementsByClass("tasks-count")[id - 1], getTasksLength());
-        if (tasks.length > 4) {
-            taskContainer.style.height = "400px";
-            taskContainer.style.overflow = "auto";
-        } else {
-            taskContainer.style.height = "";
+        if (tasks.length > 5) {
+            taskContainer.classList.add("div-overflow");
         }
     }
 }
@@ -284,14 +279,15 @@ function createNewTask() {
  * when the finish task icon is clicked the task icon is changed and stiked out.
  */
 function finishTask() {
+    console.log(this.id);
     getElementById("task-info-name").innerHTML = 
-           "<p class='task-info-title'>"+lists[id].tasks[taskId].name+"</P>";
-    if (lists[id].tasks[this].isComplete === true) {
-        lists[id].tasks[this].isComplete = false;
-        changeTaskCompleteStatus(this, "line-through", "check_circle");
+           "<p class='task-info-title'>"+lists[id].tasks[this.id].name+"</P>";
+    if (lists[id].tasks[this.id].isComplete === true) {
+        lists[id].tasks[this.id].isComplete = false;
+        changeTaskCompleteStatus(this.id, "strike-text", "check_circle");
     } else {
-        lists[id].tasks[this].isComplete = true;
-        changeTaskCompleteStatus(this, "none", "check_circle_outline");
+        lists[id].tasks[this.id].isComplete = true;
+        changeTaskCompleteStatus(this.id, "strike-none", "check_circle_outline");
     }
 }
 
@@ -305,8 +301,8 @@ function finishTask() {
  */
 function changeTaskCompleteStatus(currentTaskId, textStyle, iconStyle) {
     var completeTask = getElementsByClass("task-name");
-    completeTask[currentTaskId].style.textDecoration = textStyle;
-    getElementsByClass("task-info-title")[0].style.textDecoration = textStyle;
+    completeTask[currentTaskId].classList.add(textStyle);
+    getElementsByClass("task-info-title")[0].classList.add(textStyle);
     setInnerHTML(getElementsByClass("tick-icon")[currentTaskId], iconStyle);
     setInnerHTML(getElementsByClass("tasks-count")[id - 1], getTasksLength());
 }
@@ -333,8 +329,7 @@ function addNewList(event) {
         getElementById("add-list").value = "";
         setInnerHTML(getElementById('task-container'), "");
         if (lists.length > 5) {
-            getElementById("side-nav-bar").style.height = "600px";
-            getElementById("side-nav-bar").style.overflow = "auto";
+            getElementById("side-nav-bar").classList.add("div-overflow");
         }
         addListener(getElementsByClass("task-title-input")[0], "keyup", changeListName);
     }
@@ -423,6 +418,7 @@ function createNewTask(createdTaskName) {
     setInnerHTML(newDiv, taskValue);
     return newDiv;
 }
+
 /**
  * When the list is clicked the array of task within the list is iterated and 
  * printed in the screen. The tasks of the previous list is removed.
@@ -439,20 +435,22 @@ function changeList() {
             appendElement(taskContainer, newDiv);
             var completeIcon = getElementsByClass("tick-icon");
             var taskDetails = getElementsByClass("task-name");
+            this.tasks[task].id = completeIcon.length - 1;
             taskId = this.tasks[task].id;
             setStepCount();
             addListener(taskDetails[taskDetails.length - 1], "click", getInfo, this.tasks[task]);
-            if (this.tasks[task].isComplete === false) {
-                taskDetails[task].style.textDecoration = "line-through";
-                setInnerHTML(getElementsByClass("tick-icon")[task], "check_circle");
+            if (this.tasks[taskId].isComplete === false) {
+                taskDetails[taskId].classList.add("strike-text");
+                setInnerHTML(getElementsByClass("tick-icon")[taskId], "check_circle");
             } 
-            addListener(completeIcon[completeIcon.length - 1], "click", finishTask, taskDetails.length - 1);
+            addListener(completeIcon[completeIcon.length - 1], "click", finishTask, this.tasks[task]);
             getElementById("add-new-task").value = "";
+        } else {
+            this.tasks[task].id = -1;
         }
     }
-    if (this.tasks.length > 4) {
-        taskContainer.style.height = "400px";
-        taskContainer.style.overflow = "auto";
+    if (this.tasks.length > 5) {
+        taskContainer.classList.add("div-overflow");
     } 
 }
 
@@ -481,13 +479,11 @@ function addStep(event) {
     if (event.keyCode === 13 && event.target.value !== "") {
         var steps = getElementById("steps");
         var newStep = getNewStep(event.target.value);      
-        steps.style.height = "";
         appendElement(steps, newStep);
         var step = createStep(event.target.value);
         getElementById("add-step").value = "";
         if (lists[id].tasks[taskId].steps.length > 2) {
-            getElementsByClass("task-info")[0].style.height = "600px";
-            getElementsByClass("task-info")[0].style.overflow = "auto";
+            getElementsByClass("task-info")[0].classList.add("div-overflow");
         }
         addStepEventListener(step, newStep);
         setStepCount();
@@ -513,22 +509,23 @@ function addStepEventListener(step, newStep) {
  * And prints the steps added for the particular task.
  */
 function getInfo() {
+    console.log("info " + this.id);
     var taskInfo = getElementsByClass("task-info");
-    taskInfo[0].style.display="block";
+    taskInfo[0].classList.add("view-element");
     taskId = this.id;
-    addListener(getElementsByClass("mark-complete-btn")[0], "click", finishTask, taskId);
+    addListener(getElementsByClass("mark-complete-btn")[0], "click", finishTask, this.id);
     var title = getTextInputWithClass("task-info-input");
     title.value = this.name;
     var taskTitle = getElementById("task-info-name");
     taskTitle.innerHTML = "";
     appendElement(taskTitle, title);
     addListener(getElementsByClass("task-info-input")[0], "keyup", changeTaskName);
-    if (lists[id].tasks[taskId].isComplete === false) {
-        getElementsByClass("task-info-input")[0].style.textDecoration = "line-through";
+    if (lists[id].tasks[this.id].isComplete === false) {
+        getElementsByClass("task-info-input")[0].classList.add("strike-text");
     }   
-    setInnerHTML(getElementsByClass("notes")[0], lists[id].tasks[taskId].notes);
+    setInnerHTML(getElementsByClass("notes")[0], lists[id].tasks[this.id].notes);
     getElementById("steps").innerHTML = "";
-    var stepInfos = lists[id].tasks[taskId].steps;
+    var stepInfos = lists[id].tasks[this.id].steps;
      for (var step = 0 ; step < stepInfos.length; step = step + 1) {
          if (stepInfos[step].deleteStatus !== true) {
              var newStep = getNewStep(stepInfos[step].name);
@@ -537,7 +534,7 @@ function getInfo() {
              var stepIcon  = getElementsByClass("step-icon");
              var stepInfo = getElementsByClass("step");
              if (stepInfos[step].isComplete !== true) {
-                 stepInfo[stepInfo.length - 1].style.textDecoration = "line-through";
+                 stepInfo[stepInfo.length - 1].classList.add("strike-text");
                  setInnerHTML(stepIcon[stepIcon.length - 1], "check_circle");
              }
              stepInfos[step].id = stepIcon.length - 1;
@@ -575,14 +572,14 @@ function setStepCount() {
  * When the mouse is moved over the sub task the delete symbol will be displayed.
  */
 function viewDeleteIcon() {
-    getElementsByClass("delete-step")[this].style.display = "block";
+    getElementsByClass("delete-step")[this].classList.add("view-element");
 }
 
 /**
  * When the mouse is moved from the sub task the delete symbol will be hidden.
  */
 function hideDeleteIcon() {
-    getElementsByClass("delete-step")[this].style.display = "none";
+    getElementsByClass("delete-step")[this].classList.add("display");
 }
 
 /**
@@ -614,10 +611,10 @@ function getStepsLength() {
 function finishStep() {
     if (this.isComplete === true) {
         this.isComplete = false;
-        changeStepCompleteStatus(this.id, "line-through", "check_circle");
+        changeStepCompleteStatus(this.id, "strike-text", "check_circle");
     } else {
         this.isComplete = true;
-        changeStepCompleteStatus(this.id, "none", "check_circle_outline");
+        changeStepCompleteStatus(this.id, "strike-none", "check_circle_outline");
     }
 }
 
@@ -630,7 +627,7 @@ function finishStep() {
  * @param {String} iconName - To change icon as per the status.
  */
 function changeStepCompleteStatus(stepId, textStyle, iconName) {
-    getElementsByClass("step")[stepId].style.textDecoration = textStyle;
+    getElementsByClass("step")[stepId].classList.add(textStyle);
     setInnerHTML(getElementsByClass("step-icon")[stepId], iconName);
     var modifiedStepCount = getStepsLength() + " of " 
             + lists[id].tasks[taskId].steps.filter(stepInfo => stepInfo.deleteStatus === false).length;
@@ -649,13 +646,13 @@ function saveNotes(event) {
 function getConfirmation() {
     var modal = document.getElementById("myModal");
     var cancel = getElementsByClass("cancel")[0];
-    modal.style.display = "block";
+    modal.classList.add("view-element");
     cancel.onclick = function() {
-        modal.style.display = "none";
+        modal.classList.add("display");
     }
     var deleteTask = getElementsByClass("delete-task")[0];
     deleteTask.onclick = function() {
-        modal.style.display = "none";
+        modal.classList.add("display");
         console.log(lists[id].tasks[taskId]);
         lists[id].tasks[taskId].isComplete = false;
         lists[id].tasks[taskId].deleteStatus = true;

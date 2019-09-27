@@ -22,7 +22,7 @@
                 </div>
 			    <div class="side-div">  
                     <div class="side-menu-icon">
-                        <img src="icon/day.png"/>
+                        <div class="day-icon"></div>
                     </div>
 					<div class="icon-desc">
                     	<a href="" class="icon-description">My Day</a>
@@ -30,7 +30,7 @@
 				</div>    	
 				<div class="side-div">
                     <div class="side-menu-icon">
-                        <img src="icon/important.png"/>
+                        <div class="important-icon"></div>
                     </div>
                 	<div class="icon-desc">
                     	<a href="" class="icon-description">Important</a>
@@ -38,7 +38,7 @@
 				</div>
 				<div class="side-div"> 
                     <div  class="side-menu-icon">
-                        <img src="icon/today.png"/>
+                        <div class="plan-icon"></div>
                     </div>
                 	<div class="icon-desc">
                     	<a href="" class="icon-description">Planned</a>
@@ -46,16 +46,18 @@
 				</div>    
 				<div class="side-div">
                     <div class="side-menu-icon" >
-                        <img src="icon/home.png"/>
+                        <div class="home-icon"></div>
                     </div>
-                	<div class="task-desc">    
+                	<div id="task-desc" class="task-desc">    
                     	<p class="action-description">Tasks</p>
                 	</div>
 			    </div>
 				<div id = "new-lists">
 				</div>
 				<div class="side-div"> 
-                    <img id="new-list" class="new-list-icon" src="icon/add.png"/>
+                    <div class="side-menu-icon" >
+                            <div id="new-list" class="add-icon new-list-icon"></div>
+                    </div>
                 	<div class="new-list-input">
                     	<input id="add-list" type="text" class="new-list" placeholder="New List"/>
                 	</div>
@@ -90,28 +92,28 @@
                              placeholder="Add step"/>   
                 </div>
                 <div class="add-my-day">
-                    <i class="material-icons right-bar-icon">wb_sunny</i>
+                    <div class="day-icon"></div>
                     <span>Add to My Day</span>                        
                 </div>
                 <div>
                 <div class="right-bar-menu">
                 	<div class="right-bar">
-                    	<i class="material-icons right-bar-icon">access_alarm</i>
+                        <div class="alarm-icon"></div>
                     	<span>Remind me</span>                      
                 	</div>
                 	<div class="right-bar">
-                    	<i class="material-icons right-bar-icon">today</i>
+                        <div class="plan-icon"></div>
                     	<span>Add due date</span>                      
                 	</div>
                 	<div class="right-bar">
-                    	<i class="material-icons right-bar-icon">repeat</i>
+                        <div class="repeat-icon"></div>
                     	<span>Repeat</span>                      
                 	</div>
                 </div>
-               	<div class="add-my-day">
+               	<!--<div class="add-">
                    	<i class="material-icons right-bar-icon">attach_file</i>
                    	<span>Add file</span>                      
-               	</div>
+               	</div>-->
                 <div class="add-note">
                     <div contentEditable = "true" class="notes"></div>
                 </div>

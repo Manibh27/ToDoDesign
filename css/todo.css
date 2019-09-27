@@ -102,6 +102,7 @@
     height: 4rem;
     display: block;
     margin-left: 15px;
+    cursor: pointer;
 }
 
 .icon-description {
@@ -111,7 +112,7 @@
 	text-decoration: none;
 }
 
-.side-menu-icon:hover {
+.icon-description:hover {
     background-color: #75756ff0;
 }
 
@@ -131,6 +132,7 @@
 }
 
 .add-new-list {
+    filter: invert(39%) sepia(95%) saturate(2411%) hue-rotate(167deg) brightness(103%) contrast(101%);
     margin: 32% 0 0 27%;
     height: 25px;
 }
@@ -159,9 +161,8 @@
 }
 
 .new-list-icon {
-    color: #468be0;
+    filter: invert(39%) sepia(95%) saturate(2411%) hue-rotate(167deg) brightness(103%) contrast(101%);
     height: 20px;
-    margin-left: 10px;
 }
 
 input:hover {
@@ -240,9 +241,9 @@ input:hover {
 }
 
 .add-my-day {
-    width: 88%;
+    width: 85%;
     background-color: white;
-    padding: 3%;
+    padding: 5%;
     margin: 5% 0 0 3%;
     display: flex;
 }
@@ -257,7 +258,7 @@ input:hover {
 .add-my-day span {
     color: #80889c;
     font-size: 0.9rem;
-    margin: 1% 0 0 5%;    
+    margin-left: -28%;
 }
 
 .add-note {
@@ -271,9 +272,9 @@ input:hover {
 }
 
 .right-bar {
-    width: 88%;
+    width: 85%;
     background-color: white;
-    padding: 3%;
+    padding: 5%;
     margin: 5% 0 0 0.5%;
     display: flex;
 }
@@ -281,7 +282,7 @@ input:hover {
 .right-bar span {
     color: #80889c;
     font-size: 0.9rem;
-    margin: 1% 0 0 5%;    
+    margin: 1% 0 0 -29%;    
 }
 
 .add-note-input {
@@ -530,3 +531,81 @@ input:hover {
   .side-bar-width {
       width: 4%;
   }
+
+  .day-icon {
+      background-image: url("../icon/day.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      height: 1.2rem;
+      width: 100px;
+  }
+
+  .important-icon {
+    background-image: url("../icon/important.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+.plan-icon {
+    background-image: url("../icon/today.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+.home-icon {
+    background-image: url("../icon/home.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+    filter: invert(39%) sepia(95%) saturate(2411%) hue-rotate(167deg) brightness(103%) contrast(101%);
+}
+
+.add-icon {
+    background-image: url("../icon/add.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+.alarm-icon {
+    background-image: url("../icon/alarm.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+.repeat-icon {
+    background-image: url("../icon/repeat.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+.strike-text {
+    text-decoration: line-through;
+}
+
+.strike-none {
+    text-decoration: none;
+}
+
+.view-element {
+    display: block;
+}
+
+.div-overflow {
+    height: 600px;
+    overflow: auto;
+}
+
+.right-bar-width {
+    width: 19%;
+}

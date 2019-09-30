@@ -26,11 +26,14 @@ function init() {
     // Add event to add new list while pressed enter.
     $(".new-list").keyup(addList);
 
-    //  event to add new tasks while pressed enter.
+    // event to add new tasks while pressed enter.
     $("#add-new-task").keyup(createNewTaskDiv);
 
     // To minize the right side information bar.
     $("#minimize").click(minimizeInfo);
+
+    // Adding event listner to add steps.
+    $("#add-step").keyup(addStep);
 }
 
 /**
@@ -63,8 +66,10 @@ function createNewTaskDiv(event) {
         $("#task-container").append("<div class='added-task'>"
                 + "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
                 + "<p class='task-name'>" + task.name + "</p></div>");
-        $(".task-name").eq(count).click(getInfo.bind(task));
-        count = count + 1;
+        var newTask = $(".added-task");
+        console.log(newTask.length - 1);
+        $(".task-name").eq(newTask.length - 1).click(getInfo.bind(task));
+        $(".tick-icon").eq(newTask.length - 1).click(finishTask.bind(task));
         $("#add-new-task").val("");
     }
 }
@@ -93,7 +98,6 @@ function getNewTask(newTaskId, newTaskName) {
 function addList(event) {
     if (event.keyCode === 13 && event.target.value !== "") { 
         var list = createNewList(event.target.value);
-        console.log(list.name);
         $("#list-title").html("");
         $("#list-title").append("<input type='text' class='task-title-input'/>");
         $(".task-title-input").keyup(changeListName);
@@ -129,18 +133,23 @@ function createNewList(listName) {
  * printed in the screen. The tasks of the previous list is removed.
  */
 function changeList(event) {
-    console.log("id " + this.id);
     id = this.id;
     $(".task-title-input").val(event.target.innerHTML);
     $("#task-container").html("");
     for(var task = 0; task < this.tasks.length; task = task + 1) {
         if (this.tasks[task].deleteStatus !== true) {
-            console.log(this.tasks[task].name);
             $("#task-container").append("<div class='added-task'>"
                     + "<a><i class='material-icons tick-icon'>check_circle_outline</i></a>"
                     + "<p class='task-name'>" + this.tasks[task].name + "</p></div>");
-            console.log(this.tasks[task].name);
+            var newTask = $(".added-task");
+            $(".task-name").eq(newTask.length - 1).click(getInfo.bind(this.tasks[task]));
             $("#add-new-task").val("");
+            if (this.tasks[task].isComplete === false) {
+                $(".task-name").eq(task).addClass("strike-text");
+                $(".tick-icon").eq(task).html("check_circle");
+            } 
+            $(".tick-icon").eq(task).click(finishTask.bind(this.tasks[task]));
+
         } 
     }
 }
@@ -151,7 +160,6 @@ function changeList(event) {
  * @param {} event -  Used to find whether the pressed key is enter.
  */
 function changeListName(event) {
-    console.log(id);
     if (event.keyCode === 13 && event.target.value != "") {
         lists[id].name = event.target.value;
         $(".created-list").eq(id - 1).html(event.target.value);
@@ -163,7 +171,6 @@ function changeListName(event) {
  * And prints the steps added for the particular task.
  */
 function getInfo() {
-    console.log("info " + this.id);
     taskId = this.id;
     $(".task-info").eq(zero).show();
     $("#task-info-name").html("");
@@ -171,6 +178,20 @@ function getInfo() {
     $(".task-info-input").eq(zero).val(this.name);
     $(".task-info-input").eq(zero).keyup(changeTaskName);
     $("#steps").html("");
+    var stepInfos = lists[id].tasks[this.id].steps;
+    for (var step = 0 ; step < stepInfos.length; step = step + 1) {
+        if (stepInfos[step].deleteStatus !== true) {
+            $("#steps").append("<div class='created-steps'><a class='step-icon-link'>"
+                + "<i class='material-icons step-icon'>check_circle_outline</i></a>"
+                + "<p class='step'>" + stepInfos[step].name + "</p></div>");
+            if (stepInfos[step].isComplete !== true) {
+                $(".step").eq(step).addClass("strike-text");
+                $(".step-icon").eq(step).html("check_circle");
+            }
+            $(".step-icon").eq(step).click(finishStep.bind(stepInfos[step]));
+        }
+        $("#add-step").val("");
+   }
 }
 
 
@@ -184,4 +205,111 @@ function changeTaskName(event) {
         lists[id].tasks[taskId].name = event.target.value;
         $(".task-name").eq(taskId).html(event.target.value);
     }
+}
+
+/**
+ * When a any input is eneterd in add step input it checks for enter.
+ * If enter is pressed then a new div is created and the value is appended
+ * with steps div.
+ */
+function addStep(event) {
+    if (event.keyCode === 13 && event.target.value !== "") {
+        var step = createStep(event.target.value);
+        $("#steps").append("<div class='created-steps'> <a class='step-icon-link'>"
+                + "<i class='material-icons step-icon'>check_circle_outline</i></a>"
+                + "<p class='step'>" + event.target.value + "</p></div>");
+        console.log(step.id);
+        $(".step-icon").eq(step.id).click(finishStep.bind(step));
+        $("#add-step").val("");
+    }
+} 
+
+/**
+ * Creates a new step object and set the default attributes and value for it.
+ * 
+ * @param {String} stepName - Name of the step entered.
+ * @return {Object} - New step object.
+ */
+function createStep(stepName) {
+    var step = {};
+    step.deleteStatus = false;
+    step.name = stepName;
+    step.id = lists[id].tasks[taskId].steps.length;
+    step.isComplete = true;
+    lists[id].tasks[taskId].steps.push(step);
+    return step;
+}
+
+/**
+ * when the finish task icon is clicked the task icon is changed and stiked out.
+ */
+function finishTask() {
+    if (this.isComplete === true) {
+        this.isComplete = false;
+        console.log(this.isComplete);
+        changeTaskCompleteStatus(this.id, "strike-none", "strike-text", "check_circle");
+    } else {
+        this.isComplete = true;
+        console.log(this.isComplete);
+        changeTaskCompleteStatus(this.id, "strike-text", "strike-none", "check_circle_outline");
+    }
+}
+
+/**
+ * Change the status of the task if it is marked completed the name is striked.
+ * If not then the strike is removed. Then the icon is changed accordingly.
+ * 
+ * @param {int} currentTaskId - Id  of task to be striked.
+ * @param {String} iconStyle - Icon name according to the text style.
+ */
+function changeTaskCompleteStatus(currentTaskId, removeStyle,  textStyle,  iconStyle) {
+    console.log(currentTaskId);
+    $(".task-name").eq(currentTaskId).removeClass(removeStyle);
+    $(".task-name").eq(currentTaskId).addClass(textStyle);
+    $(".tick-icon").eq(currentTaskId).html(iconStyle);
+}
+
+/**
+ * When the step is marked complete it is striked and the icon is changed.
+ * When the step is unmarked the strike is removed and the icon is changed.
+ */
+function finishStep() {
+    if (this.isComplete === true) {
+        this.isComplete = false;
+        changeStepCompleteStatus(this.id, "strike-text", "check_circle");
+    } else {
+        this.isComplete = true;
+        changeStepCompleteStatus(this.id, "strike-none", "check_circle_outline");
+    }
+}
+
+/**
+ * When the step is marked complete it is striked and the icon is changed.
+ * When the step is unmarked the strike is removed and the icon is changed.
+ */
+function finishStep() {
+    if (this.isComplete === true) {
+        this.isComplete = false;
+        console.log(this.isComplete);
+        changeStepCompleteStatus(this.id, "strike-none", "strike-text", "check_circle");
+    } else {
+        this.isComplete = true;
+        console.log(this.isComplete);
+        changeStepCompleteStatus(this.id, "strike-text", "strike-none", "check_circle_outline");
+    }
+}
+
+/**
+ * If the step is marked complete then the step name is striked and similarly when
+ * the step is removed from complete the strike is removed. 
+ * 
+ * @param {int} stepId - Id of the step name to striked or un striked.
+ * @param {String} textStyle - Style to strike or remove.
+ * @param {String} iconName - To change icon as per the status.
+ */
+function changeStepCompleteStatus(stepId, removeStyle, textStyle, iconName) {
+    console.log(stepId);
+    $(".step").eq(stepId).removeClass(removeStyle);
+    $(".step").eq(stepId).addClass(textStyle);
+    $(".step-icon").eq(stepId).html(iconName);
 }

@@ -314,7 +314,6 @@ function changeTaskCompleteStatus(currentTaskId, textStyle, iconStyle) {
  */
 function addNewList(event) {
     if (event.keyCode === 13 && event.target.value !== "") { 
-        var listDiv = getElementById("lists");
         var currentlist = createNewList(event.target.value);
         var title = getTextInputWithClass("task-title-input");
         title.value = currentlist.name;

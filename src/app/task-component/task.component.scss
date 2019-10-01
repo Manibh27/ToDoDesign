@@ -1,8 +1,3 @@
-@font-face {
-    font-family: sansation-font;
-    src: url("../font/Sansation-Bold.ttf");
-}
-
 .container {
     width: 100%;
 }
@@ -311,7 +306,7 @@ input:hover {
 }
 
 .todo-task-list {
-    width: 80%;
+    width: 100%;
 }
 
 .task-title {
@@ -533,7 +528,7 @@ input:hover {
   }
 
   .day-icon {
-      background-image: url("../icon/day.png");
+      background-image: url("../../assets/icon/day.png");
       background-size: contain;
       background-repeat: no-repeat;
       height: 1.2rem;
@@ -541,7 +536,7 @@ input:hover {
   }
 
   .important-icon {
-    background-image: url("../icon/important.png");
+    background-image: url("../../assets/icon/important.png");
     background-size: contain;
     background-repeat: no-repeat;
     height: 1.2rem;
@@ -549,7 +544,7 @@ input:hover {
 }
 
 .plan-icon {
-    background-image: url("../icon/today.png");
+    background-image: url("../../assets/icon/today.png");
     background-size: contain;
     background-repeat: no-repeat;
     height: 1.2rem;
@@ -557,7 +552,7 @@ input:hover {
 }
 
 .home-icon {
-    background-image: url("../icon/home.png");
+    background-image: url("../../assets/icon/home.png");
     background-size: contain;
     background-repeat: no-repeat;
     height: 1.2rem;
@@ -566,7 +561,7 @@ input:hover {
 }
 
 .add-icon {
-    background-image: url("../icon/add.png");
+    background-image: url("../../assets/icon/add.png");
     background-size: contain;
     background-repeat: no-repeat;
     height: 1.2rem;
@@ -574,7 +569,7 @@ input:hover {
 }
 
 .alarm-icon {
-    background-image: url("../icon/alarm.png");
+    background-image: url("../../assets/icon/alarm.png");
     background-size: contain;
     background-repeat: no-repeat;
     height: 1.2rem;
@@ -582,7 +577,7 @@ input:hover {
 }
 
 .repeat-icon {
-    background-image: url("../icon/repeat.png");
+    background-image: url("../../assets/icon/repeat.png");
     background-size: contain;
     background-repeat: no-repeat;
     height: 1.2rem;

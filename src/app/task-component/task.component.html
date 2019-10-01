@@ -1,0 +1,20 @@
+<head>
+    <meta charset="UTF-8">
+    <title>todo screen</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+</head>
+<div id="todo-list" class="todo-task-list">
+    <a id="info" class="info" (click)="addtask()">
+        <div id = "list-title" class="task-title">
+            <input class="task-title-input" type="text" value="Tasks"/>
+        </div>
+    </a>
+    <div id="task-container"></div>
+    <div class="add-new-task">
+        <a id="add-task-icon" href="#add-new-task">
+            <i class="material-icons new-task-icon">add</i>
+        </a>
+        <input id="add-new-task" class="add-task-input" type="text" 
+           placeholder="Add task"/>   
+    </div>
+</div>  

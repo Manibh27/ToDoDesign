@@ -1,36 +1,34 @@
 <div class="task-component">
-    <div id="todo-list" class="todo-task-list">
-        <a id="info" class="info">
-            <div id = "list-title" class="task-title">
+    <div class="todo-task-list">
+        <a class="info">
+            <div class="task-title">
                 <input class="task-title-input" type="text" value={{list.name}} (keyup)="updateList($event)"/>
             </div>
         </a>
-        <div id="task-container">
-            <div *ngFor = "let task of list.tasks">
-                <div class="added-task">
-                    <div (click)="finishTask(task)">
-                        <a *ngIf = "!task.isComplete">
-                            <i class='material-icons tick-icon'>check_circle_outline</i>
-                        </a>
-                        <a *ngIf = "task.isComplete">
-                            <i class='material-icons tick-icon'>check_circle</i>
-                        </a>
-                    </div>
-                    <div [ngClass]="task.isComplete ? 'completed-task-name' : 'task-name'" (click)="changeTask(task)">
-                            <p>{{task.name}}</p>
-                    </div>
+        <div *ngFor = "let task of list.tasks">
+            <div class="added-task">
+                <div (click)="finishTask(task)">
+                    <a *ngIf = "!task.isComplete">
+                        <i class='material-icons tick-icon'>check_circle_outline</i>
+                    </a>
+                    <a *ngIf = "task.isComplete">
+                        <i class='material-icons tick-icon'>check_circle</i>
+                    </a>
+                </div>
+                <div [ngClass]="task.isComplete ? 'completed-task-name' : 'task-name'" (click)="changeTask(task)">
+                        <p>{{task.name}}</p>
                 </div>
             </div>
         </div>
         <div class="add-new-task">
-            <a id="add-task-icon" href="#add-new-task">
+            <a>
                 <i class="material-icons new-task-icon">add</i>
             </a>
             <input #addNewTask class="add-task-input" type="text" 
                 placeholder="Add task" (keyup.enter)="addTask(addNewTask)"/>   
         </div>
     </div>
-    <div>
+    <div class="task-info">
         <app-sub-task [task]="currentTask" [list] = "list"></app-sub-task>
     </div>
 </div>

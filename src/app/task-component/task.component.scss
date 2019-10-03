@@ -8,9 +8,7 @@ input:hover {
 }
 
 .task-info {
-    width: 30%;
-    display: none;
-    background-color: #f5f5f5;
+    margin-left: 115%;
 }
 
 .task-header {
@@ -37,118 +35,9 @@ input:hover {
     margin: -5% 0 0 5%;
 }
 
-.header-imp-icon {
-    margin: 0 0 0 74%;
-    color: #50504cfa;
-    font-size: 1.3rem;
-}
-
-.add-step {
-    color: #468be0;
-    margin: 20% 0 0 0;
-    display: flex;
-}
-
-.add-step-icon {
-    color: #468be0;
-    background-color: white;
-    cursor: pointer;
-    margin-top: -7%;
-    margin-left: 42%;
-    padding: 10%;
-    height: 29px;
-}
-
-.add-step-input {
-    color: #468be0;
-    font-size: 0.95rem;
-    margin : -1% 0 0 5%;
-    border: none;
-    outline: none;
-    width: 80%;
-    padding-left: 5%;
-}
-
-.add-step-input::placeholder {
-    color: #1579CE;
-}
-
-.add-step-input:focus::placeholder {
-    color: #50504cfa;
-}
-
-.add-my-day {
-    width: 85%;
-    background-color: white;
-    padding: 5%;
-    margin: 5% 0 0 3%;
-    display: flex;
-}
-
-
-.right-bar-icon {
-    font-size: 1rem;
-    margin: 1% 0 0 2%; 
-    color: #80889c;
-}
-
-.add-my-day span {
-    color: #80889c;
-    font-size: 0.9rem;
-    margin-left: -28%;
-}
-
-.add-note {
-    margin: 4% 0 0 3%;
-}
-
-.right-bar-menu {
-    margin: 0 0 0 3%;
-    width: 94%;
-    background-color: white;
-}
-
-.right-bar {
-    width: 85%;
-    background-color: white;
-    padding: 5%;
-    margin: 5% 0 0 0.5%;
-    display: flex;
-}
-
-.right-bar span {
-    color: #80889c;
-    font-size: 0.9rem;
-    margin: 1% 0 0 -29%;    
-}
-
-.add-note-input {
-    border: none;
-    width: 95%;
-    padding-left: 2%;
-    height: 4rem;
-    outline: none;
-}
-
-.right-bar-footer {
-    background-color: white;
-    padding: 1%;
-    margin-top: 4%;
-    display: flex;
-}
-
-.minimize { 
-    font-size:  1rem;
-    margin: 1% 0 0 2%;
-    cursor: pointer;
-}
 
 .info {
     cursor: pointer;
-}
-
-.todo-task-list {
-    width: 400%;
 }
 
 .task-title {
@@ -160,10 +49,10 @@ input:hover {
 
 .added-task {
     color: #1579CE;
-    width: 200%;
+    width: 250%;
     margin: 0 0 0 3%;
     display: flex;
-    padding: 3%;
+    padding-top: 3%;
     cursor: pointer;
     border-color: #50504cfa;
     border-bottom-style: solid;
@@ -173,6 +62,7 @@ input:hover {
 
 .add-new-task {
     color: #1579CE;
+    width: 250%;
     margin: 2% 0 0 3%;
     display: flex;
     padding-bottom: 1%;
@@ -223,7 +113,7 @@ input:hover {
 }
 
 .completed-task-name {
-    margin: -6% 0 0 7%;
+    margin: -3% 0 0 7%;
     text-decoration: line-through;
     font-size: 1rem;
     cursor: pointer;
@@ -253,110 +143,13 @@ input:hover {
     border: none;
 }
 
-
-.created-list {
-    margin: 5% 0 0 12%;
-    cursor: pointer;
-    width: 50%;
-}
-
-.step {
-    color: #1579CE;
-    font-size: 1rem;
-    margin: 1.9% 0 0 10%; 
-}
-
-.steps {
-    width: 84%;
-    margin-left: 3%;
-    padding: 2%;
-    padding-left: 8%;
-    background-color: white;
-}
-
 .task-info-title {
     color: #1579CE;
 }
 
-
-
-.notes {
-    width: 97%;
-    height: 100px;
-    background-color: white;
+.side-bar-width {
+    width: 4%;
 }
-
-.notes[contenteditable] {
-    display: inline-block;
-    outline: none;
-}
-
-.notes[contenteditable]:empty::before {
-    display: inline-block;
-    content: "Add notes";
-}
-
-.delete-icon {
-    color: red;
-    margin-left: 80%;
-}
-
-.modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
-    padding-top: 200px; 
-    left: 0;
-    top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgb(0,0,0);
-    background-color: rgba(0,0,0,0.4); 
-  }
-
-.modal-content {
-    background: white;
-    margin: auto;
-    padding: 15px;
-    border: 1px solid #888;
-    width: 20%;
-    border-radius: 5px;
-  }
-  
-  .cancel {
-      width: 80px;
-      padding: 3%;
-      margin-left: 30%;
-      border-radius: 3px;
-      background-color: #f5f5f5;
-      cursor: pointer;
-  }
-
-  .delete-task {
-    background-color: red;
-    width: 80px;
-    padding: 3%;
-    margin-left: 3%;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-
-  .delete-step {
-      color: #1579CE;
-      margin-top: 1%; 
-      margin-left: 70%;
-      display: none;
-      cursor: hover
-  }
-
-  .display {
-      display: none;
-  }
-
-  .side-bar-width {
-      width: 4%;
-  }
 
 .strike-text {
     text-decoration: line-through;
@@ -368,13 +161,4 @@ input:hover {
 
 .view-element {
     display: block;
-}
-
-.div-overflow {
-    height: 600px;
-    overflow: auto;
-}
-
-.right-bar-width {
-    width: 19%;
 }

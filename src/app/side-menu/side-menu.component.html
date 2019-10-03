@@ -1,7 +1,7 @@
 <div class="main-frame">
-    <div id="side-nav-bar" class="menu-bar">
+    <div class="menu-bar" [ngClass]="status ? 'side-bar-width' : 'left-bar-width'">
         <div class="menu-icon">
-            <button class="menu-btn" id="icon" value="open" (click)="toggleMenu()">
+            <button class="menu-btn" value="open" (click)="toggleMenu()">
                 <i class="material-icons" >menu</i>
             </button>
         </div>
@@ -29,12 +29,12 @@
                 <a href="" class="icon-description">Planned</a>
             </div>
         </div>    
-        <div class="side-div">
+        <div class="side-div" (click)="changeList(defaultList)" >
             <div class="side-menu-icon" >
                 <div class="home-icon"></div>
             </div>
             <div id="task-desc" class="task-desc" [ngClass]="status ? 'display' : 'view-element'">    
-                <p class="action-description">Tasks</p>
+                <p class="action-description" >Tasks</p>
             </div>
         </div>
         <div *ngFor="let list of lists" [ngClass]="status ? 'display' : 'view-element'">

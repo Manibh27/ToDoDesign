@@ -9,6 +9,7 @@ export class SideMenu implements OnInit {
     constructor(){
     }   
     ngOnInit(){
+        this.currentList = this.defaultList;
     }
     
     status: boolean = false;
@@ -22,22 +23,31 @@ export class SideMenu implements OnInit {
     }
 
     lists: Object[] = [];
+
+    defaultList = {
+        name: "Tasks",
+        id:0,
+        tasks:[]
+    }
+    
     currentList;
 
     /**
      * When a new list is created it is added to the global list array.
-     * @param event Object of the current occuring event.
+     * @param input The input DOM object.
      */
     addList(input) {
-        var list = { 
-            name:input.value, 
-            isComplete:false,
-            id:this.lists.length,
-            tasks:[]
-        }; 
-        this.lists.push(list);
-        this.currentList = list;
-        input.value = "";
+        if (input.value !== "") {
+            var list = { 
+                name:input.value, 
+                isComplete:false,
+                id:this.lists.length,
+                tasks:[]
+            }; 
+            this.lists.push(list);
+            this.currentList = list;
+            input.value = "";
+        }
     }
 
     /**
@@ -47,6 +57,5 @@ export class SideMenu implements OnInit {
      */
     changeList(list) {
         this.currentList = list;
-        console.log(this.currentList.tasks);
     }
 }

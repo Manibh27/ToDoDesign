@@ -1,7 +1,7 @@
 <div class="task-info">
     <div class="task-header">
         <button class="mark-complete-btn"></button>
-        <div id="task-info-name"><input class="task-info-input" type="text" value="{{task.name}}"
+        <div><input class="task-info-input" type="text" value="{{task.name}}"
             (keyup)="updateTask($event)"/></div>
     </div>
     <div class="steps" *ngFor="let subTask of task.subTasks">
@@ -17,6 +17,7 @@
             <div [ngClass]="subTask.isComplete ? 'completed-step' : 'step'">
                 <p>{{subTask.name}}</p>
             </div>
+            <p class='delete-step' (click)="deleteSubTask(subTask)">x</p>
         </div>
     </div>
     <div class="add-step">
@@ -49,12 +50,11 @@
             <div contentEditable = "true" class="notes"></div>
         </div>
         <div class="right-bar-footer">
-           <a id="minimize" ><i class="material-icons minimize">arrow_right_alt</i></a>
-           <a id="delete" class="delete-icon" (click)="changeDeleteStatus()"><i class="material-icons minimize">delete</i></a>
+           <a><i class="material-icons minimize">arrow_right_alt</i></a>
+           <a class="delete-icon" (click)="changeDeleteStatus()"><i class="material-icons minimize">delete</i></a>
         </div>
     </div>               
-    <div><p>{{status}}</p></div>
-    <div id="myModal" class="hide-modal"  [ngClass]="status ? 'hide-modal' : 'show-modal'">
+    <div class="hide-modal"  [ngClass]="status ? 'hide-modal' : 'show-modal'">
         <div class="modal-content">
             <p>Do you want to delete..</p>
             <p>you won't be able to undo this action</p><br>

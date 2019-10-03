@@ -1,7 +1,15 @@
 .task-info {
     width: 130%;
-    display: block;
+    display: none;
     background-color: #f5f5f5;
+}
+
+.view-info {
+    display: block;
+}
+
+.hide-info {
+    display: none;
 }
 
 .task-header {

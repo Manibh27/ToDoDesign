@@ -9,7 +9,6 @@ export class Task implements OnInit {
     @Input() list;
     count:number = 0;
     currentTask;
-
     constructor(){ }   
     ngOnInit(){ }
 
@@ -30,9 +29,10 @@ export class Task implements OnInit {
     addTask(input) {
         if (input.value !== "") {
             var task = {
-            name:input.value,
-            id:this.list.tasks.length,
-            subTasks:[]
+                name:input.value,
+                id:this.list.tasks.length,
+                subTasks:[],
+                getInfo: true
             };
             this.list.tasks.push(task);
             input.value = "";
@@ -45,6 +45,7 @@ export class Task implements OnInit {
     * @param task Object of the clicked task.
     */
     changeTask(task) {
+        task.getInfo = true; 
         this.currentTask = task;
     }
 

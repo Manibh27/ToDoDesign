@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SubTaskComponent implements OnInit {
     @Input() task;
     @Input() list;
+    @Input() getInfo;
 
     constructor() { }
 
@@ -15,6 +16,7 @@ export class SubTaskComponent implements OnInit {
     }
 
     status: boolean = true;
+
     /**
     * When a new sub task is added the sub task object object is added to the 
     * sub task array of the current task object.
@@ -70,5 +72,12 @@ export class SubTaskComponent implements OnInit {
     */
     deleteSubTask(subTask) {
        this.task.subTasks.splice(subTask.id, 1);
+    }
+
+    /**
+     * Hides the right side task info bar.
+     */
+    hideInfo() {
+        this.task.getInfo = false;
     }
 }

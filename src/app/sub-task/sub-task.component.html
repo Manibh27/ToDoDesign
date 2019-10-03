@@ -1,4 +1,4 @@
-<div class="task-info">
+<div class="task-info" [ngClass]="task.getInfo ? 'view-info' : 'hide-info'">
     <div class="task-header">
         <button class="mark-complete-btn"></button>
         <div><input class="task-info-input" type="text" value="{{task.name}}"
@@ -50,7 +50,7 @@
             <div contentEditable = "true" class="notes"></div>
         </div>
         <div class="right-bar-footer">
-           <a><i class="material-icons minimize">arrow_right_alt</i></a>
+           <a (click)="hideInfo()"><i class="material-icons minimize">arrow_right_alt</i></a>
            <a class="delete-icon" (click)="changeDeleteStatus()"><i class="material-icons minimize">delete</i></a>
         </div>
     </div>               

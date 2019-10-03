@@ -6,16 +6,55 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./task.component.scss']
 })
 export class Task implements OnInit {
+  @Input() list;
+  count:number = 0;
+  currentTask;
+
   constructor(){
 
   }   
   ngOnInit(){
-
-  }
   
-  list;
+  }
 
-   addtask() {
-     console.log(list);
-   }
+  /**
+   * Used to change the list name.
+   * @param event The current event object.
+   */
+  updateList(event) {
+      if(event.key === "Enter") {
+          this.list.name = event.target.value;
+      }
+  }
+
+  /**
+   * When a new task is added the task object is added to the list array.
+   * @param event The current event object.
+   */
+  addTask(input) {
+      var task = {
+          name:input.value,
+          id:this.list.tasks.length,
+          subTasks:[]
+      };
+      this.list.tasks.push(task);
+      input.value = "";
+  }
+
+  /**
+   * When the task is clicked the currenttask object is modified to 
+   * the clicked task object.
+   * @param task Object of the clicked task.
+   */
+  changeTask(task) {
+      this.currentTask = task;
+  }
+
+ /**
+  * The clicked task object status is changed.
+  * @param task Object of the clicked task.
+  */
+  finishTask(task) {
+      task.isComplete = task.isComplete ? false : true;
+  }
 }

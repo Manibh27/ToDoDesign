@@ -1,0 +1,470 @@
+
+input:hover {
+    background-color: #f4f4f4;
+    border: none;
+}
+
+.task-info {
+    width: 150%;
+    display: block;
+    background-color: #f5f5f5;
+}
+
+.task-header {
+    width: 84%;
+    background-color: white;
+    margin: 3% 0 0 3%;
+    padding: 5%;
+    display: flex
+}
+
+.mark-complete-btn {
+    margin-top: 1%;
+    width: 6%;
+    height: 1rem;
+    border-radius: 70%;
+    border-width: thin;
+    border-color: #468be0;
+    background-color: white;
+    outline: none;
+    cursor: pointer;
+}
+
+.task-header span {
+    margin: -5% 0 0 5%;
+}
+
+.header-imp-icon {
+    margin: 0 0 0 74%;
+    color: #50504cfa;
+    font-size: 1.3rem;
+}
+
+.add-step {
+    color: #468be0;
+    margin: 20% 0 0 0;
+    display: flex;
+}
+
+.add-step-icon {
+    color: #468be0;
+    background-color: white;
+    cursor: pointer;
+    margin-top: -7%;
+    margin-left: 42%;
+    padding: 10%;
+    height: 29px;
+}
+
+.add-step-input {
+    color: #468be0;
+    font-size: 0.95rem;
+    margin : -1% 0 0 5%;
+    border: none;
+    outline: none;
+    width: 80%;
+    padding-left: 5%;
+}
+
+.add-step-input::placeholder {
+    color: #1579CE;
+}
+
+.add-step-input:focus::placeholder {
+    color: #50504cfa;
+}
+
+.add-my-day {
+    width: 85%;
+    background-color: white;
+    padding: 5%;
+    margin: 5% 0 0 3%;
+    display: flex;
+}
+
+
+.right-bar-icon {
+    font-size: 1rem;
+    margin: 1% 0 0 2%; 
+    color: #80889c;
+}
+
+.add-my-day span {
+    color: #80889c;
+    font-size: 0.9rem;
+    margin-left: -28%;
+}
+
+.add-note {
+    margin: 4% 0 0 3%;
+}
+
+.right-bar-menu {
+    margin: 0 0 0 3%;
+    width: 94%;
+    background-color: white;
+}
+
+.right-bar {
+    width: 85%;
+    background-color: white;
+    padding: 5%;
+    margin: 5% 0 0 0.5%;
+    display: flex;
+}
+
+.right-bar span {
+    color: #80889c;
+    font-size: 0.9rem;
+    margin: 1% 0 0 -29%;    
+}
+
+.add-note-input {
+    border: none;
+    width: 95%;
+    padding-left: 2%;
+    height: 4rem;
+    outline: none;
+}
+
+.right-bar-footer {
+    background-color: white;
+    padding: 1%;
+    margin-top: 4%;
+    display: flex;
+}
+
+.minimize { 
+    font-size:  1rem;
+    margin: 1% 0 0 2%;
+    cursor: pointer;
+}
+
+.info {
+    cursor: pointer;
+}
+
+.todo-task-list {
+    width: 80%;
+}
+
+.task-title {
+    font-size: 1.5rem;
+    margin: 3% 0 0 3%;
+    color: #1579CE;
+    font-family: sans-serif;
+}
+
+.added-task {
+    color: #1579CE;
+    margin: 2% 0 0 3%;
+    display: flex;
+    padding-bottom: 1%;
+    border-color: #50504cfa;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+}
+
+.add-new-task {
+    color: #1579CE;
+    margin: 2% 0 0 3%;
+    display: flex;
+    padding-bottom: 1%;
+    border-color: #50504cfa;
+    border-bottom-style: solid;
+    border-bottom-width: thin;
+}
+
+.new-task-icon {
+    margin-top: 30%;
+    color: #1579CE;
+    text-decoration: none;
+}
+
+.add-task-input {
+    width: 100%;
+    padding: 1%;
+    font-size: 1rem;
+    margin: 0 0 0 1%;
+    border: none;
+    outline: none;
+    background: transparent;
+}
+
+.add-task-input::placeholder {
+    color: #1579CE;
+}
+
+.add-task-input:focus::placeholder {
+    color: #50504cfa;
+}
+
+.tick-icon {
+    margin: 0 0 0 3%;
+    color: #1579CE;
+    display: inline;
+    cursor: pointer;
+}
+
+.task-name {
+    margin: 0.5% 0 0 2%;
+    font-size: 1rem;
+    cursor: pointer;
+    background: transparent;
+    outline:none;
+    border: none;
+}
+
+.task-title-input {
+    margin: 0.5% 0 0 2%;
+    font-size: 1rem;
+    cursor: pointer;
+    background: transparent;
+    outline:none;
+    border: none;
+}
+
+.task-info-input {
+    margin-top: -2%;
+    margin-left: 5%;
+    padding: 4%;
+    font-size: 1rem;
+    cursor: pointer;
+    background: transparent;
+    outline:none;
+    border: none;
+}
+
+
+.created-list {
+    display: flex;
+    cursor: pointer;
+}
+
+.list-name {
+    margin: -2% 0 0 10%;
+}
+
+.step {
+    color: #1579CE;
+    text-decoration: none;
+    font-size: 1rem;
+    margin: -4% 0 0 5%; 
+}
+
+.completed-step {
+    color: #1579CE;
+    text-decoration: line-through;
+    font-size: 1rem;
+    margin: -4% 0 0 5%; 
+}
+
+.steps {
+    width: 84%;
+    margin-left: 3%;
+    padding: 2%;
+    padding-left: 8%;
+    background-color: white;
+}
+
+.task-info-title {
+    color: #1579CE;
+}
+
+.created-steps {
+    display: flex;
+    margin-left: -21px;
+    padding: 5px;
+}
+
+.step-icon {
+    color: #1579CE;
+    cursor: pointer;
+}
+
+.created-lists {
+    display: flex;
+}
+
+.tasks-count {
+    margin-top: 6%;
+}
+
+.step-count {
+    font-size: 0.7rem;
+    margin: 3% 0 0 0;
+}
+
+.lists {
+    margin: 14% 0  0 18%;
+}
+
+.notes {
+    width: 97%;
+    height: 100px;
+    background-color: white;
+}
+
+.notes[contenteditable] {
+    display: inline-block;
+    outline: none;
+}
+
+.notes[contenteditable]:empty::before {
+    display: inline-block;
+    content: "Add notes";
+}
+
+.delete-icon {
+    color: red;
+    margin-left: 80%;
+}
+
+.hide-modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 200px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.show-modal {
+    display: block; 
+    position: fixed; 
+    z-index: 1; 
+    padding-top: 200px; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0);
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background: white;
+    margin: auto;
+    padding: 15px;
+    border: 1px solid #888;
+    width: 20%;
+    border-radius: 5px;
+}
+  
+  .cancel {
+      width: 80px;
+      padding: 3%;
+      margin-left: 30%;
+      border-radius: 3px;
+      background-color: #f5f5f5;
+      cursor: pointer;
+  }
+
+  .delete-task {
+    background-color: red;
+    width: 80px;
+    padding: 3%;
+    margin-left: 3%;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+
+  .delete-step {
+      color: #1579CE;
+      margin-top: 1%; 
+      margin-left: 70%;
+      display: none;
+      cursor: hover
+  }
+
+  .display {
+      display: none;
+  }
+
+  .side-bar-width {
+      width: 4%;
+  }
+
+  .day-icon {
+      background-image: url("../../assets/icon/day.png");
+      background-size: contain;
+      background-repeat: no-repeat;
+      height: 1.2rem;
+      width: 100px;
+  }
+
+  .important-icon {
+    background-image: url("../../assets/icon/important.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+.plan-icon {
+    background-image: url("../../assets/icon/today.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+.home-icon {
+    background-image: url("../../assets/icon/home.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+    filter: invert(39%) sepia(95%) saturate(2411%) hue-rotate(167deg) brightness(103%) contrast(101%);
+}
+
+.add-icon {
+    background-image: url("../../assets/icon/add.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+.alarm-icon {
+    background-image: url("../../assets/icon/alarm.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+.repeat-icon {
+    background-image: url("../../assets/icon/repeat.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+.strike-text {
+    text-decoration: line-through;
+}
+
+.strike-none {
+    text-decoration: none;
+}
+
+.view-element {
+    display: block;
+}
+
+.div-overflow {
+    height: 600px;
+    overflow: auto;
+}
+
+.right-bar-width {
+    width: 19%;
+}

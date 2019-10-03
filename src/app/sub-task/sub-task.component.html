@@ -1,1 +1,65 @@
-<p>sub-task works!</p>
+<div class="task-info">
+    <div class="task-header">
+        <button class="mark-complete-btn"></button>
+        <div id="task-info-name"><input class="task-info-input" type="text" value="{{task.name}}"
+            (keyup)="updateTask($event)"/></div>
+    </div>
+    <div class="steps" *ngFor="let subTask of task.subTasks">
+        <div class="created-steps">
+            <div class="step-icon-link" (click)="finishSubTask(subTask)">
+                <a *ngIf="!subTask.isComplete">
+                    <i class='material-icons step-icon'>check_circle_outline</i>
+                </a>
+                <a *ngIf="subTask.isComplete">
+                    <i class='material-icons step-icon'>check_circle</i>
+                </a>
+            </div>
+            <div [ngClass]="subTask.isComplete ? 'completed-step' : 'step'">
+                <p>{{subTask.name}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="add-step">
+        <a href="#add-step">
+            <i class="material-icons add-step-icon">add</i>
+        </a>
+        <input #addStep class="add-step-input" type="text" 
+                 placeholder="Add step" (keyup.enter)="addSubTask(addStep)"/>   
+    </div>
+    <div class="add-my-day">
+        <div class="day-icon"></div>
+        <span>Add to My Day</span>                        
+    </div>
+    <div>
+        <div class="right-bar-menu">
+            <div class="right-bar">
+                <div class="alarm-icon"></div>
+                <span>Remind me</span>                      
+            </div>
+            <div class="right-bar">
+                <div class="plan-icon"></div>
+                <span>Add due date</span>                      
+            </div>
+            <div class="right-bar">
+                <div class="repeat-icon"></div>
+                <span>Repeat</span>                      
+            </div>
+        </div>
+        <div class="add-note">
+            <div contentEditable = "true" class="notes"></div>
+        </div>
+        <div class="right-bar-footer">
+           <a id="minimize" ><i class="material-icons minimize">arrow_right_alt</i></a>
+           <a id="delete" class="delete-icon" (click)="changeDeleteStatus()"><i class="material-icons minimize">delete</i></a>
+        </div>
+    </div>               
+    <div><p>{{status}}</p></div>
+    <div id="myModal" class="hide-modal"  [ngClass]="status ? 'hide-modal' : 'show-modal'">
+        <div class="modal-content">
+            <p>Do you want to delete..</p>
+            <p>you won't be able to undo this action</p><br>
+            <span class="cancel" (click)="changeDeleteStatus()">Cancel</span>
+            <span class="delete-task" (click)="deleteTask()">Delete task</span>
+        </div>
+    </div>
+</div>

@@ -1,20 +1,36 @@
-<head>
-    <meta charset="UTF-8">
-    <title>todo screen</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-</head>
-<div id="todo-list" class="todo-task-list">
-    <a id="info" class="info" (click)="addtask()">
-        <div id = "list-title" class="task-title">
-            <input class="task-title-input" type="text" value="Tasks"/>
-        </div>
-    </a>
-    <div id="task-container"></div>
-    <div class="add-new-task">
-        <a id="add-task-icon" href="#add-new-task">
-            <i class="material-icons new-task-icon">add</i>
+<div class="task-component">
+    <div id="todo-list" class="todo-task-list">
+        <a id="info" class="info">
+            <div id = "list-title" class="task-title">
+                <input class="task-title-input" type="text" value={{list.name}} (keyup)="updateList($event)"/>
+            </div>
         </a>
-        <input id="add-new-task" class="add-task-input" type="text" 
-           placeholder="Add task"/>   
+        <div id="task-container">
+            <div *ngFor = "let task of list.tasks">
+                <div class="added-task">
+                    <div (click)="finishTask(task)">
+                        <a *ngIf = "!task.isComplete">
+                            <i class='material-icons tick-icon'>check_circle_outline</i>
+                        </a>
+                        <a *ngIf = "task.isComplete">
+                            <i class='material-icons tick-icon'>check_circle</i>
+                        </a>
+                    </div>
+                    <div [ngClass]="task.isComplete ? 'completed-task-name' : 'task-name'" (click)="changeTask(task)">
+                            <p>{{task.name}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="add-new-task">
+            <a id="add-task-icon" href="#add-new-task">
+                <i class="material-icons new-task-icon">add</i>
+            </a>
+            <input #addNewTask class="add-task-input" type="text" 
+                placeholder="Add task" (keyup.enter)="addTask(addNewTask)"/>   
+        </div>
     </div>
-</div>  
+    <div>
+        <app-sub-task [task]="currentTask" [list] = "list"></app-sub-task>
+    </div>
+</div>

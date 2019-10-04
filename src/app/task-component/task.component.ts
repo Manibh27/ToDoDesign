@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class Task implements OnInit {
     @Input() list;
+    @Input() taskCount: number;
     count:number = 0;
     currentTask;
     constructor(){ }   
@@ -38,9 +39,16 @@ export class Task implements OnInit {
             };
             this.list.tasks.push(task);
             input.value = "";
+            this.list.taskCount = this.getTasksCount(); 
         }
     }
 
+    /**
+     * Return the number of incomplete task count.
+     */
+    getTasksCount(): number {
+        return this.list.tasks.filter(task => (task as any).isComplete !== true).length;
+    }
     /**
     * When the task is clicked the currenttask object is modified to 
     * the clicked task object.
@@ -60,5 +68,6 @@ export class Task implements OnInit {
     */
     finishTask(task) {
         task.isComplete = task.isComplete ? false : true;
+        this.list.taskCount = this.getTasksCount();
     }
 }

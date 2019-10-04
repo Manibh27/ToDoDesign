@@ -1,8 +1,8 @@
 <div class="task-info" [ngClass]="task.getInfo ? 'view-info' : 'hide-info'">
     <div class="task-header">
         <button class="mark-complete-btn"></button>
-        <div><input class="task-info-input" type="text" value="{{task.name}}"
-            (keyup)="updateTask($event)"/></div>
+        <div><input class="task-info-input" [ngClass]="task.isComplete ? 'strike-text' : 'strike-none'" 
+            type="text" value="{{task.name}}" (keyup)="updateTask($event)"/></div>
     </div>
     <div class="steps" *ngFor="let subTask of task.subTasks">
         <div class="created-steps">

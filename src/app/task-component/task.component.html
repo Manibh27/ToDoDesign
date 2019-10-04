@@ -2,7 +2,7 @@
     <div class="todo-task-list">
         <a class="info">
             <div class="task-title">
-                <input class="task-title-input" type="text" value={{list.name}} (keyup)="updateList($event)"/>
+                <input class="task-title-input" type="text" [(ngModel)]="list.name" (keyup)="updateList($event)"/>
             </div>
         </a>
         <div *ngFor = "let task of list.tasks">

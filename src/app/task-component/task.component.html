@@ -15,9 +15,10 @@
                         <i class='material-icons tick-icon'>check_circle</i>
                     </a>
                 </div>
-                <div [ngClass]="task.isComplete ? 'completed-task-name' : 'task-name'" (click)="changeTask(task)">
+                <div class="task-name" [ngClass]="task.isComplete ? 'strike-text' : 'strike-none'" (click)="changeTask(task)">
                         <p>{{task.name}}</p>
                 </div>
+                <div>{{task.subTasks.length}}</div>
             </div>
         </div>
         <div class="add-new-task">

@@ -8,7 +8,6 @@ import { Component, OnInit, Input } from '@angular/core';
 export class SubTaskComponent implements OnInit {
     @Input() task;
     @Input() list;
-    @Input() getInfo;
 
     constructor() { }
 
@@ -20,6 +19,7 @@ export class SubTaskComponent implements OnInit {
     /**
     * When a new sub task is added the sub task object object is added to the 
     * sub task array of the current task object.
+    * 
     * @param input The input DOM object.
     */
     addSubTask(input) {
@@ -36,6 +36,7 @@ export class SubTaskComponent implements OnInit {
   
    /**
     * The name of the task is updated.
+    * 
     * @param event Object of the current event.
     */
     updateTask(event) {
@@ -46,6 +47,7 @@ export class SubTaskComponent implements OnInit {
 
     /**
      * The complete status of the sub task is changed.
+     * 
      * @param subTask Object of the current subTask.
      */
     finishSubTask(subTask) {
@@ -63,15 +65,18 @@ export class SubTaskComponent implements OnInit {
     * Current task object is removed from the list.
     */
     deleteTask() {
-        this.list.tasks.splice(this.task.id, 1);
+        this.list.tasks.splice(this.list.tasks.indexOf(this.task), 1);
+        this.task.getInfo = false;
         this.status = !this.status;
     }
 
     /**
     * Current task object is removed from the list.
+    * 
+    * @param subTask Object of the current subTask to be removed.
     */
     deleteSubTask(subTask) {
-       this.task.subTasks.splice(subTask.id, 1);
+       this.task.subTasks.splice(this.task.subTasks.indexOf(subTask), 1);
     }
 
     /**

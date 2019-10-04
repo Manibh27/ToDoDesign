@@ -14,6 +14,7 @@ export class Task implements OnInit {
 
     /**
     * Used to change the list name.
+    * 
     * @param event The current event object.
     */
     updateList(event) {
@@ -24,6 +25,7 @@ export class Task implements OnInit {
 
     /**
     * When a new task is added the task object is added to the list array.
+    * 
     * @param input The input DOM object.
     */
     addTask(input) {
@@ -42,6 +44,7 @@ export class Task implements OnInit {
     /**
     * When the task is clicked the currenttask object is modified to 
     * the clicked task object.
+    * 
     * @param task Object of the clicked task.
     */
     changeTask(task) {
@@ -50,7 +53,9 @@ export class Task implements OnInit {
     }
 
     /**
-    * The clicked task object status is changed.
+    * The clicked task object status is changed and the name is striked and undone
+    * respectively.
+    * 
     * @param task Object of the clicked task.
     */
     finishTask(task) {

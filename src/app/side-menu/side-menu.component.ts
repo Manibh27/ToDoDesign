@@ -34,12 +34,15 @@ export class SideMenu implements OnInit {
 
     /**
      * When a new list is created it is added to the global list array.
+     * 
      * @param input The input DOM object.
      */
     addList(input) {
         if (input.value !== "") {
+            var validName = this.checkName(input.value);
             var list = { 
-                name:input.value, 
+                name:validName, 
+                subName:input.value,
                 isComplete:false,
                 id:this.lists.length,
                 tasks:[]
@@ -51,8 +54,27 @@ export class SideMenu implements OnInit {
     }
 
     /**
+     * If the entered name is already present then the count of 
+     * the list name repeated is appended with the name.
+     * 
+     * @param name Checked with the previuos list names.
+     */
+    checkName(name): String {
+        var repeatedCount = this.lists.filter(list => list.subName === name).length;
+        if (name === "Tasks") {
+            repeatedCount++;
+        }
+        if (repeatedCount === 0) {
+            return name; 
+        } else {
+            return name+"("+repeatedCount+")";
+        }
+    }
+
+    /**
      * When the list is clicked the clicked list is assigned to 
      * currentList object to bind it with task component
+     * 
      * @param list Current list object.
      */
     changeList(list) {

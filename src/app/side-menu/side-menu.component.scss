@@ -175,6 +175,7 @@ input:hover {
 }
 
 .list-name {
+    width: 65%;
     margin: -2% 0 0 10%;
 }
 .step {
@@ -193,6 +194,10 @@ input:hover {
 
 .task-info-title {
     color: #1579CE;
+}
+
+.task-count{
+    margin-top: 5%;
 }
 
 .created-lists {

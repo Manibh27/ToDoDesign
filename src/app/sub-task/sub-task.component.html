@@ -14,7 +14,7 @@
                     <i class='material-icons step-icon'>check_circle</i>
                 </a>
             </div>
-            <div [ngClass]="subTask.isComplete ? 'completed-step' : 'step'">
+            <div class="step" [ngClass]="subTask.isComplete ? 'strike-text' : 'strike-none'">
                 <p>{{subTask.name}}</p>
             </div>
             <p class='delete-step' (click)="deleteSubTask(subTask)">x</p>

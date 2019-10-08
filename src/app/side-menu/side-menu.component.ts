@@ -12,7 +12,8 @@ export class SideMenu implements OnInit {
         this.currentList = this.defaultList;
     }
     
-    status: boolean = false;
+    status: boolean = false; 
+    currentList;
 
     /**
      * When the menu button is clicked the status is changed according to this status
@@ -20,6 +21,7 @@ export class SideMenu implements OnInit {
      */
     toggleMenu() {
         this.status = !this.status;  
+        this.currentList.alignSubTask = !this.currentList.alignSubTask;
     }
 
     lists: Object[] = [];
@@ -29,8 +31,6 @@ export class SideMenu implements OnInit {
         id:0,
         tasks:[]
     }
-    
-    currentList;
 
     /**
      * When a new list is created it is added to the global list array.
@@ -45,6 +45,7 @@ export class SideMenu implements OnInit {
                 subName:input.value,
                 isComplete:false,
                 taskCount:0,
+                alignSubTask: false,
                 id:this.lists.length,
                 tasks:[]
             }; 

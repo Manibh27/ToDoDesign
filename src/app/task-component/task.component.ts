@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { DataService } from '../data.service';
 
 @Component({
     selector: 'task',
@@ -10,8 +11,10 @@ export class Task implements OnInit {
     @Input() taskCount: number;
     count:number = 0;
     currentTask;
-    constructor(){ }   
-    ngOnInit(){ }
+    constructor(private dataService: DataService){}
+ 
+    ngOnInit(){ 
+    }
 
     /**
     * Used to change the list name.

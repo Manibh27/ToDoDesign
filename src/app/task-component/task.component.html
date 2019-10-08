@@ -29,7 +29,7 @@
                 placeholder="Add task" (keyup.enter)="addTask(addNewTask)"/>   
         </div>
     </div>
-    <div class="task-info">
+    <div class="task-info" [ngClass]="list.alignSubTask ? 'align-margin' : 'remove-margin'">
         <app-sub-task [task]="currentTask" [list] = "list"></app-sub-task>
     </div>
 </div>

@@ -31,6 +31,7 @@ export class SubTaskComponent implements OnInit {
             };
             this.task.subTasks.push(step);
             input.value = "";
+            this.task.subTaskLength = this.getSubTaskCount();
         }
     }
   
@@ -52,6 +53,7 @@ export class SubTaskComponent implements OnInit {
      */
     finishSubTask(subTask) {
         subTask.isComplete = subTask.isComplete ? false : true;
+        this.task.subTaskLength = this.getSubTaskCount();
     }
 
     /**
@@ -65,10 +67,18 @@ export class SubTaskComponent implements OnInit {
     * Current task object is removed from the list.
     */
     deleteTask() {
-        this.list.tasks.splice(this.list.tasks.indexOf(this.task), 1);
+        this.list.tasks.splice(this    .list.tasks.indexOf(this.task), 1);
         this.task.getInfo = false;
         this.status = !this.status;
     }
+
+    /**
+     * Return the number of completed sub task count.
+     */
+    getSubTaskCount(): number {
+        return this.task.subTasks.filter(subTask => (subTask as any).isComplete === true).length;
+    }
+    
 
     /**
     * Current task object is removed from the list.

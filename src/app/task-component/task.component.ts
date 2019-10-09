@@ -38,6 +38,7 @@ export class Task implements OnInit {
                 name:input.value,
                 id:this.list.tasks.length,
                 subTasks:[],
+                subTaskLength: 0,
                 getInfo: true
             };
             this.list.tasks.push(task);
@@ -52,6 +53,7 @@ export class Task implements OnInit {
     getTasksCount(): number {
         return this.list.tasks.filter(task => (task as any).isComplete !== true).length;
     }
+    
     /**
     * When the task is clicked the currenttask object is modified to 
     * the clicked task object.

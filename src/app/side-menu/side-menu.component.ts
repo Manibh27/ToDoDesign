@@ -33,6 +33,11 @@ export class SideMenu implements OnInit {
         tasks:[]
     }
 
+    importantList = {
+        name: "Important",
+        tasks:[]
+    }
+
     /**
      * When a new list is created it is added to the global list array.
      * 

@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class SubTaskComponent implements OnInit {
     @Input() task;
+    @Input() impList;
     @Input() list;
 
     constructor() { }
@@ -67,9 +68,22 @@ export class SubTaskComponent implements OnInit {
     * Current task object is removed from the list.
     */
     deleteTask() {
-        this.list.tasks.splice(this    .list.tasks.indexOf(this.task), 1);
+        this.list.tasks.splice(this.list.tasks.indexOf(this.task), 1);
         this.task.getInfo = false;
         this.status = !this.status;
+        this.list.taskCount = this.getTasksCount(this.list);
+        if (this.task.isImportant === true) {
+            this.impList.tasks.splice(this.impList.tasks.indexOf(this.task), 1)
+        }
+    }
+
+    /**
+     * Return the number of incomplete task count.
+     * 
+     * @param list Length of the current list object is returned.
+     */
+    getTasksCount(list): number {
+        return list.tasks.filter(task => task.isComplete !== true).length;
     }
 
     /**
@@ -94,5 +108,12 @@ export class SubTaskComponent implements OnInit {
      */
     hideInfo() {
         this.task.getInfo = false;
+    }
+
+    /**
+     * Add the current task to my day and removes alternatively.
+     */
+    addToMyDay() {
+        this.task.isMyDay = !this.task.isMyDay;
     }
 }

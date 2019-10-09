@@ -13,12 +13,18 @@
                 <a href="" class="icon-description">My Day</a>
             </div>
         </div>    	
-        <div class="side-div">
+        <div class="side-div" (click)="changeList(importantList)" >
             <div class="side-menu-icon">
                 <div class="important-icon"></div>
             </div>
             <div class="icon-desc" [ngClass]="status ? 'display' : 'view-element'">
-                <a href="" class="icon-description">Important</a>
+                <p class="icon-description" 
+                    [ngStyle]="{'color':importantList === currentList ? '#468be0' : '#50504cfa' }" >
+                    Important</p>
+            </div>
+            <div class="important-task-count" [ngClass]="status ? 'display' : 'view-element'"
+                [ngStyle]="{'color':importantList === currentList ? '#468be0' : '#50504cfa' }">
+                {{importantList.tasks.length}}
             </div>
         </div>
         <div class="side-div"> 
@@ -33,20 +39,26 @@
             <div class="side-menu-icon" >
                 <div class="home-icon"></div>
             </div>
-            <div  [ngStyle]="{'color':defaultList === currentList ? '#468be0' : 'black' }" 
+            <div  [ngStyle]="{'color':defaultList === currentList ? '#468be0' : '#50504cfa' }" 
                 class="task-desc" [ngClass]="status ? 'display' : 'view-element'">    
                 <p class="action-description" >Tasks</p>
             </div>
-            <div class="default-task-count">{{defaultList.taskCount}}</div>
+            <div class="default-task-count" [ngClass]="status ? 'display' : 'view-element'"
+                [ngStyle]="{'color':defaultList === currentList ? '#468be0' : '#50504cfa' }">
+                {{defaultList.taskCount}}
+            </div>
         </div>
         <div *ngFor="let list of lists" [ngClass]="status ? 'display' : 'view-element'">
             <div class="created-list" (click)="changeList(list)">
                 <div><img class="add-new-list" src="../../assets/icon/list.png"></div>
                 <div class="list-name" 
-                    [ngStyle]="{'color':list === currentList ? '#468be0' : 'black' }">
+                    [ngStyle]="{'color':list === currentList ? '#468be0' : '#50504cfa' }">
                     <p>{{list.name}}</p>
                 </div>
-                <div class="task-count">{{list.taskCount}}</div>
+                <div class="task-count"
+                    [ngStyle]="{'color':list === currentList ? '#468be0' : '#50504cfa' }">
+                    {{list.taskCount}}
+                </div>
             </div>
         </div>
         <div class="side-div"> 
@@ -59,6 +71,6 @@
             </div>
         </div>
     </div>
-    <task [list]="currentList"></task>
+    <task [list]="currentList" [impList]="importantList" [defaultList]="defaultList"></task>
 </div>
 

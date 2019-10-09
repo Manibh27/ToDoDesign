@@ -8,6 +8,8 @@ import { DataService } from '../data.service';
 })
 export class Task implements OnInit {
     @Input() list;
+    @Input() impList;
+    @Input() defaultList;
     @Input() taskCount: number;
     count:number = 0;
     currentTask;
@@ -39,19 +41,31 @@ export class Task implements OnInit {
                 id:this.list.tasks.length,
                 subTasks:[],
                 subTaskLength: 0,
-                getInfo: true
+                getInfo: true, 
+                isComplete: false,
+                isImportant: false,
+                isMyDay: false
             };
-            this.list.tasks.push(task);
+            if (this.list.name === "Important") {
+                task.isImportant = true;
+                this.defaultList.tasks.push(task);
+                this.defaultList.taskCount = this.getTasksCount(this.defaultList)
+                this.impList.tasks.push(task);
+            } else {
+                this.list.tasks.push(task);
+            }
             input.value = "";
-            this.list.taskCount = this.getTasksCount(); 
+            this.list.taskCount = this.getTasksCount(this.list); 
         }
     }
 
     /**
      * Return the number of incomplete task count.
+     * 
+     * @param list Length of the current list object is returned.
      */
-    getTasksCount(): number {
-        return this.list.tasks.filter(task => (task as any).isComplete !== true).length;
+    getTasksCount(list): number {
+        return list.tasks.filter(task => task.isComplete !== true).length;
     }
     
     /**
@@ -73,6 +87,20 @@ export class Task implements OnInit {
     */
     finishTask(task) {
         task.isComplete = task.isComplete ? false : true;
-        this.list.taskCount = this.getTasksCount();
+        this.list.taskCount = this.getTasksCount(this.list);
+    }
+
+   /**
+    * The clicked task object  is marked as important and removed alternatively.
+    * 
+    * @param task Object of the clicked task.
+    */
+    markTaskImportant(task) {
+        task.isImportant = !task.isImportant;
+        if(task.isImportant) {
+            this.impList.tasks.push(task);
+        } else {
+            this.impList.tasks.splice(this.impList.tasks.indexOf(task), 1);
+        }
     }
 }

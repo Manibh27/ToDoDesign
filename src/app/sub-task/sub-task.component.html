@@ -29,9 +29,13 @@
         <input #addStep class="add-step-input" type="text" 
                  placeholder="Add step" (keyup.enter)="addSubTask(addStep)"/>   
     </div>
-    <div class="add-my-day">
+    <div *ngIf="!task.isMyDay" class="add-my-day" (click)="addToMyDay()">
         <div class="day-icon"></div>
-        <span>Add to My Day</span>                        
+        <span> Add to My Day</span>                        
+    </div>
+    <div *ngIf="task.isMyDay" class="add-my-day" (click)="addToMyDay()">
+        <div class="day-icon"></div>
+        <span> Added to My Day</span>                        
     </div>
     <div>
         <div class="right-bar-menu">

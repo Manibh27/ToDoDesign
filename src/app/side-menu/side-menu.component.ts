@@ -29,6 +29,7 @@ export class SideMenu implements OnInit {
     defaultList = {
         name: "Tasks",
         id:0,
+        taskCount: 0,
         tasks:[]
     }
 
@@ -62,7 +63,8 @@ export class SideMenu implements OnInit {
      * @param name Checked with the previuos list names.
      */
     checkName(name): String {
-        var repeatedCount = this.lists.filter(list => (list as any).subName === name).length;
+        var repeatedCount = 
+                this.lists.filter(list => (list as any).subName === name).length;
         if (name === "Tasks") {
             repeatedCount++;
         }

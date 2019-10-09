@@ -33,14 +33,17 @@
             <div class="side-menu-icon" >
                 <div class="home-icon"></div>
             </div>
-            <div id="task-desc" class="task-desc" [ngClass]="status ? 'display' : 'view-element'">    
+            <div  [ngStyle]="{'color':defaultList === currentList ? '#468be0' : 'black' }" 
+                class="task-desc" [ngClass]="status ? 'display' : 'view-element'">    
                 <p class="action-description" >Tasks</p>
             </div>
+            <div class="default-task-count">{{defaultList.taskCount}}</div>
         </div>
         <div *ngFor="let list of lists" [ngClass]="status ? 'display' : 'view-element'">
             <div class="created-list" (click)="changeList(list)">
                 <div><img class="add-new-list" src="../../assets/icon/list.png"></div>
-                <div class="list-name" [ngStyle]="{'color':list === currentList ? 'blue' : 'black' }">
+                <div class="list-name" 
+                    [ngStyle]="{'color':list === currentList ? '#468be0' : 'black' }">
                     <p>{{list.name}}</p>
                 </div>
                 <div class="task-count">{{list.taskCount}}</div>

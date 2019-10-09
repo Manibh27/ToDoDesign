@@ -1,7 +1,8 @@
 <div class="task-info" [ngClass]="task.getInfo ? 'view-info' : 'hide-info'">
     <div class="task-header">
         <button class="mark-complete-btn"></button>
-        <div><input class="task-info-input" [ngClass]="task.isComplete ? 'strike-text' : 'strike-none'" 
+        <div><input class="task-info-input" 
+                [ngClass]="task.isComplete ? 'strike-text' : 'strike-none'" 
             type="text" value="{{task.name}}" (keyup)="updateTask($event)"/></div>
     </div>
     <div class="steps" *ngFor="let subTask of task.subTasks">
@@ -14,7 +15,8 @@
                     <i class='material-icons step-icon'>check_circle</i>
                 </a>
             </div>
-            <div class="step" [ngClass]="subTask.isComplete ? 'strike-text' : 'strike-none'">
+            <div class="step" 
+                    [ngClass]="subTask.isComplete ? 'strike-text' : 'strike-none'">
                 <p>{{subTask.name}}</p>
             </div>
             <p class='delete-step' (click)="deleteSubTask(subTask)">x</p>
@@ -50,8 +52,12 @@
             <div contentEditable = "true" class="notes"></div>
         </div>
         <div class="right-bar-footer">
-           <a (click)="hideInfo()"><i class="material-icons minimize">arrow_right_alt</i></a>
-           <a class="delete-icon" (click)="changeDeleteStatus()"><i class="material-icons minimize">delete</i></a>
+            <a (click)="hideInfo()">
+               <i class="material-icons minimize">arrow_right_alt</i>
+            </a>
+            <a class="delete-icon" (click)="changeDeleteStatus()">
+               <i class="material-icons minimize">delete</i>
+            </a>
         </div>
     </div>               
     <div class="hide-modal"  [ngClass]="status ? 'hide-modal' : 'show-modal'">

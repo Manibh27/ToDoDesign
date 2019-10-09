@@ -2,7 +2,8 @@
     <div class="todo-task-list">
         <a class="info">
             <div class="task-title">
-                <input class="task-title-input" type="text" [(ngModel)]="list.name" (keyup)="updateList($event)"/>
+                <input class="task-title-input" type="text" 
+                    [(ngModel)]="list.name" (keyup)="updateList($event)"/>
             </div>
         </a>
         <div *ngFor = "let task of list.tasks">
@@ -15,7 +16,8 @@
                         <i class='material-icons tick-icon'>check_circle</i>
                     </a>
                 </div>
-                <div class="task-name" [ngClass]="task.isComplete ? 'strike-text' : 'strike-none'" (click)="changeTask(task)">
+                <div class="task-name" [ngClass]="task.isComplete ? 'strike-text' : 'strike-none'" 
+                        (click)="changeTask(task)">
                         <p>{{task.name}}</p>
                 </div>
                 <div>{{task.subTaskLength}}</div>&nbsp;

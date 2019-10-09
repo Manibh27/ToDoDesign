@@ -67,7 +67,8 @@
 
 .icon-description {
 	color: #50504cfa;
-	margin: 0 0 0 2%;
+    margin: 2% 0 0 2%;
+    font-size: 0.9rem;
 	font-family: sans-serif;
 	text-decoration: none;
 }
@@ -84,7 +85,8 @@
 }
 
 .action-description {
-    margin: 1% 0 0 5%;
+    margin: 3% 0 0 5%;
+    font-size: 0.9rem;
     font-family: sans-serif;
     text-decoration: none;
     cursor: pointer;
@@ -178,6 +180,7 @@ input:hover {
 
 .list-name {
     width: 65%;
+    font-size: 0.9rem;
     margin: -2% 0 0 10%;
 }
 .step {
@@ -224,6 +227,7 @@ input:hover {
 }
 
 .side-bar-width {
+    transition: 0.5s;
     width: 4%;
 }
 
@@ -297,6 +301,7 @@ input:hover {
 }
 
 .left-bar-width {
+    transition: 0.5s;
     width: 19%;
 }
     

@@ -8,6 +8,7 @@ import { Header } from './header/header.component';
 import { SideMenu } from './side-menu/side-menu.component';
 import { Task } from './task-component/task.component';
 import { SubTaskComponent } from './sub-task/sub-task.component';
+import { HighlightElementDirective } from './highlight-element.directive';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { SubTaskComponent } from './sub-task/sub-task.component';
     Header,
     SideMenu,
     Task,
-    SubTaskComponent
+    SubTaskComponent,
+    HighlightElementDirective
   ],
   imports: [
     BrowserModule,

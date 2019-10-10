@@ -11,6 +11,7 @@ export class Task implements OnInit {
     @Input() impList;
     @Input() defaultList;
     @Input() taskCount: number;
+    alignTaskBar: boolean = false;
     count:number = 0;
     currentTask;
     constructor(private dataService: DataService){}
@@ -57,6 +58,7 @@ export class Task implements OnInit {
             input.value = "";
             this.list.taskCount = this.getTasksCount(this.list); 
         }
+        this.alignTaskBar = this.list.alignSubTask;
     }
 
     /**

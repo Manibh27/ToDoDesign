@@ -8,6 +8,7 @@ function mapStateToProps(state) {
 class Tasks extends Component {
     constructor() {
         super();
+        this.updateList = this.updateList.bind(this);
     }
 
     render() {
@@ -16,7 +17,7 @@ class Tasks extends Component {
                 <a id="info" class="info">
                     <div id = "list-title" class="task-title">
                         <input class="task-title-input" type="text" 
-                            value={this.props.currentList.title} onKeyDown={this.updateList}/>
+                            value={this.props.currentList.title} onChange={this.updateList}/>
                     </div>
                 </a>
                 <ul>
@@ -29,6 +30,8 @@ class Tasks extends Component {
     }
 
     updateList(event) {
+        console.log(event.target.value);
+        this.props.currentList.title = event.target.value;
     }
 }
 

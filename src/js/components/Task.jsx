@@ -2,10 +2,17 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import uuidv1 from "uuid";
 import TaskContainer from "./TaskContainer.jsx";
+import { addTasks } from "../actions/index";
 
 function mapStateToProps(state) {
     return { currentList: state.currentList };
 };
+
+function mapDispatchToProps(dispatch) {
+    return {
+        addTasks: task => dispatch(addTasks(task))
+    };
+}
 
 class TaskComponent extends Component {
     constructor() {
@@ -22,7 +29,8 @@ class TaskComponent extends Component {
             const title = event.target.value;
             const id = uuidv1();
             const subTasks = [];
-            this.props.currentList.tasks.push({ title, id, subTasks});
+            console.log(this.props.currentList.tasks);
+            this.props.addTasks({ title, id, subTasks});
             this.setState();
         }
     }
@@ -42,5 +50,5 @@ class TaskComponent extends Component {
     }
 }
 
-const Task = connect(mapStateToProps)(TaskComponent);
+const Task = connect(mapStateToProps, mapDispatchToProps)(TaskComponent);
 export default Task;

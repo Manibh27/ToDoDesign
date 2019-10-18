@@ -3,6 +3,7 @@ import List from "./List.jsx";
 import Form from "./Form.jsx";
 import Task from "./Task.jsx";
 
+
 const App = () => (
     <div className="container">
         <div className="header">
@@ -38,7 +39,7 @@ const App = () => (
                         <div className="plan-icon"></div>
                     </div>
                     <div className="icon-desc">
-                        <a href="" className="icon-description">Tasks</a>
+                        <a href="" className="icon-description">Planned</a>
                     </div>
                 </div>    
                 <div className="side-div">

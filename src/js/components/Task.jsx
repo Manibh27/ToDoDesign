@@ -4,34 +4,44 @@ import uuidv1 from "uuid";
 import TaskContainer from "./TaskContainer.jsx";
 import { addTasks } from "../actions/index";
 
+
+/**
+ * Used to connect  currentList object from redux state to the components props.
+ * 
+ * @param {*} dispatch 
+ */
 function mapStateToProps(state) {
     return { currentList: state.currentList };
 };
 
+
+/**
+ * Used to connect addTasks action function to the components props.
+ * 
+ * @param {*} dispatch 
+ */
 function mapDispatchToProps(dispatch) {
     return {
-        addTasks: task => dispatch(addTasks(task))
+        addTasks: state => dispatch(addTasks(state))
     };
 }
 
 class TaskComponent extends Component {
     constructor() {
         super();
-        this.state = {
-            title: ""
-        };
         this.addTask = this.addTask.bind(this);
     }
 
+    /**
+     * Used to add task in tasks array maintained in the currentList object in redux state. 
+     * The created task object is passed through action to the reducer.
+     */
     addTask(event) {
         if (event.key === 'Enter') {
-            console.log("hi");
             const title = event.target.value;
             const id = uuidv1();
             const subTasks = [];
-            console.log(this.props.currentList.tasks);
-            this.props.addTasks({ title, id, subTasks});
-            this.setState();
+            this.props.addTasks({ title, id, subTasks });
         }
     }
 

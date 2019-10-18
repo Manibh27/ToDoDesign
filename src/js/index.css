@@ -1,6 +1,10 @@
 .container {
     width: 100%;
   }
+
+* {
+    box-sizing: border-box;
+}
   
   .side-div {
     display: flex;
@@ -152,6 +156,12 @@
     margin: 100% 0 0 0;
   }
   
+  .list-name {
+    width: 65%;
+    font-size: 0.9rem;
+    margin: -2% 0 0 10%;
+  }
+
   .new-list-icon {
     filter: invert(39%) sepia(95%) saturate(2411%) hue-rotate(167deg) brightness(103%) contrast(101%);
     height: 20px;
@@ -364,7 +374,7 @@
   }
   
   .task-name {
-    margin: 0.5% 0 0 2%;
+    margin: -1% 0 0 2%;
     font-size: 1rem;
     cursor: pointer;
     background: transparent;
@@ -394,9 +404,8 @@
   
   
   .created-list {
-    margin: 5% 0 0 12%;
+    display: flex;
     cursor: pointer;
-    width: 50%;
   }
   
   .step {
@@ -547,3 +556,45 @@
   .right-bar-width {
     width: 19%;
   }
+
+ .day-icon {
+    background-image: url("../icon/day.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+
+.important-icon {
+    background-image: url("../icon/important.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem; 
+    width: 100px;
+}
+
+.plan-icon {
+    background-image: url("../icon/today.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}
+
+.home-icon {
+    background-image: url("../icon/home.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+    filter: invert(39%) sepia(95%) saturate(2411%) hue-rotate(167deg) brightness(103%) contrast(101%);
+}
+
+.add-icon {
+    background-image: url("../icon/add.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 1.2rem;
+    width: 100px;
+}

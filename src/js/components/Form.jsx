@@ -33,7 +33,7 @@ class ConnectedForm extends Component {
             const subTitle = event.target.value;
             const id = uuidv1();
             const tasks = [];
-            this.props.addList({ title, subTitle, id, tasks});
+            this.props.addList({ title});
             this.setState({ title: "" });
         }
     }

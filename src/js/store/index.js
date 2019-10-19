@@ -1,5 +1,7 @@
 import { createStore, applyMiddleware } from "redux";
-import { ADD_LIST } from "../constants/action-types";
+import createSagaMiddleware from 'redux-saga'
+
+import getData from '../sagas/api-saga'
 import rootReducer from "../reducers/index";
 
 /**
@@ -11,8 +13,9 @@ import rootReducer from "../reducers/index";
 export function checkListNameMiddleware({ dispatch }) {
     return function(next) {
         return function(action) {
-            if (action.type === ADD_LIST) {
-                action.payload.title = updateListName(action.payload.title);
+            if (action.type === "ADD") {
+                action.list.subTitle = action.list.title;
+                action.list.title = updateListName(action.list.title);
             }
             return next(action);
         };
@@ -20,6 +23,7 @@ export function checkListNameMiddleware({ dispatch }) {
 }
 
 function updateListName(name) {
+    console.log(store.getState().lists)
     const length = store.getState().lists.filter(list => list.subTitle === name).length;
     console.log(length);
     if (length !== 0) {
@@ -29,8 +33,13 @@ function updateListName(name) {
     }
 }
 
+const sagaMiddleware = createSagaMiddleware()
+
 const store = createStore(
         rootReducer,
-        applyMiddleware(checkListNameMiddleware)
+        applyMiddleware(checkListNameMiddleware, sagaMiddleware)
     );
+
+sagaMiddleware.run(getData);
+
 export default store;

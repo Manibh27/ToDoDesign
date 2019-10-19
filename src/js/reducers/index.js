@@ -1,4 +1,3 @@
-import { ADD_LIST } from "../constants/action-types";
 import { CHANGE_LIST } from "../constants/action-types";
 import { ADD_TASKS } from "../constants/action-types";
 import { UPDATE_LIST } from "../constants/action-types";
@@ -15,11 +14,11 @@ const initialState = {
 };
 
 function rootReducer(state = initialState, action) {
-    if (action.type === ADD_LIST) {
+    if (action.type === "ADD") {
         return {
             ...state,
-            lists: state.lists.concat(action.payload),
-            currentList: action.payload
+            lists: state.lists.concat(action.list),
+            currentList: action.list
         };
     } else if (action.type === CHANGE_LIST) {
         return  {

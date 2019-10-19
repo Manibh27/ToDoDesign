@@ -34,7 +34,7 @@ class ConnectedList extends Component {
                 {this.props.lists && this.props.lists.map(list => (
                     <div  className="created-list" onClick={this.setCurrentList.bind(this, list)}>
                         <div><img className="add-new-list" src="../icon/list.png"/></div>
-                        <div className="list-name" key={list.id}>
+                        <div className="list-name">
                             <p>{list.title}</p>
                         </div>
                     </div>
